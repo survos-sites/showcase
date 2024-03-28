@@ -6,5 +6,12 @@ import './bootstrap.js';
  * which should already be in your base.html.twig.
  */
 import './styles/app.css';
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+import Masonry from 'masonry-layout';
+// https://getbootstrap.com/docs/5.0/examples/masonry/
+var msnry = new Masonry( '.grid', {
+    columnWidth: 300
+    // options
+});

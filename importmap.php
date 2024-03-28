@@ -25,4 +25,39 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'masonry' => [
+        'version' => '0.0.2',
+    ],
+    'masonry-layout' => [
+        'version' => '4.2.2',
+    ],
+    'outlayer' => [
+        'version' => '2.1.1',
+    ],
+    'get-size' => [
+        'version' => '2.0.3',
+    ],
+    'ev-emitter' => [
+        'version' => '1.1.1',
+    ],
+    'fizzy-ui-utils' => [
+        'version' => '2.0.7',
+    ],
+    'desandro-matches-selector' => [
+        'version' => '2.0.2',
+    ],
+    'bootstrap' => [
+        'version' => '5.3.3',
+    ],
+    '@popperjs/core' => [
+        'version' => '2.11.8',
+    ],
+    'bootstrap/dist/css/bootstrap.min.css' => [
+        'version' => '5.3.3',
+        'type' => 'css',
+    ],
+    'bootstrap-icons/font/bootstrap-icons.min.css' => [
+        'version' => '1.11.3',
+        'type' => 'css',
+    ],
 ];
