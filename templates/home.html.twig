@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+
+    <div class="row" data-masonry='{"percentPosition": true }'>
+        {% for project in projects %}
+            <div class="xxsgrid-item col-sm-6  col-lg-4">
+                {% with { project: project } %}
+                    <twig:card :title="project.name">
+
+                    </twig:card>
+                    {#                {{ block('card') }}#}
+                {% endwith %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
