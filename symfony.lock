@@ -69,6 +69,9 @@
             "tests/bootstrap.php"
         ]
     },
+    "pierstoval/smoke-testing": {
+        "version": "v1.0.0"
+    },
     "survos/bootstrap-bundle": {
         "version": "1.5.190"
     },

@@ -8,6 +8,9 @@
             <div class="xxsgrid-item col-sm-6  col-lg-4">
                 {% with { project: project } %}
                     <twig:card :title="project.name">
+                        <twig:block name="footer">
+                            {{ project.status }}
+                        </twig:block>
 
                     </twig:card>
                     {#                {{ block('card') }}#}

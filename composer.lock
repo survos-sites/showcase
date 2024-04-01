@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "61af0ac13af9b9a182737206184cd7ae",
+    "content-hash": "5344e0c512475bbe2dee2d941f03f44a",
     "packages": [
         {
             "name": "api-platform/core",
@@ -9666,6 +9666,51 @@
                 }
             ],
             "time": "2024-03-21T12:07:32+00:00"
+        },
+        {
+            "name": "pierstoval/smoke-testing",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Pierstoval/SmokeTesting.git",
+                "reference": "59e759cc0b7c33cbdf8e1845b175e8d9541c08e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pierstoval/SmokeTesting/zipball/59e759cc0b7c33cbdf8e1845b175e8d9541c08e3",
+                "reference": "59e759cc0b7c33cbdf8e1845b175e8d9541c08e3",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1",
+                "symfony/framework-bundle": "^6.1|^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6|^10.0",
+                "symfony/maker-bundle": "^1.43"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Pierstoval\\SmokeTesting\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Rock Ancelet",
+                    "email": "pierstoval@gmail.com"
+                }
+            ],
+            "description": "Smoke testing automator for Symfony applications",
+            "support": {
+                "issues": "https://github.com/Pierstoval/SmokeTesting/issues",
+                "source": "https://github.com/Pierstoval/SmokeTesting/tree/v1.0.0"
+            },
+            "time": "2023-12-20T10:28:40+00:00"
         },
         {
             "name": "sebastian/cli-parser",

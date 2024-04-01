@@ -41,6 +41,7 @@ final class AppLoadDataCommand extends InvokableServiceCommand
             $dir = $file->getRealPath();
             $appJson = $dir . '/app.json';
             if (file_exists($appJson)) {
+                $io->info("Loading " . $dir);
                 $this->loadProject($dir);
             }
         }
@@ -65,14 +66,17 @@ final class AppLoadDataCommand extends InvokableServiceCommand
                             ->setName($name);
                         $this->entityManager->persist($project);
                     }
+                    $project->setStatus(null);
                     $project->setAppJson($app);
                     break;
                 case 'composer.json':
                     $composerData = json_decode(file_get_contents($fullFile), true);
                     foreach (['name', 'description', 'keywords'] as $requiredKey) {
-                        assert(array_key_exists($requiredKey, $composerData),
-                        "missing composer.$requiredKey in $project"
-                        );
+                        if (!array_key_exists($requiredKey, $composerData)) {
+                            $status = "skipping, missing composer.$requiredKey in $project ($fullFile)";
+                            $project->setStatus($status);
+                            $this->io()->warning($status);
+                        }
                     }
                     $project->setComposerJson($composerData);
                     break;
