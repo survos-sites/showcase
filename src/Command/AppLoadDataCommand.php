@@ -32,7 +32,7 @@ final class AppLoadDataCommand extends InvokableServiceCommand
 
     public function __invoke(
         IO     $io,
-        #[Argument(description: 'The root directory for the projects')]
+        #[Argument('root', description: 'The root directory for the projects')]
         string $rootDirectory = './..',
     ): void
     {

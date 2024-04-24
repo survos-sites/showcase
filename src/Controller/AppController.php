@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Project;
 use App\Repository\ProjectRepository;
 use Survos\Bundle\MakerBundle\Service\GeneratorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,6 +19,14 @@ class AppController extends AbstractController
     {
         return $this->render('home.html.twig', [
             'projects' => $projectRepository->findAll()
+        ]);
+    }
+
+    #[Route('/show/{id}', name: 'project_show', methods: [Request::METHOD_GET])]
+    public function show(Project $project): Response
+    {
+        return $this->render('show.html.twig', [
+            'project' => $project
         ]);
     }
 

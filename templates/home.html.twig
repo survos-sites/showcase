@@ -10,7 +10,9 @@
                     <twig:card :title="project.name">
                         <twig:block name="footer">
                             {{ project.status }}
+                            <a href="{{ path('project_show', {id: project.id}) }}">Show</a>
                         </twig:block>
+
 
                     </twig:card>
                     {#                {{ block('card') }}#}

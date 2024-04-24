@@ -1,7 +1,9 @@
 <?php
 namespace App\Tests;
 use Pierstoval\SmokeTesting\SmokeTestStaticRoutes;
-class AllRoutesTest extends SmokeTestStaticRoutes
+use Survos\CrawlerBundle\Tests\VisitLinksTest;
+
+class AllRoutesTest extends VisitLinksTest
 {
     // That's all!
 }
