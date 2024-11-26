@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Project implements \Stringable
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue('AUTO')]
     #[ORM\Column]
     private ?int $id = null;
 
