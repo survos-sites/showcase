@@ -7,6 +7,7 @@ use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Process\Process;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Yaml\Yaml;
 use Zenstruck\Console\Attribute\Argument;
@@ -48,14 +49,60 @@ final class AppLoadDataCommand extends InvokableServiceCommand
         $io->success("Projects: " . $this->projectRepository->count([]));
     }
 
-    private function loadProject($dir)
+    private function updateGit($dir)
     {
-        foreach (['app.json', 'composer.json', 'config/packages/pwa.yaml'] as $file) {
+        $process = new Process(['composer', 'update', "--working-dir=$dir"]);
+        $process->setTimeout(600);
+        dump($process->getCommandLine());
+
+//        $process->start();
+//
+//        while ($process->isRunning()) {
+//            // waiting for process to finish
+//        }
+//
+//        echo $process->getOutput();
+
+        $process->run(function ($type, $buffer): void {
+            if (Process::ERR === $type) {
+                echo 'ERR > ' . $buffer;
+            } else {
+                echo 'OUT > ' . $buffer;
+            }
+        });
+        $list = $process->getOutput();
+        dump($list);
+        return;
+
+    }
+
+    private function loadProject($dir): void
+    {
+        foreach (['app.json', 'composer.json', 'config/packages/pwa.yaml', '.git/config'] as $file) {
             $fullFile = $dir . '/' . $file;
             if (!file_exists($fullFile)) {
                 continue;
             }
             switch ($file) {
+                case  '.git/config':
+                    $process = new Process(['git', 'config', "-f" , "$fullFile", '--list']);
+                    dump($process->getCommandLine());
+                    $process->run();
+
+
+// executes after the command finishes
+                    if (!$process->isSuccessful()) {
+                        dd($process->getErrorOutput(), $process->getOutput());
+                    }
+                    $list  = $process->getOutput();
+                    $listData = parse_ini_string($list);
+                    $gitUrl = $listData['remote.origin.url'];
+
+
+
+                    $gitConfig = file_get_contents($fullFile);
+                    //
+                    break;
                 case 'app.json':
                     $app = json_decode(file_get_contents($fullFile), true);
                     $name = $app['name'];
@@ -71,7 +118,9 @@ final class AppLoadDataCommand extends InvokableServiceCommand
                     break;
                 case 'composer.json':
                     $composerData = json_decode(file_get_contents($fullFile), true);
-                    foreach (['name', 'description', 'keywords'] as $requiredKey) {
+                    foreach (['name', 'description',
+//                                 'keywords'
+                             ] as $requiredKey) {
                         if (!array_key_exists($requiredKey, $composerData)) {
                             $status = "skipping, missing composer.$requiredKey in $project ($fullFile)";
                             $project->setStatus($status);
@@ -82,7 +131,11 @@ final class AppLoadDataCommand extends InvokableServiceCommand
                     break;
                 case 'config/packages/pwa.yaml':
                     $pwa = Yaml::parseFile($fullFile);
-                    $project->setPwaYaml($pwa['pwa']);
+                    if ($pwa['pwa']?? false) {
+                        $project->setPwaYaml($pwa['pwa']);
+                    } else {
+                        $this->io()->warning("Unable to load path: $fullFile");
+                    }
                     break;
             }
         }

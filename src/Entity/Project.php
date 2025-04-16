@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Project implements \Stringable
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue('AUTO')]
+    #[ORM\GeneratedValue()]
     #[ORM\Column]
     private ?int $id = null;
 
@@ -119,5 +119,11 @@ class Project implements \Stringable
         $this->status = $status;
 
         return $this;
+    }
+
+    public function getGithubUrl(): string
+    {
+        return sprintf("https://github.com/%s", $this->getComposerJson()['name']??'!!');
+
     }
 }
