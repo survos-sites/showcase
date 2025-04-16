@@ -1,18 +1,45 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-
-
     <div class="row" data-masonry='{"percentPosition": true }'>
         {% for project in projects %}
-            <div class="xxsgrid-item col-sm-6  col-lg-4">
+            <div class="grid-item col-sm-6  col-lg-3">
                 {% with { project: project } %}
                     <twig:card :title="project.name">
+                        <twig:block name="title">
+                            <h2>
+                                <a target="_blank" href="{{ project.githubUrl }}">
+                                    <twig:ux:icon name="mdi:github" />
+                                    {{ project.composerJson.name??project.name }}
+                                    {#                                {{ project.appJson.repository|replace({'https://github.com/': ''}) }}#}
+                                </a>
+                            </h2>
+                        </twig:block>
+
+                        <twig:block name="card_title">
+                            <h1>
+                                {{ project.code }}
+                                {{ project.composerJson.name??project.name }}
+                            </h1>
+                            {{ project.githubUrl }}
+                            <a target="_blank" href="{{ project.appJson.repository }}">
+                                <twig:ux:icon name="mdi:github" />
+                                {#                                {{ project.appJson.repository|replace({'https://github.com/': ''}) }}#}
+                            </a>
+                        </twig:block>
+                        <twig:block name="card_body">
+                            {{ project.composerJson.description|default('missing!') }}
+                            &nbsp;
+                        </twig:block>
+                        <twig:block name="links">
+                        </twig:block>
                         <twig:block name="footer">
                             {{ project.status }}
                             <a href="{{ path('project_show', {id: project.id}) }}">Show</a>
+                            <a href="{{ project.liveUrl }}" target="_blank">
+                                {{ project.liveUrl }}
+                            </a>
                         </twig:block>
-
 
                     </twig:card>
                     {#                {{ block('card') }}#}

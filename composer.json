@@ -4,10 +4,11 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
+        "php": "^8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "api-platform/core": "^3.2",
+        "api-platform/core": "^4.0",
+        "bakame/html-table": "^0.3.0",
         "doctrine/dbal": "^4",
         "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-migrations-bundle": "^3.3",
@@ -19,6 +20,7 @@
         "roave/better-reflection": "^6.32",
         "survos/bootstrap-bundle": "^1.5",
         "survos/command-bundle": "^1.5",
+        "survos/installer": "*@dev",
         "survos/maker-bundle": "^1.5",
         "symfony/asset": "^7.0",
         "symfony/asset-mapper": "^7.0",
@@ -54,10 +56,11 @@
     },
     "config": {
         "allow-plugins": {
+            "endroid/installer": true,
             "php-http/discovery": true,
+            "survos/installer": true,
             "symfony/flex": true,
-            "symfony/runtime": true,
-            "endroid/installer": true
+            "symfony/runtime": true
         },
         "sort-packages": true
     },
@@ -105,18 +108,26 @@
         }
     },
     "require-dev": {
+        "dbrekelmans/bdi": "^1.4",
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^9.5",
-        "pierstoval/smoke-testing": "^1.0",
+        "pierstoval/smoke-testing": "^1.1",
         "rector/rector": "^1.0",
         "survos/crawler-bundle": "^1.5",
         "symfony/browser-kit": "^7.0",
         "symfony/css-selector": "^7.0",
         "symfony/debug-bundle": "^7.0",
         "symfony/maker-bundle": "^1.57",
+        "symfony/panther": "dev-main",
         "symfony/phpunit-bridge": "^7.0",
         "symfony/stopwatch": "^7.0",
         "symfony/web-profiler-bundle": "^7.0",
         "zenstruck/browser": "^1.8"
+    },
+    "repositories": {
+        "survos_installer": {
+            "type": "path",
+            "url": "/home/tac/g/sites/installer"
+        }
     }
 }
