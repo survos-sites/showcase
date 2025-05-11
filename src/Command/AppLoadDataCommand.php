@@ -5,37 +5,31 @@ namespace App\Command;
 use App\Entity\Project;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Yaml\Yaml;
-use Zenstruck\Console\Attribute\Argument;
-use Zenstruck\Console\ConfigureWithAttributes;
-use Zenstruck\Console\InvokableServiceCommand;
-use Zenstruck\Console\IO;
-use Zenstruck\Console\RunsCommands;
-use Zenstruck\Console\RunsProcesses;
 
 #[AsCommand('app:load-data', 'load projects from local source')]
-final class AppLoadDataCommand extends InvokableServiceCommand
+final class AppLoadDataCommand
 {
-    use RunsCommands;
-    use RunsProcesses;
 
-    public function __construct(private ProjectRepository $projectRepository,
+    public function __construct(
+        private ProjectRepository $projectRepository,
         private EntityManagerInterface $entityManager
     )
     {
-        parent::__construct();
-
     }
 
     public function __invoke(
-        IO     $io,
-        #[Argument('root', description: 'The root directory for the projects')]
+        SymfonyStyle     $io,
+        #[Argument('The root directory for the projects', name: 'root')]
         string $rootDirectory = './..',
-    ): void
+    ): int
     {
         $finder = new Finder();
         foreach ($finder->in($rootDirectory)->directories()->depth(0) as $file) {
@@ -43,17 +37,47 @@ final class AppLoadDataCommand extends InvokableServiceCommand
             $appJson = $dir . '/app.json';
             if (file_exists($appJson)) {
                 $io->info("Loading " . $dir);
-                $this->loadProject($dir);
+                $this->loadProject($dir, $io);
             }
+            $this->updateGit($dir);
         }
         $io->success("Projects: " . $this->projectRepository->count([]));
+        return Command::SUCCESS;
     }
 
     private function updateGit($dir)
     {
-        $process = new Process(['composer', 'update', "--working-dir=$dir"]);
-        $process->setTimeout(600);
-        dump($process->getCommandLine());
+        $processes = [
+            new Process(['composer', 'config', 'minimum-stability', 'beta', "--working-dir=$dir"]),
+            new Process(['composer', 'config', 'extra.symfony.require', '^7.3', "--working-dir=$dir"]),
+            // new Process(['composer', 'update', "--working-dir=$dir"])
+        ];
+        foreach ($processes as $process ) {
+            $process->setTimeout(600);
+            dump($process->getCommandLine());
+            $process->run(function ($type, $buffer): void {
+                if (Process::ERR === $type) {
+                    echo 'ERR > ' . $buffer;
+                } else {
+                    echo 'OUT > ' . $buffer;
+                }
+            });
+            $list = $process->getOutput();
+            dump($list);
+//        $process->start();
+//
+//        while ($process->isRunning()) {
+//            // waiting for process to finish
+//        }
+//
+//        echo $process->getOutput();
+
+        }
+        dd();
+
+//        $process = new Process(['composer', 'update', "--working-dir=$dir"]);
+//        $process->setTimeout(600);
+//        dump($process->getCommandLine());
 
 //        $process->start();
 //
@@ -63,20 +87,11 @@ final class AppLoadDataCommand extends InvokableServiceCommand
 //
 //        echo $process->getOutput();
 
-        $process->run(function ($type, $buffer): void {
-            if (Process::ERR === $type) {
-                echo 'ERR > ' . $buffer;
-            } else {
-                echo 'OUT > ' . $buffer;
-            }
-        });
-        $list = $process->getOutput();
-        dump($list);
         return;
 
     }
 
-    private function loadProject($dir): void
+    private function loadProject($dir, SymfonyStyle $io): void
     {
         foreach (['app.json', 'composer.json', 'config/packages/pwa.yaml', '.git/config'] as $file) {
             $fullFile = $dir . '/' . $file;
@@ -124,7 +139,7 @@ final class AppLoadDataCommand extends InvokableServiceCommand
                         if (!array_key_exists($requiredKey, $composerData)) {
                             $status = "skipping, missing composer.$requiredKey in $project ($fullFile)";
                             $project->setStatus($status);
-                            $this->io()->warning($status);
+                            $io->warning($status);
                         }
                     }
                     $project->setComposerJson($composerData);
@@ -134,7 +149,7 @@ final class AppLoadDataCommand extends InvokableServiceCommand
                     if ($pwa['pwa']?? false) {
                         $project->setPwaYaml($pwa['pwa']);
                     } else {
-                        $this->io()->warning("Unable to load path: $fullFile");
+                        $io->warning("Unable to load path: $fullFile");
                     }
                     break;
             }

@@ -2,7 +2,45 @@
 
 {% block body %}
     <div class="row" data-masonry='{"percentPosition": true }'>
-        {% for project in projects %}
+
+        <div class="container-xl">
+            <div class="row row-cards">
+                {% for project in projects   %}
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card card-sm">
+                            {% set imageUrl = "%s.wip.png"|format(project.name) %}
+                            <a href="{{ path('project_show', {id: project.id}) }}" class="d-block">
+                                <img style="max-width: 200px" src="{{ imageUrl }}" class="card-img-top">
+                            </a>
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    @fav
+{#                                    <span class="avatar avatar-2 me-3 rounded" style="background-image: url(./static/avatars/000m.jpg)"> </span>#}
+                                    <div>
+                                        <div>
+                                            {{ project.composerJson.name??project.name }}
+                                        </div>
+                                        <div class="text-secondary">3 days ago</div>
+                                    </div>
+                                    <div class="ms-auto">
+
+                                        <a target="_blank" href="{{ project.githubUrl }}" class="text-secondary">
+                                            <twig:ux:icon name="mdi:github" />
+                                            {{ project.composerJson.name??project.name }}
+                                            {#                                {{ project.appJson.repository|replace({'https://github.com/': ''}) }}#}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        {% for project in projects|slice(0,0) %}
+            {{ dump(project) }}
             <div class="grid-item col-sm-6  col-lg-3">
                 {% with { project: project } %}
                     <twig:card :title="project.name">
@@ -14,6 +52,10 @@
                                     {#                                {{ project.appJson.repository|replace({'https://github.com/': ''}) }}#}
                                 </a>
                             </h2>
+                            {% set imageUrl = "%s.wip"|format(project.name) %}
+                            <img src="{{ imageUrl }}.png" />
+                            {{ imageUrl }}
+
                         </twig:block>
 
                         <twig:block name="card_title">

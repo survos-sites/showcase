@@ -100,7 +100,7 @@ class Project implements \Stringable
                     continue;
                 }
                 $owners[$owner][] = [
-                    'display' => str_replace('-bundle', '-b', $name),
+                    'display' => $name, // str_replace('-bundle', '-b', $name),
                     'package' => $packageName
                     ];
             }

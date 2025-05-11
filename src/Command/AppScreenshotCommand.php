@@ -26,11 +26,12 @@ final class AppScreenshotCommand extends InvokableServiceCommand
 
         // of interest: https_proxy=$(symfony proxy:url) curl https://my-domain.wip
 
-$client = Client::createChromeClient();
 $sites = Parser::new()
     ->ignoreTableHeader()
     ->tableHeader(['dir', 'port', 'domains'])
     ->parseFile('http://127.0.0.1:7080');
+
+$client = Client::createChromeClient();
 foreach ($sites as $idx => $site) {
     if (is_numeric($site['port'])) {
         if (!empty($site['domains'])) {

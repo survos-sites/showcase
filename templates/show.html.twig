@@ -7,6 +7,20 @@
 
     {{ project.liveUrl }}
 
-    {{ dump(project.composerJson.require) }}
+    {% for owner, req in project.requireByOwner %}
+        <h3>{{ owner }}</h3>
+        <ol>
+            {% for r in req %}
+                <li>{{ r.display }}
+                    {{ r.package }}
+                </li>
+            {% endfor %}
+        </ol>
+    {% endfor %}
 
+    <h2>PWA</h2>
+    <pre>{{ project.pwaYaml }}</pre>
+
+    <h2>AppJson</h2>
+    {{ project.appJson|json_pretty }}
 {% endblock %}
