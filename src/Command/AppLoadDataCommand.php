@@ -7,6 +7,7 @@ use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
@@ -27,8 +28,9 @@ final class AppLoadDataCommand
 
     public function __invoke(
         SymfonyStyle     $io,
-        #[Argument('The root directory for the projects', name: 'root')]
+        #[Argument(description: 'The root directory for the projects', name: 'root')]
         string $rootDirectory = './..',
+        #[Option] ?string $force=null,
     ): int
     {
         $finder = new Finder();
@@ -39,7 +41,7 @@ final class AppLoadDataCommand
                 $io->info("Loading " . $dir);
                 $this->loadProject($dir, $io);
             }
-            $this->updateGit($dir);
+//            $this->updateGit($dir);
         }
         $io->success("Projects: " . $this->projectRepository->count([]));
         return Command::SUCCESS;
@@ -50,7 +52,8 @@ final class AppLoadDataCommand
         $processes = [
             new Process(['composer', 'config', 'minimum-stability', 'beta', "--working-dir=$dir"]),
             new Process(['composer', 'config', 'extra.symfony.require', '^7.3', "--working-dir=$dir"]),
-            // new Process(['composer', 'update', "--working-dir=$dir"])
+             new Process(['composer', 'update', "--working-dir=$dir"])
+            // composer req phpunit/phpunit:^12.1 --dev phpunit/php-code-coverage:^12.1 -W
         ];
         foreach ($processes as $process ) {
             $process->setTimeout(600);
@@ -128,6 +131,7 @@ final class AppLoadDataCommand
                             ->setName($name);
                         $this->entityManager->persist($project);
                     }
+                    $project->setLocalDir($dir);
                     $project->setStatus(null);
                     $project->setAppJson($app);
                     break;

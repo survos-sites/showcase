@@ -3,11 +3,21 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use App\Workflow\IProjectWorkflow;
 use Doctrine\ORM\Mapping as ORM;
+use Survos\WorkflowBundle\Traits\MarkingInterface;
+use Survos\WorkflowBundle\Traits\MarkingTrait;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
-class Project implements \Stringable
+class Project implements \Stringable, MarkingInterface
 {
+    use MarkingTrait;
+
+    public function __construct()
+    {
+        $this->marking = IProjectWorkflow::PLACE_NEW;
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue()]
     #[ORM\Column]
@@ -27,6 +37,9 @@ class Project implements \Stringable
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $localDir = null;
 
     public function getId(): ?int
     {
@@ -125,5 +138,17 @@ class Project implements \Stringable
     {
         return sprintf("https://github.com/%s", $this->getComposerJson()['name']??'!!');
 
+    }
+
+    public function getLocalDir(): ?string
+    {
+        return $this->localDir;
+    }
+
+    public function setLocalDir(?string $localDir): static
+    {
+        $this->localDir = $localDir;
+
+        return $this;
     }
 }
