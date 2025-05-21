@@ -50,7 +50,8 @@ final class CineController extends AbstractController
     {
         $filename = $this->projectDir . '/public/' . $cineCode . '.cast';
         $clean = $this->cleanup($filename);
-        return $this->json($clean);
+        $json = json_encode($clean, JSON_UNESCAPED_UNICODE); //  + JSON_UNESCAPED_SLASHES);
+        return new Response($json, Response::HTTP_OK, ['Content-Type' => 'application/json']);
 //        $header = json_encode([
 //            'version' => 2,
 //            'width' => 180,
@@ -81,9 +82,8 @@ final class CineController extends AbstractController
                 $header = json_decode($line);
                 $response['header'] = $header;
             } else {
-                [$v2timestamp, $type, $text] = json_decode($line);
+                [$interval, $type, $text] = json_decode($line);
                 // v2 is absolute, we need to create a relative time
-                $timestamp = $v2timestamp;
 
 
                 if ($type === 'o') { // why not 'i'?
@@ -117,9 +117,8 @@ final class CineController extends AbstractController
                 }
                 if ($outputLine) {
                     // @todo: calculate actual time
-                    $totalTime = $totalTime += $timestamp;
                     $response['lines'][] = [
-                        $totalTime,
+                        $interval,
                         $type,
                         $line
                     ];
