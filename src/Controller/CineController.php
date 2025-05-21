@@ -75,83 +75,71 @@ final class CineController extends AbstractController
 
     }
 
-    private function cleanup(string $cast): array
-    {
-        $response = [];
-        $inInput = false;
-        $inputText = '';
-        $outputLine = '';
+    private function cleanup(string $cast): array {
+        $response = [
+            'header' => null,
+            'markers' => [],
+            'lines' => [],
+        ];
+
+        $isCapturingCommand = false;
+        $currentCommand = '';
+        $currentOutput = '';
+        $inputStartTime = 0.0;
         $totalTime = 0.1;
 
-        // $line is a tuple
-        foreach (file($cast, FILE_IGNORE_NEW_LINES) as $idx => $line) {
-            if ($idx === 0) {
-                $header = json_decode($line);
-                $response['header'] = $header;
-                $response['markers'] = [];
-            } else {
-                [$interval, $type, $text] = json_decode($line);
-                $lineData = [
-                    'interval' => $interval,
-                    'type' => $type,
-                ];
-                // v2 is absolute, we need to create a relative time
+        foreach (file($cast, FILE_IGNORE_NEW_LINES) as $index => $line) {
+            if ($index === 0) {
+                $response['header'] = json_decode($line, true);
+                continue;
+            }
 
+            [$interval, $type, $text] = json_decode($line, true);
+            $lineData = [
+                'interval' => $interval,
+                'type' => $type,
+            ];
 
-                if ($type === 'o') { // why not 'i'?
-                    // probably won't work with other terminals, it's a hack we can make work for the moment
-                    if (str_ends_with($text, '$ ')) {
-                        $inInput = true;
-                        continue;
-                    }
-//                    dump($text, $inInput);
-                    if ($inInput)
-                    {
-                        // if it's the crlf at the end of the command, consolidate
-                        if (str_starts_with($text, "\r\n")) {
-                            $inputStartTime = $totalTime;
-                            // hack, should be a method that handles this more elegantly.
-
-                            $lineData['text'] = $outputLine;
-                            if ($inputText) {
-                                $response['markers'][] = [$inputStartTime, $inputText];
-                                $inputText = '';
-//                                    'timestamp' => $totalTime,
-//                                    'label' => $inputText,
-//                                ];
-//                                $response['lines'][] = [
-//                                    'interval' => $totalTime, // not interval, markers are absolute
-//                                    'type' => 'm',
-//                                    'text' => $inputText,
-//                                ];
-                            }
-                            $outputLine = $text;
-
-
-                            // we're at the end of an input command
-//                            $response['lines'][] = $inputText;
-                            $inInput = false;
-                        } else {
-                            $inputText .= $text;
-//                            dump(inputText: $inputText, new: $text);
-//                            continue;
-                        }
-                    } else {
-                        $outputLine = $text;
-//                        $response['lines'][] = $text;
-                        // this should be output
-                    }
+            if ($type === 'o') {
+                if (str_ends_with($text, '$ ')) {
+                    // Start capturing the command
+                    $isCapturingCommand = true;
+                    continue;
                 }
-                if ($outputLine) {
-                    $totalTime += $interval;
-                    $lineData['text'] = $outputLine;
+
+                if ($isCapturingCommand) {
+                    if (str_starts_with($text, "\r\n")) {
+                        // End of the command
+                        $inputStartTime = $totalTime;
+                        $response['markers'][] = [$inputStartTime, $currentCommand];
+
+                        $lineData['text'] = $currentOutput;
+                        $response['lines'][] = [
+                            'interval' => $inputStartTime,
+                            'type' => 'o',
+                            'text' => $currentCommand . "\r\n" //. $currentOutput,
+                        ];
+
+                        $response['lines'][] = $lineData;
+
+                        $currentCommand = '';
+                        $currentOutput = '';
+                        $isCapturingCommand = false;
+                    } else {
+                        $currentCommand .= $text;
+                    }
+                } else {
+                    // Capture regular output
+                    $currentOutput = $text;
+                    $lineData['text'] = $currentOutput;
                     $response['lines'][] = $lineData;
                 }
             }
-        }
-//        dd($cast, $response['lines']);
-        return $response;
-        // v2 format
 
+            $totalTime += $interval;
+        }
+
+        return $response;
     }
+
 }
