@@ -67,4 +67,11 @@ return [
         'version' => '1.0.0',
         'type' => 'css',
     ],
+    'asciinema-player' => [
+        'version' => '3.10.0-rc.1',
+    ],
+    'asciinema-player/dist/bundle/asciinema-player.css' => [
+        'version' => '3.9.0',
+        'type' => 'css',
+    ],
 ];

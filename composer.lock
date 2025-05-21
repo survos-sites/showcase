@@ -4,20 +4,147 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86736f9eb62284136d182b54bb44318c",
+    "content-hash": "217730ff3b605d81785fddcf9f05c912",
     "packages": [
         {
-            "name": "api-platform/core",
-            "version": "v4.1.8",
+            "name": "adhocore/cli",
+            "version": "0.8.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/api-platform/core.git",
-                "reference": "4ddce1f534a8b5cee198e593b456664fe4c04bab"
+                "url": "https://github.com/adhocore/php-cli.git",
+                "reference": "c17fdec05954b3bd2df49adff56284a511dd1083"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/4ddce1f534a8b5cee198e593b456664fe4c04bab",
-                "reference": "4ddce1f534a8b5cee198e593b456664fe4c04bab",
+                "url": "https://api.github.com/repos/adhocore/php-cli/zipball/c17fdec05954b3bd2df49adff56284a511dd1083",
+                "reference": "c17fdec05954b3bd2df49adff56284a511dd1083",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ahc\\Cli\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jitendra Adhikari",
+                    "email": "jiten.adhikary@gmail.com"
+                }
+            ],
+            "description": "Command line interface library for PHP",
+            "keywords": [
+                "PHP7",
+                "argument-parser",
+                "argv-parser",
+                "cli",
+                "cli-action",
+                "cli-app",
+                "cli-color",
+                "cli-option",
+                "cli-writer",
+                "command",
+                "console",
+                "console-app",
+                "php-cli",
+                "stream-input",
+                "stream-output"
+            ],
+            "support": {
+                "issues": "https://github.com/adhocore/php-cli/issues",
+                "source": "https://github.com/adhocore/php-cli/tree/0.8.4"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/ji10",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-10-09T00:51:05+00:00"
+        },
+        {
+            "name": "adhocore/cli-syntax",
+            "version": "0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adhocore/php-cli-syntax.git",
+                "reference": "610dd5be1276378900143b4e8556d62b88c6e95e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adhocore/php-cli-syntax/zipball/610dd5be1276378900143b4e8556d62b88c6e95e",
+                "reference": "610dd5be1276378900143b4e8556d62b88c6e95e",
+                "shasum": ""
+            },
+            "require": {
+                "adhocore/cli": "^0.8.3",
+                "ext-dom": "*",
+                "ext-gd": "*",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5 || ^7.5"
+            },
+            "bin": [
+                "bin/clish"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [],
+                "psr-4": {
+                    "Ahc\\CliSyntax\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jitendra Adhikari",
+                    "email": "jiten.adhikary@gmail.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "PHP Code Syntax Highlighter for CLI",
+            "keywords": [
+                "cli-syntax",
+                "cli-syntax-highlight",
+                "code-screenshot",
+                "code-to-image",
+                "export-php-code",
+                "php",
+                "php-cli-highlight",
+                "syntax-highlight"
+            ],
+            "support": {
+                "issues": "https://github.com/adhocore/php-cli-syntax/issues",
+                "source": "https://github.com/adhocore/php-cli-syntax/tree/0.4.0"
+            },
+            "time": "2020-01-08T07:41:08+00:00"
+        },
+        {
+            "name": "api-platform/core",
+            "version": "v4.1.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/api-platform/core.git",
+                "reference": "c3297c067e2cec3cdc00fe7c5b3006c55d9074d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/c3297c067e2cec3cdc00fe7c5b3006c55d9074d2",
+                "reference": "c3297c067e2cec3cdc00fe7c5b3006c55d9074d2",
                 "shasum": ""
             },
             "require": {
@@ -32,6 +159,7 @@
                 "symfony/property-info": "^6.4 || ^7.1",
                 "symfony/serializer": "^6.4 || ^7.0",
                 "symfony/translation-contracts": "^3.3",
+                "symfony/type-info": "^7.2",
                 "symfony/web-link": "^6.4 || ^7.1",
                 "willdurand/negotiation": "^3.1"
             },
@@ -216,43 +344,167 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v4.1.8"
+                "source": "https://github.com/api-platform/core/tree/v4.1.9"
             },
-            "time": "2025-05-09T06:04:56+00:00"
+            "time": "2025-05-16T12:23:45+00:00"
         },
         {
-            "name": "bakame/html-table",
-            "version": "0.3.0",
+            "name": "bakame/aide-enums",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/bakame-php/html-table.git",
-                "reference": "3b475c209a11341de51510297f7ab7a79848fbf3"
+                "url": "https://github.com/bakame-php/aide-enum.git",
+                "reference": "753e56fa65a78401a92f8ac8ee0e9bb8d1ddeb9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bakame-php/html-table/zipball/3b475c209a11341de51510297f7ab7a79848fbf3",
-                "reference": "3b475c209a11341de51510297f7ab7a79848fbf3",
+                "url": "https://api.github.com/repos/bakame-php/aide-enum/zipball/753e56fa65a78401a92f8ac8ee0e9bb8d1ddeb9a",
+                "reference": "753e56fa65a78401a92f8ac8ee0e9bb8d1ddeb9a",
                 "shasum": ""
             },
             "require": {
+                "php": "^8.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bakame\\Aide\\Enum\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Collection of traits to ease Enum manipulation in PHP",
+            "keywords": [
+                "comparaison",
+                "enum",
+                "factory",
+                "hasser",
+                "isser",
+                "named constructor"
+            ],
+            "support": {
+                "docs": "https://github.com/bakame-php/aide",
+                "issues": "https://github.com/bakame-php/aide",
+                "source": "https://github.com/bakame-php/aide"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/nyamsprod",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-12-09T05:38:10+00:00"
+        },
+        {
+            "name": "bakame/aide-error",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bakame-php/aide-error.git",
+                "reference": "0528581c290f232c470a44e378252bb7861efdba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bakame-php/aide-error/zipball/0528581c290f232c470a44e378252bb7861efdba",
+                "reference": "0528581c290f232c470a44e378252bb7861efdba",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bakame\\Aide\\Error\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A siple class to handle errors in PHP functions",
+            "keywords": [
+                "error",
+                "error handler",
+                "functions"
+            ],
+            "support": {
+                "docs": "https://github.com/bakame-php/aide",
+                "issues": "https://github.com/bakame-php/aide",
+                "source": "https://github.com/bakame-php/aide"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/nyamsprod",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-12-09T05:38:10+00:00"
+        },
+        {
+            "name": "bakame/html-table",
+            "version": "0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bakame-php/html-table.git",
+                "reference": "843e57ecf7fbf2dac71fa84dc9fb6be49332294e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bakame-php/html-table/zipball/843e57ecf7fbf2dac71fa84dc9fb6be49332294e",
+                "reference": "843e57ecf7fbf2dac71fa84dc9fb6be49332294e",
+                "shasum": ""
+            },
+            "require": {
+                "bakame/aide-enums": "^0.1.0",
+                "bakame/aide-error": "^0.1.0",
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-mbstring": "*",
                 "ext-simplexml": "*",
-                "league/csv": "^9.11.0"
+                "league/csv": "^9.23.0"
             },
             "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8.2",
                 "ext-curl": "*",
                 "ext-xdebug": "*",
                 "friendsofphp/php-cs-fixer": "^v3.28.0",
-                "laravel/prompts": "^0.1.9",
-                "phpstan/phpstan": "^1.10.35",
+                "laravel/prompts": "^0.1.13",
+                "phpstan/phpstan": "^1.10.48",
                 "phpstan/phpstan-deprecation-rules": "^1.1.4",
-                "phpstan/phpstan-phpunit": "^1.3.14",
-                "phpstan/phpstan-strict-rules": "^1.5.1",
-                "phpunit/phpunit": "^10.3.5",
-                "symfony/css-selector": "^6.3",
-                "symfony/var-dumper": "^6.3.4"
+                "phpstan/phpstan-phpunit": "^1.3.15",
+                "phpstan/phpstan-strict-rules": "^1.5.2",
+                "phpunit/phpunit": "^10.5.2",
+                "symfony/css-selector": "^6.4",
+                "symfony/var-dumper": "^6.4.0"
             },
             "type": "library",
             "extra": {
@@ -262,7 +514,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Bakame\\HtmlTable\\": "src"
+                    "Bakame\\TabularData\\HtmlTable\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -302,7 +554,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-29T03:59:18+00:00"
+            "time": "2025-05-11T19:36:22+00:00"
         },
         {
             "name": "composer/semver",
@@ -1597,16 +1849,16 @@
         },
         {
             "name": "easycorp/easyadmin-bundle",
-            "version": "v4.24.6",
+            "version": "v4.24.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EasyCorp/EasyAdminBundle.git",
-                "reference": "c5e4496c4c96d67385c48e285c463e0f5a8947e7"
+                "reference": "b61cd46c454d853438ded3ca21eac1ad537589aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/c5e4496c4c96d67385c48e285c463e0f5a8947e7",
-                "reference": "c5e4496c4c96d67385c48e285c463e0f5a8947e7",
+                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/b61cd46c454d853438ded3ca21eac1ad537589aa",
+                "reference": "b61cd46c454d853438ded3ca21eac1ad537589aa",
                 "shasum": ""
             },
             "require": {
@@ -1687,7 +1939,7 @@
             ],
             "support": {
                 "issues": "https://github.com/EasyCorp/EasyAdminBundle/issues",
-                "source": "https://github.com/EasyCorp/EasyAdminBundle/tree/v4.24.6"
+                "source": "https://github.com/EasyCorp/EasyAdminBundle/tree/v4.24.7"
             },
             "funding": [
                 {
@@ -1695,7 +1947,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-04-12T13:53:15+00:00"
+            "time": "2025-05-14T17:55:05+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -8019,16 +8271,16 @@
         },
         {
             "name": "symfony/stimulus-bundle",
-            "version": "v2.24.0",
+            "version": "v2.25.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stimulus-bundle.git",
-                "reference": "e09840304467cda3324cc116c7f4ee23c8ff227c"
+                "reference": "5a6aef0646119530da862d5afa1386ade3b9ed43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/stimulus-bundle/zipball/e09840304467cda3324cc116c7f4ee23c8ff227c",
-                "reference": "e09840304467cda3324cc116c7f4ee23c8ff227c",
+                "url": "https://api.github.com/repos/symfony/stimulus-bundle/zipball/5a6aef0646119530da862d5afa1386ade3b9ed43",
+                "reference": "5a6aef0646119530da862d5afa1386ade3b9ed43",
                 "shasum": ""
             },
             "require": {
@@ -8068,7 +8320,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/stimulus-bundle/tree/v2.24.0"
+                "source": "https://github.com/symfony/stimulus-bundle/tree/v2.25.2"
             },
             "funding": [
                 {
@@ -8084,7 +8336,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-03-09T21:10:04+00:00"
+            "time": "2025-05-19T11:54:27+00:00"
         },
         {
             "name": "symfony/stopwatch",
@@ -8759,16 +9011,16 @@
         },
         {
             "name": "symfony/ux-icons",
-            "version": "v2.24.0",
+            "version": "v2.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-icons.git",
-                "reference": "39f689b41081f7788ee9c4a188817599d546bfb2"
+                "reference": "430b2753aa55a46baa001055bf7976b62bc96942"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-icons/zipball/39f689b41081f7788ee9c4a188817599d546bfb2",
-                "reference": "39f689b41081f7788ee9c4a188817599d546bfb2",
+                "url": "https://api.github.com/repos/symfony/ux-icons/zipball/430b2753aa55a46baa001055bf7976b62bc96942",
+                "reference": "430b2753aa55a46baa001055bf7976b62bc96942",
                 "shasum": ""
             },
             "require": {
@@ -8828,7 +9080,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-icons/tree/v2.24.0"
+                "source": "https://github.com/symfony/ux-icons/tree/v2.25.0"
             },
             "funding": [
                 {
@@ -8844,20 +9096,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-04-04T17:32:18+00:00"
+            "time": "2025-04-07T13:54:07+00:00"
         },
         {
             "name": "symfony/ux-turbo",
-            "version": "v2.24.0",
+            "version": "v2.25.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-turbo.git",
-                "reference": "22954300bd0b01ca46f17c7890ea15138d9cf67f"
+                "reference": "11ebca138005c7e25678c3f98a07ddf718a0480c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/22954300bd0b01ca46f17c7890ea15138d9cf67f",
-                "reference": "22954300bd0b01ca46f17c7890ea15138d9cf67f",
+                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/11ebca138005c7e25678c3f98a07ddf718a0480c",
+                "reference": "11ebca138005c7e25678c3f98a07ddf718a0480c",
                 "shasum": ""
             },
             "require": {
@@ -8926,7 +9178,7 @@
                 "turbo-stream"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-turbo/tree/v2.24.0"
+                "source": "https://github.com/symfony/ux-turbo/tree/v2.25.2"
             },
             "funding": [
                 {
@@ -8942,20 +9194,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-04-04T17:29:20+00:00"
+            "time": "2025-05-19T11:54:27+00:00"
         },
         {
             "name": "symfony/ux-twig-component",
-            "version": "v2.24.0",
+            "version": "v2.25.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-twig-component.git",
-                "reference": "48a46e4c6215d41cc97ba8dff0cff21ea9b255a8"
+                "reference": "d20da25517fc09d147897d02819a046f0a0f6735"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-twig-component/zipball/48a46e4c6215d41cc97ba8dff0cff21ea9b255a8",
-                "reference": "48a46e4c6215d41cc97ba8dff0cff21ea9b255a8",
+                "url": "https://api.github.com/repos/symfony/ux-twig-component/zipball/d20da25517fc09d147897d02819a046f0a0f6735",
+                "reference": "d20da25517fc09d147897d02819a046f0a0f6735",
                 "shasum": ""
             },
             "require": {
@@ -8964,7 +9216,7 @@
                 "symfony/deprecation-contracts": "^2.2|^3.0",
                 "symfony/event-dispatcher": "^5.4|^6.0|^7.0",
                 "symfony/property-access": "^5.4|^6.0|^7.0",
-                "twig/twig": "^3.8"
+                "twig/twig": "^3.10.3"
             },
             "conflict": {
                 "symfony/config": "<5.4.0"
@@ -9009,7 +9261,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-twig-component/tree/v2.24.0"
+                "source": "https://github.com/symfony/ux-twig-component/tree/v2.25.2"
             },
             "funding": [
                 {
@@ -9025,7 +9277,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-03-21T20:14:36+00:00"
+            "time": "2025-05-20T13:06:01+00:00"
         },
         {
             "name": "symfony/validator",
@@ -10549,16 +10801,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.14",
+            "version": "2.1.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "8f2e03099cac24ff3b379864d171c5acbfc6b9a2"
+                "reference": "b8c1cf533cba0c305d91c6ccd23f3dd0566ba5f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8f2e03099cac24ff3b379864d171c5acbfc6b9a2",
-                "reference": "8f2e03099cac24ff3b379864d171c5acbfc6b9a2",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b8c1cf533cba0c305d91c6ccd23f3dd0566ba5f9",
+                "reference": "b8c1cf533cba0c305d91c6ccd23f3dd0566ba5f9",
                 "shasum": ""
             },
             "require": {
@@ -10603,7 +10855,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-05-02T15:32:28+00:00"
+            "time": "2025-05-16T09:40:10+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -11902,6 +12154,70 @@
             "time": "2024-10-20T05:08:20+00:00"
         },
         {
+            "name": "survos/code-bundle",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/survos/SurvosCodeBundle.git",
+                "reference": "e62ec8da9ad93a94fbfdab8609441db1126e059c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/survos/SurvosCodeBundle/zipball/e62ec8da9ad93a94fbfdab8609441db1126e059c",
+                "reference": "e62ec8da9ad93a94fbfdab8609441db1126e059c",
+                "shasum": ""
+            },
+            "require": {
+                "nette/php-generator": "^4.1",
+                "php": "^8.3",
+                "roave/better-reflection": "^6.57",
+                "symfony/config": "^7.2",
+                "symfony/dependency-injection": "^7.2",
+                "symfony/http-kernel": "^7.2",
+                "twig/twig": "^3.4"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.0",
+                "symfony/browser-kit": "^7.2",
+                "symfony/console": "^7.3",
+                "symfony/framework-bundle": "^7.2",
+                "symfony/phpunit-bridge": "^7.2",
+                "symfony/routing": "^7.2",
+                "symfony/security-bundle": "^7.3@beta",
+                "symfony/twig-bundle": "^7.2",
+                "symfony/var-dumper": "^7.2"
+            },
+            "default-branch": true,
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Survos\\CodeBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "generate code for Symfony applications",
+            "keywords": [
+                "code",
+                "dev",
+                "generator",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/survos/SurvosCodeBundle/issues",
+                "source": "https://github.com/survos/SurvosCodeBundle/tree/main"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/kbond",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-05-13T23:28:58+00:00"
+        },
+        {
             "name": "survos/crawler-bundle",
             "version": "1.5.529",
             "source": {
@@ -12857,10 +13173,10 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "beta",
+    "minimum-stability": "dev",
     "stability-flags": {
+        "survos/code-bundle": 20,
         "survos/installer": 20,
-        "symfony/console": 10,
         "symfony/panther": 20
     },
     "prefer-stable": true,

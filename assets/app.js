@@ -9,9 +9,10 @@ import './styles/app.css';
 import '@tabler/core';
 import '@tabler/core/dist/css/tabler.min.css';
 
-import Masonry from 'masonry-layout';
-// https://getbootstrap.com/docs/5.0/examples/masonry/
-var msnry = new Masonry( '.grid', {
-    columnWidth: 300
-    // options
-});
+// import Masonry from 'masonry-layout';
+// // https://getbootstrap.com/docs/5.0/examples/masonry/
+// var msnry = new Masonry( '.grid', {
+//     columnWidth: 300
+//     // options
+// });
+import 'asciinema-player/dist/bundle/asciinema-player.css'
