@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Playing {{ castCode }}{% endblock %}
+
+{% block body %}
+    {% set _sc = 'player' %}
+    <div class="row">
+        <div class="col-md-6">
+            <div {{ stimulus_controller(_sc, {
+                code: castCode,
+                url: "/" ~ castCode ~ ".cast"
+            }) }}>
+                <h1 {{ stimulus_target(_sc, 'marker') }}>
+                    marker text
+                </h1>
+                <!-- ... -->
+                <div {{ stimulus_target(_sc, 'player') }}>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <pre>{{ asciiCast }}</pre>
+        </div>
+    </div>
+
+
+
+{% endblock %}

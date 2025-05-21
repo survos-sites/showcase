@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Project;
 use App\Repository\ProjectRepository;
-use Bakame\HtmlTable\Parser;
+use Bakame\TabularData\HtmlTable\Parser;
 use Survos\Bundle\MakerBundle\Service\GeneratorService;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 use Zenstruck\Console\RunsCommands;
 use Zenstruck\Console\RunsProcesses;
@@ -18,32 +19,42 @@ use function Symfony\Component\String\u;
 class AppController extends AbstractController
 {
     #[Route('/', name: 'app_homepage', methods: [Request::METHOD_GET])]
-    public function index(ProjectRepository $projectRepository): Response
+    public function index(
+        ProjectRepository $projectRepository,
+        #[MapQueryParameter] bool $runningOnly=false
+    ): Response
     {
         $projects = []; //
         $names = [];
-        $sites = Parser::new()
-            ->ignoreTableHeader()
-            ->tableHeader(['dir', 'port', 'domains'])
-            ->parseFile('http://127.0.0.1:7080');
-        foreach ($sites as $idx => $site) {
-            // check if it's running locally
-            if (!is_numeric($site['port'])) {
-                continue;
-            }
-            if (empty($site['domains'])) {
-                continue;
-            }
+        if ($runningOnly) {
+            $sites = Parser::new()
+                ->ignoreTableHeader()
+                ->tableHeader(['dir', 'port', 'domains'])
+                ->parseFile('http://127.0.0.1:7080');
+            foreach ($sites as $idx => $site) {
+                // check if it's running locally
+                if (!is_numeric($site['port'])) {
+                    continue;
+                }
+                if (empty($site['domains'])) {
+                    continue;
+                }
 
-            $url = $site['domains'];
-            $host = parse_url($url, PHP_URL_HOST);
-            $host = u($host)->before('.wip')->toString();
-            $names[] = $host;
-            $projects[] = $projectRepository->findOneBy(['name' => $host]);
+                $url = $site['domains'];
+                $host = parse_url($url, PHP_URL_HOST);
+                $host = u($host)->before('.wip')->toString();
+                $names[] = $host;
+                $projects[] = $projectRepository->findOneBy(['name' => $host]);
+
+            }
+            $projects = $projectRepository->findBy(['name' => $names], ['name' => 'ASC']);
+        } else {
+            $projects = $projectRepository->findBy([], ['name' => 'ASC']);
         }
 
         return $this->render('home.html.twig', [
-                'projects' => $projectRepository->findBy(['name' => $names], ['name' => 'ASC']),
+            'runningOnly' => $runningOnly,
+                'projects' => $projects,
         ]);
     }
 
