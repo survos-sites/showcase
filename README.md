@@ -9,8 +9,12 @@ composer install
 bin/console doctrine:schema:update --force
 bin/console app:load 
 symfony server:start -d
-symfony open:local --path=/player
+symfony open:local --path=/player/make
+````
 
+For screenshots, etc.
+
+```bash
 vendor/bin/bdi detect drivers
 bin/console app:screenshots 
 

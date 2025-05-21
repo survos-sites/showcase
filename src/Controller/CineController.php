@@ -2,20 +2,36 @@
 
 namespace App\Controller;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class CineController extends AbstractController
 {
     public function __construct(
-        #[Autowire('%kernel.project_dir%')] private string $projectDir
+        #[Autowire('%kernel.project_dir%')] private string $projectDir,
+        private LoggerInterface $logger,
 
     )
     {
     }
 
+    #[Route('/api/asciicasts', name: 'app_upload')]
+    public function upload(Request $request,
+                           string $cineCode='test'): Response
+    {
+        $this->logger->warning(json_encode($request->request->all()));
+        $this->logger->warning(json_encode($request->getContent()));
+        dump(payload: $request->getPayload());
+        return new JsonResponse([
+            'status' => 'okay',
+            'url' => 'https://showcase.wip',
+        ]);
+    }
     #[Route('/player/{cineCode}', name: 'app_player')]
     public function cinePlayer(string $cineCode='test'): Response
     {
