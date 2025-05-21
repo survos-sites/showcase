@@ -50,28 +50,34 @@ export default class extends Controller {
                 return response.json();
             })
             .then(data => {
+                console.log(data);
                 const castData = [data.header];
 
                 data.lines.forEach((l) => {
                     //multicode analyse
-                    l[2] = JSON.parse(l[2]);
-                    castData.push(l)
+                    // console.log(l);
+                    // l[2] = JSON.parse(l[2]);
+                    castData.push([l.interval, l.type, l.text]);
                 });
 
-                console.log(castData);
-                let player = AsciinemaPlayer.create({ data: castData }, this.playerTarget, {
-                    autoPlay: true,
-                    controls: true
-                });
-                player.addEventListener('marker', _marker => {
-                    console.log(_marker);
-                    this.markerTarget.innerHTML = _marker.label;
-                    msg.text = "Press any key to continue";
-                    window.speechSynthesis.speak(msg);
+                // console.log(castData);
+                // if (0)
+                {
+                    let player = AsciinemaPlayer.create({ data: castData }, this.playerTarget, {
+                        autoPlay: true,
+                        controls: true
+                    });
+                    player.addEventListener('marker', _marker => {
+                        console.log(_marker);
+                        this.markerTarget.innerHTML = _marker.label;
+                        msg.text = "Press any key to continue";
+                        window.speechSynthesis.speak(msg);
 
-                    player.pause();
-                })
+                        player.pause();
+                    })
 
+
+                }
                 // Process your JSON data here
             })
             .catch(error => {

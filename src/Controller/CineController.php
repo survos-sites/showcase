@@ -26,7 +26,13 @@ final class CineController extends AbstractController
     {
         $this->logger->warning(json_encode($request->request->all()));
         $this->logger->warning(json_encode($request->getContent()));
-        dump(payload: $request->getPayload());
+        dump($request->files);
+        if ($file = $request->files->get('asciicast')) {
+            dump(file: $file->getContents()); // , name: $file->getClientOriginalName());
+        } else {
+            dump($request->files);
+        }
+
         return new JsonResponse([
             'status' => 'okay',
             'url' => 'https://showcase.wip',
@@ -77,12 +83,17 @@ final class CineController extends AbstractController
         $outputLine = '';
         $totalTime = 0;
 
+        // $line is a tuple
         foreach (file($cast, FILE_IGNORE_NEW_LINES) as $idx => $line) {
             if ($idx === 0) {
                 $header = json_decode($line);
                 $response['header'] = $header;
             } else {
                 [$interval, $type, $text] = json_decode($line);
+                $lineData = [
+                    'interval' => $interval,
+                    'type' => $type,
+                ];
                 // v2 is absolute, we need to create a relative time
 
 
@@ -99,8 +110,17 @@ final class CineController extends AbstractController
                         if (str_starts_with($text, "\r\n")) {
                             // hack, should be a method that handles this more elegantly.
 
-                            $line = $inputText;
+                            $lineData['text'] = $outputLine;
+                            if ($inputText) {
+                                $response['lines'][] = [
+                                    'interval' => $totalTime, // not interval, markers are absolute
+                                    'type' => 'm',
+                                    'text' => $inputText,
+                                ];
+                            }
                             $outputLine = $text;
+
+
                             // we're at the end of an input command
 //                            $response['lines'][] = $inputText;
                             $inInput = false;
@@ -116,12 +136,9 @@ final class CineController extends AbstractController
                     }
                 }
                 if ($outputLine) {
-                    // @todo: calculate actual time
-                    $response['lines'][] = [
-                        $interval,
-                        $type,
-                        $line
-                    ];
+                    $totalTime += $interval;
+                    $lineData['text'] = $outputLine;
+                    $response['lines'][] = $lineData;
                 }
             }
         }
