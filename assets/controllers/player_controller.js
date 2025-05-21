@@ -63,16 +63,17 @@ export default class extends Controller {
                 // console.log(castData);
                 // if (0)
                 {
+                    console.log(data.markers);
                     let player = AsciinemaPlayer.create({ data: castData }, this.playerTarget, {
                         autoPlay: true,
-                        controls: true
+                        controls: true,
+                        markers: data.markers
                     });
                     player.addEventListener('marker', _marker => {
                         console.log(_marker);
                         this.markerTarget.innerHTML = _marker.label;
-                        msg.text = "Press any key to continue";
+                        msg.text = _marker.label;
                         window.speechSynthesis.speak(msg);
-
                         player.pause();
                     })
 

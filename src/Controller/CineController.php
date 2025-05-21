@@ -81,13 +81,14 @@ final class CineController extends AbstractController
         $inInput = false;
         $inputText = '';
         $outputLine = '';
-        $totalTime = 0;
+        $totalTime = 0.1;
 
         // $line is a tuple
         foreach (file($cast, FILE_IGNORE_NEW_LINES) as $idx => $line) {
             if ($idx === 0) {
                 $header = json_decode($line);
                 $response['header'] = $header;
+                $response['markers'] = [];
             } else {
                 [$interval, $type, $text] = json_decode($line);
                 $lineData = [
@@ -108,15 +109,20 @@ final class CineController extends AbstractController
                     {
                         // if it's the crlf at the end of the command, consolidate
                         if (str_starts_with($text, "\r\n")) {
+                            $inputStartTime = $totalTime;
                             // hack, should be a method that handles this more elegantly.
 
                             $lineData['text'] = $outputLine;
                             if ($inputText) {
-                                $response['lines'][] = [
-                                    'interval' => $totalTime, // not interval, markers are absolute
-                                    'type' => 'm',
-                                    'text' => $inputText,
-                                ];
+                                $response['markers'][] = [$inputStartTime, $inputText];
+//                                    'timestamp' => $totalTime,
+//                                    'label' => $inputText,
+//                                ];
+//                                $response['lines'][] = [
+//                                    'interval' => $totalTime, // not interval, markers are absolute
+//                                    'type' => 'm',
+//                                    'text' => $inputText,
+//                                ];
                             }
                             $outputLine = $text;
 
