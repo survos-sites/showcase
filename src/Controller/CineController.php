@@ -45,10 +45,10 @@ final class CineController extends AbstractController
 
     }
 
-    #[Route('/cine', name: 'app_cine')]
-    public function cineJson(): Response
+    #[Route('/cine/{cineCode}', name: 'app_cine')]
+    public function cineJson(string $cineCode): Response
     {
-        $filename = 'x.cast';
+        $filename = $this->projectDir . '/public/' . $cineCode . '.cast';
         $clean = $this->cleanup($filename);
         return $this->json($clean);
 //        $header = json_encode([

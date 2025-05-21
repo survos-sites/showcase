@@ -3,6 +3,9 @@
 {% block title %}Playing {{ castCode }}{% endblock %}
 
 {% block body %}
+    <a href="{{ path('app_cine', {cineCode: castCode}) }}" target="_blank">
+        JSON
+    </a>
     {% set _sc = 'player' %}
     <div class="row">
         <div class="col-md-6">
