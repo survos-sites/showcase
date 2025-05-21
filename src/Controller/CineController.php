@@ -115,6 +115,7 @@ final class CineController extends AbstractController
                             $lineData['text'] = $outputLine;
                             if ($inputText) {
                                 $response['markers'][] = [$inputStartTime, $inputText];
+                                $inputText = '';
 //                                    'timestamp' => $totalTime,
 //                                    'label' => $inputText,
 //                                ];
