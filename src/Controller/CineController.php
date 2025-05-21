@@ -5,6 +5,7 @@ namespace App\Controller;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,13 +25,16 @@ final class CineController extends AbstractController
     public function upload(Request $request,
                            string $cineCode='test'): Response
     {
-        $this->logger->warning(json_encode($request->request->all()));
-        $this->logger->warning(json_encode($request->getContent()));
-        dump($request->files);
-        if ($file = $request->files->get('asciicast')) {
-            dump(file: $file->getContents()); // , name: $file->getClientOriginalName());
+        $fileBag = $request->files;
+        /** @var UploadedFile $uploadedFile */
+        $uploadedFile = $fileBag->all()['asciicast'];
+////        dump($fileBag->all('asciicast'));
+        if ($uploadedFile) {
+            file_put_contents($fn = $this->projectDir . '/public/' . $uploadedFile->getClientOriginalName(), $uploadedFile->getContent());
+            $this->logger->info($fn);
+//            dump(contents: $uploadedFile->getContent()); // , name: $file->getClientOriginalName());
         } else {
-            dump($request->files);
+//            dump(fileBag: $fileBag);
         }
 
         return new JsonResponse([

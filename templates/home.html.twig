@@ -1,6 +1,10 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+
+
+    <h3>Running Projects</h3>
+
     <div class="row" data-masonry='{"percentPosition": true }'>
 
         {% if runningOnly %}
@@ -10,29 +14,30 @@
                     <div class="col-sm-6 col-lg-4">
                         <div class="card card-sm">
                             {% set imageUrl = "%s.wip.png"|format(project.name) %}
-                            <a href="{{ path('project_show', {id: project.id}) }}" class="d-block">
-                                <img style="max-width: 200px" src="{{ imageUrl }}" class="card-img-top">
-                            </a>
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    @fav
-{#                                    <span class="avatar avatar-2 me-3 rounded" style="background-image: url(./static/avatars/000m.jpg)"> </span>#}
-                                    <div>
-                                        <div>
-                                            {{ project.composerJson.name??project.name }}
-                                        </div>
-                                        <div class="text-secondary">3 days ago</div>
-                                    </div>
-                                    <div class="ms-auto">
 
-                                        <a target="_blank" href="{{ project.githubUrl }}" class="text-secondary">
-                                            <twig:ux:icon name="mdi:github" />
-                                            {{ project.composerJson.name??project.name }}
-                                            {#                                {{ project.appJson.repository|replace({'https://github.com/': ''}) }}#}
-                                        </a>
+
+{#                            <a href="#" class="d-block"><img src="./static/photos/beautiful-blonde-woman-relaxing-with-a-can-of-coke-on-a-tree-stump-by-the-beach.jpg" class="card-img-top"></a>#}
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+{#                                        <span class="avatar avatar-2 me-3 rounded" style="background-image: url(./static/avatars/000m.jpg)"> </span>#}
+                                        <div>
+                                            <div>
+                                                <a target="_blank" href="{{ project.githubUrl }}" class="text-secondary">
+                                                    <twig:ux:icon name="mdi:github" />
+                                                    {#                                                {{ project.composerJson.name??project.name }}#}
+                                                    {#                                {{ project.appJson.repository|replace({'https://github.com/': ''}) }}#}
+                                                </a>
+                                                {{ project.composerJson.name??project.name }}
+                                            </div>
+                                            {% set liveUrl = "https://%s.wip"|format(project.name) %}
+                                            <div class="text-secondary"><a href="{{ liveUrl }}" target="_blank">{{ liveUrl }}</a></div>
+                                        </div>
                                     </div>
+                                    <a href="{{ path('project_show', {id: project.id}) }}" class="d-block">
+                                        <img class="card-img-top" src="{{ imageUrl }}" class="card-img-top">
+                                    </a>
+
                                 </div>
-                            </div>
                         </div>
                     </div>
                 {% endfor %}
@@ -40,7 +45,8 @@
         </div>
         {% endif %}
 
-        {% for project in projects %}
+        <h3>All Projects</h3>
+        {% for project in projects|slice(0,1) %}
             <div class="grid-item col-sm-6  col-lg-3">
                 {% with { project: project } %}
                     <twig:card :title="project.name">
