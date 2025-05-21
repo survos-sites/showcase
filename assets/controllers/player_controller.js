@@ -25,11 +25,11 @@ export default class extends Controller {
         console.log(this.codeValue + " from " + this.identifier);
         var msg = new SpeechSynthesisUtterance();
 
-        let player = AsciinemaPlayer.create(this.urlValue, this.playerTarget, {
-            autoPlay: true,
-            controls: true
-        });
-        return;
+        // let player = AsciinemaPlayer.create(this.urlValue, this.playerTarget, {
+        //     autoPlay: true,
+        //     controls: true
+        // });
+        // return;
 
 
         // Called every time the controller is connected to the DOM
@@ -42,7 +42,7 @@ export default class extends Controller {
         // AsciinemaPlayer.create('https://asciinema.org/a/WIFw6ZhT0yFCNgUaVY876Ios8.cast',
         //     document.getElementById('demo'));
 
-        fetch('/cine')
+        fetch('/cine/' + this.codeValue )
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -51,7 +51,13 @@ export default class extends Controller {
             })
             .then(data => {
                 const castData = [data.header];
-                data.lines.forEach((l) => castData.push(l));
+
+                data.lines.forEach((l) => {
+                    //multicode analyse
+                    l[2] = JSON.parse(l[2]);
+                    castData.push(l)
+                });
+
                 console.log(castData);
                 let player = AsciinemaPlayer.create({ data: castData }, this.playerTarget, {
                     autoPlay: true,
