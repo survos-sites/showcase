@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "217730ff3b605d81785fddcf9f05c912",
+    "content-hash": "eb9d992ffa9870e383da9d525a7821f1",
     "packages": [
         {
             "name": "adhocore/cli",
@@ -3651,11 +3651,17 @@
         },
         {
             "name": "survos/installer",
-            "version": "dev-main",
+            "version": "2.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/survos/installer.git",
+                "reference": "b026a3896be9cf6a9c0e858ca1164880ab406725"
+            },
             "dist": {
-                "type": "path",
-                "url": "/home/tac/g/sites/installer",
-                "reference": "3e1711d22cfb993bb9ceea65af9fa3459f54dcd1"
+                "type": "zip",
+                "url": "https://api.github.com/repos/survos/installer/zipball/b026a3896be9cf6a9c0e858ca1164880ab406725",
+                "reference": "b026a3896be9cf6a9c0e858ca1164880ab406725",
+                "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^2.0",
@@ -3671,16 +3677,17 @@
             },
             "type": "composer-plugin",
             "extra": {
+                "class": "Survos\\Installer\\Installer",
                 "branch-alias": {
                     "dev-main": "1.x-dev"
-                },
-                "class": "Survos\\Installer\\Installer"
+                }
             },
             "autoload": {
                 "psr-4": {
                     "Survos\\Installer\\": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3691,9 +3698,16 @@
                 }
             ],
             "description": "Composer plugin for installing configuration files and updating .env and .gitignore, based on survos/installer",
-            "transport-options": {
-                "relative": false
-            }
+            "support": {
+                "source": "https://github.com/survos/installer/tree/2.0.5"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/kbond",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-05-18T11:28:46+00:00"
         },
         {
             "name": "survos/maker-bundle",
@@ -11193,16 +11207,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.1.5",
+            "version": "12.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "f93ef2198df8d54b3195bcee381a33be51d8705e"
+                "reference": "2fdf0056c673c8f0f1eed00030be5f8243c1e6e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f93ef2198df8d54b3195bcee381a33be51d8705e",
-                "reference": "f93ef2198df8d54b3195bcee381a33be51d8705e",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2fdf0056c673c8f0f1eed00030be5f8243c1e6e0",
+                "reference": "2fdf0056c673c8f0f1eed00030be5f8243c1e6e0",
                 "shasum": ""
             },
             "require": {
@@ -11224,7 +11238,7 @@
                 "sebastian/cli-parser": "^4.0.0",
                 "sebastian/comparator": "^7.0.1",
                 "sebastian/diff": "^7.0.0",
-                "sebastian/environment": "^8.0.0",
+                "sebastian/environment": "^8.0.1",
                 "sebastian/exporter": "^7.0.0",
                 "sebastian/global-state": "^8.0.0",
                 "sebastian/object-enumerator": "^7.0.0",
@@ -11270,7 +11284,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.1.5"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.1.6"
             },
             "funding": [
                 {
@@ -11294,7 +11308,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-11T06:44:52+00:00"
+            "time": "2025-05-21T12:36:31+00:00"
         },
         {
             "name": "rector/rector",
@@ -13188,7 +13202,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "survos/code-bundle": 20,
-        "survos/installer": 20,
         "symfony/panther": 20
     },
     "prefer-stable": true,
