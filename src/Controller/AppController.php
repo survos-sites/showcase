@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Project;
 use App\Repository\ProjectRepository;
+use App\Repository\ShowRepository;
 use Bakame\TabularData\HtmlTable\Parser;
 use Survos\Bundle\MakerBundle\Service\GeneratorService;
 use Symfony\Bridge\Twig\Attribute\Template;
@@ -28,7 +29,9 @@ class AppController extends AbstractController
     }
 
     #[Route('/', name: 'app_homepage', methods: [Request::METHOD_GET])]
-    public function index(ProjectRepository $projectRepository, #[MapQueryParameter] bool $runningOnly = true): Response
+    public function index(ProjectRepository $projectRepository,
+                          ShowRepository $showRepository,
+                          #[MapQueryParameter] bool $runningOnly = true): Response
     {
         $projects = [];
         //
@@ -54,6 +57,7 @@ class AppController extends AbstractController
             $projects = $projectRepository->findBy([], ['name' => 'ASC']);
         }
         return $this->render('home.html.twig', [
+            'shows' => $showRepository->findAll(),
             'casts' => (new Finder())->in($this->projectDir . '/public')->name('*.cast')->files(),
             'runningOnly' => $runningOnly, 'projects' => $projects]);
     }
