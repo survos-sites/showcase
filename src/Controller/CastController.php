@@ -181,7 +181,7 @@ final class CastController extends AbstractController
                         } elseif ($isCapturingCommand) {
                             $isCapturingCommand = false;
                             $this->addOutput(0.4, $currentOutput);
-                            $this->addMarker($inputStartTime, $currentCommand);
+                            $this->addMarker($this->totalTime+0.1, $currentCommand);
                             $currentOutput = ''; // reset
                             $currentCommand = ''; //?
                         }

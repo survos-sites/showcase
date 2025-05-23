@@ -4,6 +4,14 @@
 
 
     <h3>Casts</h3>
+    {% for show in shows %}
+    <li>
+        <a href="{{ path('app_player', {cineCode: show.code}) }}">
+        <code>{{ show.code }}</code>
+        <b>{{ show.title }}</b>
+        </a>
+    </li>
+    {% endfor %}
     {% for cast in casts %}
         <li>
             <a href="{{ path('app_player', {cineCode: cast.basename|replace({'.cast': ''})}) }}">
