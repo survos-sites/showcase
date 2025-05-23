@@ -23,7 +23,8 @@ class AppController extends AbstractController
 {
     public function __construct(
         #[Autowire('%kernel.project_dir%')] private string $projectDir,
-        private readonly ProjectRepository                 $repo
+        private readonly ProjectRepository                 $repo,
+        #[Autowire('%kernel.environment%')] private string $environment,
     )
     {
     }
@@ -36,7 +37,7 @@ class AppController extends AbstractController
         $projects = [];
         //
         $names = [];
-        if ($runningOnly) {
+        if ($this->environment === 'dev' && $runningOnly) {
             $sites = Parser::new()->ignoreTableHeader()->tableHeader(['dir', 'port', 'domains'])->parseFile('http://127.0.0.1:7080');
             foreach ($sites as $idx => $site) {
                 // check if it's running locally

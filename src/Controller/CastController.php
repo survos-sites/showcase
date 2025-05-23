@@ -23,8 +23,10 @@ final class CastController extends AbstractController
     private AnsiToHtmlConverter $converter;
     public function __construct(
         #[Autowire('%kernel.project_dir%')] private string $projectDir,
+        #[Autowire('%kernel.environment')] private string $environment,
         private LoggerInterface                            $logger,
-        private TexterInterface                            $texter, private readonly EntityManagerInterface $entityManager,
+        private TexterInterface                            $texter,
+        private readonly EntityManagerInterface $entityManager,
         private float $totalTime = 0.0,
         // crying to be a DTO
         private array                                      $response = [
@@ -55,7 +57,9 @@ final class CastController extends AbstractController
                 json_encode(['code' => $code])
             );
             try {
-                $this->texter->send($message);
+                if ($this->environment === 'dev') {
+                    $this->texter->send($message);
+                }
             } catch (\Exception $e) {
                 // hmm
             }
@@ -75,9 +79,7 @@ final class CastController extends AbstractController
             file_put_contents($fn = $this->projectDir . '/public/' . $uploadedFile->getClientOriginalName(),
                 $uploadedFile->getContent());
             $this->logger->info($fn);
-//            dump(contents: $uploadedFile->getContent()); // , name: $file->getClientOriginalName());
         } else {
-//            dump(fileBag: $fileBag);
         }
 
         return new JsonResponse(json_encode([
@@ -156,7 +158,6 @@ final class CastController extends AbstractController
                 $this->addOutput($interval, $text);
                 continue;
             }
-//            dump($type .':' . $text);
             // output colors: https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println/5762502#5762502
             /**
              * public static final String ANSI_RESET = "\u001B[0m";
@@ -180,7 +181,6 @@ final class CastController extends AbstractController
 //                    }
                     // the CR at the end of a prompt input or command
                     if ($text === "\r") {
-                        dump($this->totalTime, $isCapturingPrompt ? 'prompt' : ($isCapturingCommand ? 'command' : '~') .  $currentCommand);
                         if ($isCapturingPrompt) {
                             $this->addOutput(0.5, $currentOutput);
                             $currentOutput = ''; // reset
@@ -229,7 +229,7 @@ final class CastController extends AbstractController
             // stream
         }
         $this->addOutput(0.25, $currentOutput);
-        $this->addOutput(0.25 , "Finished");
+        $this->addOutput(0.25 , "cast $cast has finished");
 //        dd($this->response['markers']);
 //        dd($this->response);
 //        dd($inputStartTime, $currentCommand, $currentOutput);
