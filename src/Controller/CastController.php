@@ -15,9 +15,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\Message\DesktopMessage;
 use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
+
 
 final class CastController extends AbstractController
 {
+    private AnsiToHtmlConverter $converter;
     public function __construct(
         #[Autowire('%kernel.project_dir%')] private string $projectDir,
         private LoggerInterface                            $logger,
@@ -31,6 +34,8 @@ final class CastController extends AbstractController
         ]
     )
     {
+        $this->converter = new AnsiToHtmlConverter();
+
     }
 
     #[Route('/api/asciicasts', name: 'cast_upload')]
@@ -291,8 +296,10 @@ final class CastController extends AbstractController
     }
     private function addMarker(float $timestamp, string $text)
     {
+
+        $html = $this->converter->convert($text);
 //        $this->response['lines'][] = [$timestamp, 'm', $text, -1];
-        $this->response['markers'][] = [$timestamp, $text];
+        $this->response['markers'][] = [$timestamp, $html];
     }
 
 }
