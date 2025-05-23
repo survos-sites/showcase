@@ -13068,12 +13068,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/SurvosDocBundle.git",
-                "reference": "e11eedd86c7d9baccb24a22f68b0553d864f0e5a"
+                "reference": "5baa301b64d00650786da3940161b19aac47f3ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/SurvosDocBundle/zipball/e11eedd86c7d9baccb24a22f68b0553d864f0e5a",
-                "reference": "e11eedd86c7d9baccb24a22f68b0553d864f0e5a",
+                "url": "https://api.github.com/repos/survos/SurvosDocBundle/zipball/5baa301b64d00650786da3940161b19aac47f3ff",
+                "reference": "5baa301b64d00650786da3940161b19aac47f3ff",
                 "shasum": ""
             },
             "require": {
@@ -13152,7 +13152,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-05-23T14:12:39+00:00"
+            "time": "2025-05-23T14:46:23+00:00"
         },
         {
             "name": "symfony/browser-kit",
