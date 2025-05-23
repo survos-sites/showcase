@@ -1,5 +1,7 @@
 {
     "type": "project",
+    "name": "survos-sites/show",
+    "description": "A showcase of survos sites and screenshows",
     "license": "proprietary",
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -120,6 +122,7 @@
         "rector/rector": "^2.0",
         "survos/code-bundle": "dev-main",
         "survos/crawler-bundle": "^1.5",
+        "survos/deployment-bundle": "^1.5",
         "symfony/browser-kit": "^7.0",
         "symfony/css-selector": "^7.0",
         "symfony/debug-bundle": "^7.0",
