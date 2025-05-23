@@ -20,3 +20,5 @@ bin/console app:screenshots
 
 ```
 
+mkdir casts -p
+acine rec casts/${HOSTNAME}.${USER}--$(date '+%Y-%m-%d-%H-%M-%S')-$$.cast

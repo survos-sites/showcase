@@ -1,0 +1,8 @@
+# Default configuration for extension with alias: "survos_doc"
+when@dev: &dev
+  survos_doc:
+      screenshow_endpoint:  '%env(SCREENSHOW_ENDPOINT)%'
+      user_provider:        null
+      user_class:           App\Entity\User
+
+when@text: *dev

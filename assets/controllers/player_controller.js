@@ -78,8 +78,13 @@ export default class extends Controller {
                         // @todo: set this as a control switch
                         this.player.pause();
                         this.player.getCurrentTime().then(( (d) => console.log(d)));
+                    });
+                    this.player.addEventListener('pause', () => {
+                        console.log("paused!");
+                    });
+                    this.player.addEventListener('ended', () => {
+                        console.log("ended!");
                     })
-
 
                 }
                 // Process your JSON data here

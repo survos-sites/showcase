@@ -31,7 +31,7 @@
         "survos/workflow-helper-bundle": "^1.5",
         "symfony/asset": "^7.0",
         "symfony/asset-mapper": "^7.0",
-        "symfony/console": "7.3.0-BETA1",
+        "symfony/console": "^7.3",
         "symfony/doctrine-messenger": "^7.0",
         "symfony/dotenv": "^7.0",
         "symfony/expression-language": "^7.0",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "941322be150fe9004f29664d24daefde",
+    "content-hash": "45f70d4c80b230cce075b9108235c9c0",
     "packages": [
         {
             "name": "adhocore/cli",
@@ -4349,16 +4349,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v7.3.0-BETA1",
+            "version": "v7.3.0-BETA2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "9bd4d772b9678ebf398763403a8676b3010a18a7"
+                "reference": "aa8b412c06f682ba488b1d3589aa544cd1eff0c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/9bd4d772b9678ebf398763403a8676b3010a18a7",
-                "reference": "9bd4d772b9678ebf398763403a8676b3010a18a7",
+                "url": "https://api.github.com/repos/symfony/console/zipball/aa8b412c06f682ba488b1d3589aa544cd1eff0c0",
+                "reference": "aa8b412c06f682ba488b1d3589aa544cd1eff0c0",
                 "shasum": ""
             },
             "require": {
@@ -4366,15 +4366,14 @@
                 "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/polyfill-mbstring": "~1.0",
                 "symfony/service-contracts": "^2.5|^3",
-                "symfony/string": "^6.4|^7.0"
+                "symfony/string": "^7.2"
             },
             "conflict": {
                 "symfony/dependency-injection": "<6.4",
                 "symfony/dotenv": "<6.4",
                 "symfony/event-dispatcher": "<6.4",
                 "symfony/lock": "<6.4",
-                "symfony/process": "<6.4",
-                "symfony/runtime": "<7.3"
+                "symfony/process": "<6.4"
             },
             "provide": {
                 "psr/log-implementation": "1.0|2.0|3.0"
@@ -4424,7 +4423,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v7.3.0-BETA1"
+                "source": "https://github.com/symfony/console/tree/v7.3.0-BETA2"
             },
             "funding": [
                 {
@@ -4440,7 +4439,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-04-07T19:11:40+00:00"
+            "time": "2025-05-09T14:50:30+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -11477,16 +11476,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "12.2.1",
+            "version": "12.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "448f2c504d86dbff3949dcd02c95aa85db2c7617"
+                "reference": "9075a8efc66e11bc55c319062e147bdb06777267"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/448f2c504d86dbff3949dcd02c95aa85db2c7617",
-                "reference": "448f2c504d86dbff3949dcd02c95aa85db2c7617",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/9075a8efc66e11bc55c319062e147bdb06777267",
+                "reference": "9075a8efc66e11bc55c319062e147bdb06777267",
                 "shasum": ""
             },
             "require": {
@@ -11513,7 +11512,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "12.2.x-dev"
+                    "dev-main": "12.3.x-dev"
                 }
             },
             "autoload": {
@@ -11542,7 +11541,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.2.1"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.3.0"
             },
             "funding": [
                 {
@@ -11562,7 +11561,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-04T05:25:05+00:00"
+            "time": "2025-05-23T15:49:03+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -13068,12 +13067,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/SurvosDocBundle.git",
-                "reference": "5baa301b64d00650786da3940161b19aac47f3ff"
+                "reference": "396693fcabeb3f1da91be417de15ec9a13ae5be2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/SurvosDocBundle/zipball/5baa301b64d00650786da3940161b19aac47f3ff",
-                "reference": "5baa301b64d00650786da3940161b19aac47f3ff",
+                "url": "https://api.github.com/repos/survos/SurvosDocBundle/zipball/396693fcabeb3f1da91be417de15ec9a13ae5be2",
+                "reference": "396693fcabeb3f1da91be417de15ec9a13ae5be2",
                 "shasum": ""
             },
             "require": {
@@ -13152,7 +13151,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-05-23T14:46:23+00:00"
+            "time": "2025-05-23T16:44:05+00:00"
         },
         {
             "name": "symfony/browser-kit",

@@ -3,15 +3,18 @@
 {% block body %}
 
 
-    <h3>Casts</h3>
+    <h3>Shows in Database</h3>
     {% for show in shows %}
     <li>
         <a href="{{ path('app_player', {cineCode: show.code}) }}">
         <code>{{ show.code }}</code>
         <b>{{ show.title }}</b>
+            {{ show.lineCount }}
+            {{ show.fileSize }}
         </a>
     </li>
     {% endfor %}
+    <h3>Casts</h3>
     {% for cast in casts %}
         <li>
             <a href="{{ path('app_player', {cineCode: cast.basename|replace({'.cast': ''})}) }}">

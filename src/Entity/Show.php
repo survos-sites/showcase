@@ -24,7 +24,7 @@ class Show
         return $this->code;
     }
 
-    public function getLines(): iterable
+    public function getLines(): array
     {
         return explode("\n", $this->getAsciiCast());
     }
@@ -40,6 +40,18 @@ class Show
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $asciiCast = null;
+
+    #[ORM\Column]
+    private ?int $fileSize = null;
+
+    #[ORM\Column]
+    private ?int $markerCount = null;
+
+    #[ORM\Column]
+    private ?int $lineCount = null;
+
+    #[ORM\Column]
+    private ?float $totalTime = null;
 
     public function getTitle(): ?string
     {
@@ -61,6 +73,54 @@ class Show
     public function setAsciiCast(string $asciiCast): static
     {
         $this->asciiCast = $asciiCast;
+
+        return $this;
+    }
+
+    public function getFileSize(): ?int
+    {
+        return $this->fileSize;
+    }
+
+    public function setFileSize(int $fileSize): static
+    {
+        $this->fileSize = $fileSize;
+
+        return $this;
+    }
+
+    public function getMarkerCount(): ?int
+    {
+        return $this->markerCount;
+    }
+
+    public function setMarkerCount(int $markerCount): static
+    {
+        $this->markerCount = $markerCount;
+
+        return $this;
+    }
+
+    public function getLineCount(): ?int
+    {
+        return $this->lineCount;
+    }
+
+    public function setLineCount(int $lineCount): static
+    {
+        $this->lineCount = $lineCount;
+
+        return $this;
+    }
+
+    public function getTotalTime(): ?float
+    {
+        return $this->totalTime;
+    }
+
+    public function setTotalTime(float $totalTime): static
+    {
+        $this->totalTime = $totalTime;
 
         return $this;
     }

@@ -8,6 +8,9 @@ framework:
     property_info:
         with_constructor_extractor: true
 
+    router:
+        # ...
+        default_uri: 'https://showcase.wip/'
     #esi: true
     #fragments: true
 
