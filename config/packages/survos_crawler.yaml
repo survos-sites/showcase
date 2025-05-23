@@ -1,12 +1,13 @@
-survos_crawler:
-# if you've run symfony proxy:domain:attach my-project, then the error messages will be displayed with this prefix.  That way, you can simply click on a link to open the page.
-    base_url: 'https://showcase.wip/'
-#    user_class: App\Entity\User
-    users:
-#        - user@user.com
-#        - tacman@gmail.com
-#        - tt@survos.com
-    max_depth : 3
-    routes_to_ignore :
-        - 'app_logout'
-        - 'survos_crawler_results'
+when@dev:
+    survos_crawler:
+    # if you've run symfony proxy:domain:attach my-project, then the error messages will be displayed with this prefix.  That way, you can simply click on a link to open the page.
+        base_url: 'https://showcase.wip/'
+    #    user_class: App\Entity\User
+        users:
+    #        - user@user.com
+    #        - tacman@gmail.com
+    #        - tt@survos.com
+        max_depth : 3
+        routes_to_ignore :
+            - 'app_logout'
+            - 'survos_crawler_results'
