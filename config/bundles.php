@@ -28,4 +28,6 @@ return [
     Bizkit\VersioningBundle\BizkitVersioningBundle::class => ['dev' => true],
     Survos\DeploymentBundle\SurvosDeploymentBundle::class => ['dev' => true, 'test' => true],
     Inspector\Symfony\Bundle\InspectorBundle::class => ['all' => true],
+    Survos\DocBundle\SurvosDocBundle::class => ['dev' => true, 'test' => true],
+    Jawira\DoctrineDiagramBundle\DoctrineDiagramBundle::class => ['all' => true],
 ];

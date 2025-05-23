@@ -125,6 +125,7 @@
         "survos/code-bundle": "dev-main",
         "survos/crawler-bundle": "^1.5",
         "survos/deployment-bundle": "^1.5",
+        "survos/doc-bundle": "dev-main",
         "symfony/browser-kit": "^7.0",
         "symfony/css-selector": "^7.0",
         "symfony/debug-bundle": "^7.0",

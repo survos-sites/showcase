@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cbc43baa0956b5ce21d53ccf39343d86",
+    "content-hash": "941322be150fe9004f29664d24daefde",
     "packages": [
         {
             "name": "adhocore/cli",
@@ -10571,6 +10571,340 @@
             "time": "2024-12-12T18:36:47+00:00"
         },
         {
+            "name": "jawira/db-draw",
+            "version": "v1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jawira/db-draw.git",
+                "reference": "12225f1e171740731063d6ba956b1acb9ceca1aa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jawira/db-draw/zipball/12225f1e171740731063d6ba956b1acb9ceca1aa",
+                "reference": "12225f1e171740731063d6ba956b1acb9ceca1aa",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^3.3 || ^4.0",
+                "jawira/doctrine-diagram-contracts": "^1.0",
+                "jawira/the-lost-functions": "^1.1",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "ext-mbstring": "*",
+                "ext-xml": "*",
+                "friendsofphp/php-cs-fixer": "^3.64",
+                "jawira/plantuml": "^1.2024.6",
+                "jawira/plantuml-client": "^1.0.3",
+                "jawira/skeleton": "^2.24.1",
+                "phpstan/phpstan": "^1.12.2",
+                "phpunit/phpunit": "^9.6.20"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jawira\\DbDraw\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jawira Portugal"
+                }
+            ],
+            "description": "📐 Takes a DoctrineORM connection and generates a database diagram in .puml format",
+            "homepage": "https://jawira.github.io/db-draw/",
+            "keywords": [
+                "database",
+                "db",
+                "dbal",
+                "diagram",
+                "doctrine",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/jawira/db-draw/issues",
+                "source": "https://github.com/jawira/db-draw/tree/v1.8.1"
+            },
+            "time": "2025-04-12T10:18:25+00:00"
+        },
+        {
+            "name": "jawira/doctrine-diagram-bundle",
+            "version": "v0.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jawira/doctrine-diagram-bundle.git",
+                "reference": "7ae2817cd237610fd5487fcb1ffddc017dbfeda5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jawira/doctrine-diagram-bundle/zipball/7ae2817cd237610fd5487fcb1ffddc017dbfeda5",
+                "reference": "7ae2817cd237610fd5487fcb1ffddc017dbfeda5",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "^2.5",
+                "doctrine/orm": "^2.9 || ^3.0",
+                "jawira/db-draw": "^1.6",
+                "jawira/plantuml-client": "^1.0",
+                "php": "^8.0",
+                "symfony/console": "^6.0 || ^7.0",
+                "symfony/filesystem": "^6.0 || ^7.0",
+                "symfony/framework-bundle": "^6.0 || ^7.0"
+            },
+            "require-dev": {
+                "ergebnis/composer-normalize": "^2.31",
+                "friendsofphp/php-cs-fixer": "^3.46",
+                "jawira/plantuml": "^1.2023",
+                "jawira/skeleton": "^2.22",
+                "phpstan/extension-installer": "^1.3.1",
+                "phpstan/phpstan": "^1.10.55",
+                "phpstan/phpstan-symfony": "^1.3.7"
+            },
+            "suggest": {
+                "jawira/plantuml": "Install PlantUML executable with Composer."
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Jawira\\DoctrineDiagramBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jawira Portugal",
+                    "homepage": "https://jawira.com"
+                }
+            ],
+            "description": "📐 Symfony Bundle to generate database diagrams",
+            "homepage": "https://github.com/jawira/doctrine-diagram-bundle",
+            "keywords": [
+                "database",
+                "diagram",
+                "doctrine",
+                "symfony-bundle"
+            ],
+            "support": {
+                "issues": "https://github.com/jawira/doctrine-diagram-bundle/issues",
+                "source": "https://github.com/jawira/doctrine-diagram-bundle/tree/v0.8.0"
+            },
+            "time": "2024-02-10T00:27:24+00:00"
+        },
+        {
+            "name": "jawira/doctrine-diagram-contracts",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jawira/doctrine-diagram-contracts.git",
+                "reference": "a00c63c87376b67d61d045e0d82e6b6560c79a59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jawira/doctrine-diagram-contracts/zipball/a00c63c87376b67d61d045e0d82e6b6560c79a59",
+                "reference": "a00c63c87376b67d61d045e0d82e6b6560c79a59",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.68",
+                "jawira/skeleton": "^2.26"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jawira\\DoctrineDiagramContracts\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jawira Portugal",
+                    "email": "dev@tugal.be"
+                }
+            ],
+            "description": "Generic abstractions related to Doctrine Diagram Bundle",
+            "support": {
+                "issues": "https://github.com/jawira/doctrine-diagram-contracts/issues",
+                "source": "https://github.com/jawira/doctrine-diagram-contracts/tree/v1.0.0"
+            },
+            "time": "2025-01-27T21:37:53+00:00"
+        },
+        {
+            "name": "jawira/plantuml-client",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jawira/plantuml-client.git",
+                "reference": "28ca92b4e0825bd7f3a82fed10c7f3dbe0657fd5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jawira/plantuml-client/zipball/28ca92b4e0825bd7f3a82fed10c7f3dbe0657fd5",
+                "reference": "28ca92b4e0825bd7f3a82fed10c7f3dbe0657fd5",
+                "shasum": ""
+            },
+            "require": {
+                "jawira/plantuml-encoding": "^1.0",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "ergebnis/composer-normalize": "^2.13",
+                "ext-fileinfo": "*",
+                "jawira/skeleton": "^2.16",
+                "phpstan/phpstan": "^1.8",
+                "phpunit/phpunit": "^9.5"
+            },
+            "suggest": {
+                "pds/skeleton": "Standard PHP package skeleton."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jawira\\PlantUmlClient\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jawira Portugal",
+                    "email": "dev@tugal.be"
+                }
+            ],
+            "description": "Convert PlantUML diagrams into images.",
+            "keywords": [
+                "diagram",
+                "image",
+                "plantuml",
+                "uml"
+            ],
+            "support": {
+                "issues": "https://github.com/jawira/plantuml-client/issues",
+                "source": "https://github.com/jawira/plantuml-client/tree/v1.0.3"
+            },
+            "time": "2022-11-08T23:48:25+00:00"
+        },
+        {
+            "name": "jawira/plantuml-encoding",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jawira/plantuml-encoding.git",
+                "reference": "fe8bce2d7ff5bb5cccf374349999cef7d6246a32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jawira/plantuml-encoding/zipball/fe8bce2d7ff5bb5cccf374349999cef7d6246a32",
+                "reference": "fe8bce2d7ff5bb5cccf374349999cef7d6246a32",
+                "shasum": ""
+            },
+            "require": {
+                "ext-zlib": "*",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/plantuml_functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jawira Portugal",
+                    "homepage": "https://jawira.com"
+                }
+            ],
+            "description": "PlantUML encoding functions",
+            "keywords": [
+                "encodep",
+                "encoding",
+                "functions",
+                "plantuml",
+                "uml"
+            ],
+            "support": {
+                "issues": "https://github.com/jawira/plantuml-encoding/issues",
+                "source": "https://github.com/jawira/plantuml-encoding/tree/v1.1.1"
+            },
+            "time": "2024-12-22T17:49:30+00:00"
+        },
+        {
+            "name": "jawira/the-lost-functions",
+            "version": "v1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/jawira/the-lost-functions.git",
+                "reference": "bcdb3065549870cde26fdc4b1e72337c2913e562"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/jawira%2Fthe-lost-functions/repository/archive.zip?sha=bcdb3065549870cde26fdc4b1e72337c2913e562",
+                "reference": "bcdb3065549870cde26fdc4b1e72337c2913e562",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8"
+            },
+            "require-dev": {
+                "ergebnis/composer-normalize": "^2",
+                "ext-mbstring": "*",
+                "friendsofphp/php-cs-fixer": "^3",
+                "jawira/skeleton": "^2",
+                "phpunit/phpunit": "^9"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jawira Portugal",
+                    "email": "dev@tugal.be"
+                }
+            ],
+            "description": "Collection of convenience functions.",
+            "keywords": [
+                "Year",
+                "array",
+                "function",
+                "get_class",
+                "is_initialized"
+            ],
+            "support": {
+                "issues": "https://gitlab.com/jawira/the-lost-functions/-/issues",
+                "source": "https://gitlab.com/jawira/the-lost-functions/-/tree/v1.7.0"
+            },
+            "time": "2024-03-12T20:44:01+00:00"
+        },
+        {
             "name": "masterminds/html5",
             "version": "2.9.0",
             "source": {
@@ -10696,6 +11030,53 @@
                 }
             ],
             "time": "2025-04-29T12:36:36+00:00"
+        },
+        {
+            "name": "nadar/php-composer-reader",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nadar/php-composer-reader.git",
+                "reference": "1b87eb072d76ad850c6fde32a33ee8061f31f66e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nadar/php-composer-reader/zipball/1b87eb072d76ad850c6fde32a33ee8061f31f66e",
+                "reference": "1b87eb072d76ad850c6fde32a33ee8061f31f66e",
+                "shasum": ""
+            },
+            "require": {
+                "composer/semver": "^3",
+                "php": ">=8"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.15",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^9",
+                "rector/rector": "^0.15.23"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nadar\\PhpComposerReader\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Basil Suter",
+                    "email": "git@nadar.io"
+                }
+            ],
+            "description": "Read and manipulate composer.json",
+            "support": {
+                "issues": "https://github.com/nadar/php-composer-reader/issues",
+                "source": "https://github.com/nadar/php-composer-reader/tree/2.1.0"
+            },
+            "time": "2025-01-02T08:27:49+00:00"
         },
         {
             "name": "nette/php-generator",
@@ -12682,6 +13063,98 @@
             "time": "2025-01-01T23:08:29+00:00"
         },
         {
+            "name": "survos/doc-bundle",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/survos/SurvosDocBundle.git",
+                "reference": "e11eedd86c7d9baccb24a22f68b0553d864f0e5a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/survos/SurvosDocBundle/zipball/e11eedd86c7d9baccb24a22f68b0553d864f0e5a",
+                "reference": "e11eedd86c7d9baccb24a22f68b0553d864f0e5a",
+                "shasum": ""
+            },
+            "require": {
+                "jawira/doctrine-diagram-bundle": "^0.8.0",
+                "nadar/php-composer-reader": "^2.1",
+                "php": "^8.3",
+                "symfony/config": "^7.1",
+                "symfony/console": "^7.3",
+                "symfony/dependency-injection": "^6.4 || ^7.1",
+                "symfony/finder": "^7.3@beta",
+                "symfony/http-kernel": "^6.4 || ^7.1",
+                "symfony/options-resolver": "^6.4 || ^7.1",
+                "twig/twig": "^3.4"
+            },
+            "conflict": {
+                "survos/api-grid-bundle": "<1.2.57",
+                "survos/auth-bundle": "<1.2.57",
+                "survos/barcode-bundle": "<1.2.57",
+                "survos/bootstrap-bundle": "<1.2.57",
+                "survos/command-bundle": "<1.2.57",
+                "survos/core-bundle": "<1.2.57",
+                "survos/crawler-bundle": "<1.2.57",
+                "survos/faker-bundle": "<1.2.57",
+                "survos/grid-bundle": "<1.2.57",
+                "survos/grid-group-bundle": "<1.2.57",
+                "survos/html-prettify-bundle": "<1.2.57",
+                "survos/import-bridge": "<1.2.57",
+                "survos/inspection-bundle": "<1.2.57",
+                "survos/location-bundle": "<1.2.57",
+                "survos/maker-bundle": "<1.2.57",
+                "survos/providence-bundle": "<1.2.57",
+                "survos/ruler-bundle": "<1.2.57",
+                "survos/stripe-product": "<1.2.57",
+                "survos/tree-bundle": "<1.2.57",
+                "survos/wiki-bundle": "<1.2.57",
+                "survos/workflow-helper-bundle": "<1.2.57"
+            },
+            "require-dev": {
+                "behat/behat": "^3.13",
+                "friends-of-behat/symfony-extension": "^2.4",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^11.4",
+                "symfony/framework-bundle": "^6.4 || ^7.1"
+            },
+            "default-branch": true,
+            "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "require": "^7.3"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Survos\\DocBundle\\": "src/",
+                    "Survos\\DocBundle\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tac Tacelosky",
+                    "email": "tacman@gmail.com"
+                }
+            ],
+            "description": "Build Sphinx documentation for a Symfony project, using Twig templates",
+            "support": {
+                "issues": "https://github.com/survos/SurvosDocBundle/issues",
+                "source": "https://github.com/survos/SurvosDocBundle/tree/main"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/kbond",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-05-23T14:12:39+00:00"
+        },
+        {
             "name": "symfony/browser-kit",
             "version": "v7.3.0-BETA1",
             "source": {
@@ -13551,6 +14024,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "survos/code-bundle": 20,
+        "survos/doc-bundle": 20,
         "symfony/panther": 20
     },
     "prefer-stable": true,
