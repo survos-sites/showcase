@@ -302,8 +302,10 @@ final class CastController extends AbstractController
 
     private function addOutput(float $interval, string $text): void
     {
-        $this->totalTime += $interval;
-        $this->response['lines'][] = [$interval, 'o', $text, $this->totalTime];
+        if ($text) {
+            $this->totalTime += $interval;
+            $this->response['lines'][] = [$interval, 'o', $text, $this->totalTime];
+        }
     }
     private function addMarker(float $timestamp, string $text)
     {
