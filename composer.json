@@ -116,6 +116,7 @@
         }
     },
     "require-dev": {
+        "bizkit/versioning-bundle": "^1.2",
         "dbrekelmans/bdi": "^1.4",
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^12.1",
