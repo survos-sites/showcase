@@ -27,7 +27,15 @@ final class AppScreenshotCommand
             ->tableHeader(['dir', 'port', 'domains'])
             ->parseFile('http://127.0.0.1:7080');
 
-        $client = Client::createChromeClient(null, ['--window-size=1500,4000']);
+        $client = Client::createChromeClient(
+            null,
+            [
+            '--window-size=1500,4000',
+            '--proxy-server=http://127.0.0.1:7080'
+            ]
+        );
+        //let s use firefox
+        //$client = Client::createFirefoxClient();
         foreach ($sites as $idx => $site) {
             if (is_numeric($site['port'])) {
                 if (!empty($site['domains'])) {
