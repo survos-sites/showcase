@@ -27,4 +27,5 @@ return [
     Survos\CodeBundle\SurvosCodeBundle::class => ['dev' => true, 'test' => true],
     Bizkit\VersioningBundle\BizkitVersioningBundle::class => ['dev' => true],
     Survos\DeploymentBundle\SurvosDeploymentBundle::class => ['dev' => true, 'test' => true],
+    Inspector\Symfony\Bundle\InspectorBundle::class => ['all' => true],
 ];
