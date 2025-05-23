@@ -16,7 +16,7 @@ final class AppScreenshotCommand
     public function __invoke(
         SymfonyStyle $io,
         #[Option(description: 'use .wip sites')]
-        bool         $dev = true,
+        ?bool         $dev = null,
     ): int
     {
 

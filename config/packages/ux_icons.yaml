@@ -4,7 +4,7 @@ ux_icons:
     play: mdi:play
 
   default_icon_attributes:
-    width: 30px
+    width: 20px
       # Default:
     fill:                currentColor
 
