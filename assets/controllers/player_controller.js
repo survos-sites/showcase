@@ -70,14 +70,14 @@ export default class extends Controller {
                         controls: true,
                         markers: data.markers
                     });
-                    console.log(player.markers);
                     this.player.addEventListener('marker', _marker => {
                         // console.log(_marker);
                         this.markerTarget.innerHTML = _marker.label;
                         msg.text = _marker.label;
                         // window.speechSynthesis.speak(msg);
                         // @todo: set this as a control switch
-                        // player.pause();
+                        this.player.pause();
+                        this.player.getCurrentTime().then(( (d) => console.log(d)));
                     })
 
 
@@ -100,7 +100,9 @@ export default class extends Controller {
     seek(e) {
         this.player.pause();
         console.log(e.params);
-        this.player.seek(e.params.timestamp);
+        this.player.seek(e.params.timestamp).then(() => {
+            this.player.getCurrentTime().then ( d => console.log(d));
+        });
     }
 
     // Add custom controller actions here
