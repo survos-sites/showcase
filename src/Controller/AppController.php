@@ -8,6 +8,8 @@ use Bakame\TabularData\HtmlTable\Parser;
 use Survos\Bundle\MakerBundle\Service\GeneratorService;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
@@ -18,19 +20,21 @@ use function Symfony\Component\String\u;
 
 class AppController extends AbstractController
 {
-    #[Route('/', name: 'app_homepage', methods: [Request::METHOD_GET])]
-    public function index(
-        ProjectRepository $projectRepository,
-        #[MapQueryParameter] bool $runningOnly=true
-    ): Response
+    public function __construct(
+        #[Autowire('%kernel.project_dir%')] private string $projectDir,
+        private readonly ProjectRepository                 $repo
+    )
     {
-        $projects = []; //
+    }
+
+    #[Route('/', name: 'app_homepage', methods: [Request::METHOD_GET])]
+    public function index(ProjectRepository $projectRepository, #[MapQueryParameter] bool $runningOnly = true): Response
+    {
+        $projects = [];
+        //
         $names = [];
         if ($runningOnly) {
-            $sites = Parser::new()
-                ->ignoreTableHeader()
-                ->tableHeader(['dir', 'port', 'domains'])
-                ->parseFile('http://127.0.0.1:7080');
+            $sites = Parser::new()->ignoreTableHeader()->tableHeader(['dir', 'port', 'domains'])->parseFile('http://127.0.0.1:7080');
             foreach ($sites as $idx => $site) {
                 // check if it's running locally
                 if (!is_numeric($site['port'])) {
@@ -39,45 +43,37 @@ class AppController extends AbstractController
                 if (empty($site['domains'])) {
                     continue;
                 }
-
                 $url = $site['domains'];
                 $host = parse_url($url, PHP_URL_HOST);
                 $host = u($host)->before('.wip')->toString();
                 $names[] = $host;
                 $projects[] = $projectRepository->findOneBy(['name' => $host]);
-
             }
             $projects = $projectRepository->findBy(['name' => $names], ['name' => 'ASC']);
         } else {
             $projects = $projectRepository->findBy([], ['name' => 'ASC']);
         }
-
         return $this->render('home.html.twig', [
-            'runningOnly' => $runningOnly,
-                'projects' => $projects,
-        ]);
+            'casts' => (new Finder())->in($this->projectDir . '/public')->name('*.cast')->files(),
+            'runningOnly' => $runningOnly, 'projects' => $projects]);
     }
 
-    #[Route('/show/{id}', name: 'project_show', methods: [Request::METHOD_GET])]
+    #[Route('/show/{id:project}', name: 'project_show', methods: [Request::METHOD_GET])]
     #[Template('show.html.twig')]
     public function show(Project $project): Response|array
     {
-        return [
-            'project' => $project,
-        ];
+        return ['project' => $project];
     }
 
     #[Route('/generate', name: 'app_generate', methods: [Request::METHOD_GET])]
     public function generate(GeneratorService $generatorService): Response
     {
-
         $ns = $generatorService->generateController($nsName = "ProjectController");
         $class = $ns->getClasses()[array_key_first($ns->getClasses())];
         dd($class, $ns->getClasses());
         $generatorService->addMethod($class, 'show');
-//        dd($ns, $class, '<?php ' . $ns);
-        return $this->render('controller.html.twig', [
-            'ns' => $ns
-        ]);
+        //        dd($ns, $class, '<?php ' . $ns);
+        return $this->render('controller.html.twig', ['ns' => $ns]);
     }
+
 }

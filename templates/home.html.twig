@@ -3,6 +3,14 @@
 {% block body %}
 
 
+    <h3>Casts</h3>
+    {% for cast in casts %}
+        <li>
+            <a href="{{ path('app_player', {cineCode: cast.basename|replace({'.cast': ''})}) }}">
+                {{ cast.basename }}
+            </a>
+        </li>
+    {% endfor %}
     <h3>Running Projects</h3>
 
     <div class="row" data-masonry='{"percentPosition": true }'>
