@@ -132,6 +132,7 @@ final class CastController extends AbstractController
         $currentCommand = '';
         $currentOutput = '';
         $inputStartTime = 0.0;
+        $lastInput = null;
 
         assert(file_exists($cast), "Missing $cast file");
         $lines = file($cast, FILE_IGNORE_NEW_LINES);
@@ -212,7 +213,7 @@ final class CastController extends AbstractController
                             $this->addOutput($interval, $text);
                         }
                     }
-                    if (str_ends_with($text, "$ ")) {
+                    if (str_ends_with($text, "% ")) {
                         dump(cliText: $text);
                         $inputStartTime = $this->totalTime; // for the marker
                         $isCapturingCommand = true;
@@ -222,6 +223,8 @@ final class CastController extends AbstractController
             }
             // stream
         }
+        $this->addOutput(0.25, $currentOutput);
+        $this->addOutput(0.25 , "Finished");
 //        dd($this->response['markers']);
 //        dd($this->response);
 //        dd($inputStartTime, $currentCommand, $currentOutput);
