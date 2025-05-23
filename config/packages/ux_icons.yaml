@@ -1,5 +1,8 @@
 # config/packages/ux_icons.yaml
 ux_icons:
+  aliases:
+    play: mdi:play
+
   default_icon_attributes:
     width: 30px
       # Default:

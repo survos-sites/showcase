@@ -6,19 +6,26 @@
 
     {{ project.liveUrl }}
 
+
     {% for owner, req in project.requireByOwner %}
-        <h3>{{ owner }}</h3>
-        <ol>
-            {% for r in req %}
-                <li>{{ r.display }}
-                    {{ r.package }}
+        <ul>
+            <li>
+                {{ owner }}/
+                <ul>
+                {% for r in req %}
+                <li>
+                    {{ r.display }}
+                    {#  description would be really cool here!  Link to repo? #}
+{#                    {{ r.package }}#}
                 </li>
             {% endfor %}
-        </ol>
+                </ul>
+            </li>
+        </ul>
     {% endfor %}
 
     <h2>PWA</h2>
-    <pre>{{ project.pwaYaml }}</pre>
+    {{ project.pwaYaml|json_pretty }}
 
     <h2>AppJson</h2>
     {{ project.appJson|json_pretty }}

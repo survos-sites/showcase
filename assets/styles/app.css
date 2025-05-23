@@ -1,0 +1,6 @@
+.scrollable-container {
+    width: auto; /* Adjust width as needed */
+    height: 600px; /* Adjust height as needed.  Without a defined height, there won't be a scrollbar */
+    overflow-y: auto; /*  This will enable the scrollbar */
+    border: 1px solid black; /* Optional, just for visibility */
+}

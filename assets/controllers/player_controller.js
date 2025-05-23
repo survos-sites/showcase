@@ -24,6 +24,7 @@ export default class extends Controller {
     connect() {
         console.log(this.codeValue + " from " + this.identifier);
         var msg = new SpeechSynthesisUtterance();
+        this.player = null;
 
         // let player = AsciinemaPlayer.create(this.urlValue, this.playerTarget, {
         //     autoPlay: true,
@@ -57,24 +58,26 @@ export default class extends Controller {
                     //multicode analyse
                     // console.log(l);
                     // l[2] = JSON.parse(l[2]);
-                    castData.push([l.interval, l.type, l.text]);
+                    castData.push(l); // [l.interval, l.type, l.text]);
                 });
 
                 // console.log(castData);
                 // if (0)
                 {
                     console.log(data.markers);
-                    let player = AsciinemaPlayer.create({ data: castData }, this.playerTarget, {
-                        autoPlay: true,
+                    this.player = AsciinemaPlayer.create({ data: castData }, this.playerTarget, {
+                        // autoPlay: true,
                         controls: true,
                         markers: data.markers
                     });
-                    player.addEventListener('marker', _marker => {
-                        console.log(_marker);
+                    console.log(player.markers);
+                    this.player.addEventListener('marker', _marker => {
+                        // console.log(_marker);
                         this.markerTarget.innerHTML = _marker.label;
                         msg.text = _marker.label;
-                        window.speechSynthesis.speak(msg);
-                        player.pause();
+                        // window.speechSynthesis.speak(msg);
+                        // @todo: set this as a control switch
+                        // player.pause();
                     })
 
 
@@ -92,6 +95,12 @@ export default class extends Controller {
             [2.0, "o", "world!"]
         ];
 
+    }
+
+    seek(e) {
+        this.player.pause();
+        console.log(e.params);
+        this.player.seek(e.params.timestamp);
     }
 
     // Add custom controller actions here
