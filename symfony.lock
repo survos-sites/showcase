@@ -155,9 +155,6 @@
     "survos/deployment-bundle": {
         "version": "1.5.529"
     },
-    "survos/maker-bundle": {
-        "version": "1.5.190"
-    },
     "survos/workflow-helper-bundle": {
         "version": "1.5.529"
     },
