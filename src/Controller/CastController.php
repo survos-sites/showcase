@@ -27,6 +27,7 @@ final class CastController extends AbstractController
         private LoggerInterface                            $logger,
         private TexterInterface                            $texter,
         private readonly EntityManagerInterface $entityManager,
+        private readonly ShowRepository $showRepository,
         private float $totalTime = 0.0,
         // crying to be a DTO
         private array                                      $response = [
@@ -91,22 +92,33 @@ final class CastController extends AbstractController
     #[Route('/player/{cineCode}', name: 'app_player')]
     public function cinePlayer(string $cineCode = 'test'): Response
     {
-        $filename = $cineCode . '.cast';
-        $asciiCast = file_get_contents($this->projectDir . '/public/' . $filename);
+        $asciiCast = $this->getAsciiCast($cineCode);
         return $this->render('cine.html.twig', [
             'asciiCast' => $asciiCast,
             'jsonCast' => $this->cineJson($cineCode, true),
             'castCode' => $cineCode,
-            'filename' => $filename,
         ]);
+
+    }
+
+    private function getAsciiCast($cineCode): string
+    {
+        if ($show = $this->showRepository->findOneBy(['code' => $cineCode])) {
+            $asciiCast = $show->getAsciiCast();
+        } else {
+            // debug only
+            $filename = $cineCode . '.cast';
+            $asciiCast = file_get_contents($this->projectDir . '/public/' . $filename);
+        }
+        return $asciiCast;
 
     }
 
     #[Route('/cine/{cineCode}', name: 'app_cine')]
     public function cineJson(string $cineCode, bool $asArray = false): Response|array
     {
-        $filename = $this->projectDir . '/public/' . $cineCode . '.cast';
-        $clean = $this->cleanup($filename);
+
+        $clean = $this->cleanup($this->getAsciiCast($cineCode));
         if ($asArray) {
             return $clean;
         }
@@ -141,8 +153,7 @@ final class CastController extends AbstractController
         $inputStartTime = 0.0;
         $lastInput = null;
 
-        assert(file_exists($cast), "Missing $cast file");
-        $lines = file($cast, FILE_IGNORE_NEW_LINES);
+        $lines = explode("\n", $cast);
 
         foreach ($lines as $idx => $line) {
             $json = json_decode($line, true);
@@ -218,9 +229,9 @@ final class CastController extends AbstractController
                             $this->addOutput($interval, $text);
                         }
                     }
-                    if (str_ends_with($text, "% ")) {
-                        dump(cliText: $text);
-                        $inputStartTime = $this->totalTime; // for the marker
+                    if (str_ends_with($text, "$ ") || str_ends_with($text, "% ")) {
+//                        dump(cliText: $text);
+//                        $inputStartTime = $this->totalTime; // for the marker
                         $isCapturingCommand = true;
                         $isCapturingPrompt = false;
                     }
@@ -298,6 +309,7 @@ final class CastController extends AbstractController
     {
 
         $html = $this->converter->convert($text);
+        $html  = strip_tags($html);
 //        $this->response['lines'][] = [$timestamp, 'm', $text, -1];
         $this->response['markers'][] = [$timestamp, $html];
     }

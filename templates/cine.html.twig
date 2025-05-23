@@ -2,6 +2,10 @@
 
 {% block title %}Playing {{ castCode }}{% endblock %}
 
+{#{% block stylesheets %}#}
+{#{{ parent() }}#}
+{# {{ ansi_css }}#}
+{#{% endblock %}#}
 {% block body %}
     <a href="{{ path('app_cine', {cineCode: castCode}) }}" target="_blank">
         JSON
@@ -30,7 +34,10 @@
                         {{ ux_icon('play') }} @ {{ m[0]|number_format(1) }}
                     </button>
 
-                    {{ m[1]|ansi_to_html }}</li>
+{#                    <pre>#}
+{#                    {{ m[1]|ansi_to_html }}</li>#}
+{#                    </pre>#}
+                    {{ (m[1]|ansi_to_html)|raw }}</li>
             {% endfor %}
             <div class="scrollable-container" data-controller="scrollable">
                 <div id="scrollable-content">
