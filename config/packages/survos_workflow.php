@@ -11,8 +11,11 @@ return static function (FrameworkConfig $framework) {
     if (class_exists(ConfigureFromAttributesService::class))
         foreach ([
                  \App\Workflow\ProjectWorkflow::class,
+                 \App\Workflow\PlayerWorkflow::class,
                  ] as $workflowClass) {
-            ConfigureFromAttributesService::configureFramework($workflowClass, $framework, [$workflowClass]);
+            if (class_exists($workflowClass)) {
+                ConfigureFromAttributesService::configureFramework($workflowClass, $framework, [$workflowClass]);
+            }
         }
 
 };

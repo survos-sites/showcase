@@ -1,0 +1,27 @@
+digraph workflow {
+  ratio="compress" rankdir="LR" label=<<B>PlayerWorkflow</B>>
+  node [fontsize="8" fontname="Arial" color="#333333" fillcolor="lightgreen" fixedsize="false" width="1"];
+  edge [fontsize="7" fontname="Arial" color="#333333" arrowhead="normal" arrowsize="0.5"];
+
+  place_shell [label=<<B>shell</B><BR/><I>In the shell $</I>>, shape=oval fillcolor="lightgreen" style="filled"];
+  place_app_response [label=<<B>app_response</B><BR/><I>in app&gt;</I>>, shape=oval fillcolor="lightgreen" style="filled"];
+  place_shell_response [label=<<B>shell_response</B><BR/><I>responding to shell<BR/>prompt</I>>, shape=oval fillcolor="lightgreen" style="filled"];
+  transition_0 [label=<<B>shell_prompt</B><BR/><I>eg $ ls</I>>, shape="box" regular=""];
+  transition_1 [label=<<B>shell_prompt</B><BR/><I>eg $ ls</I>>, shape="box" regular=""];
+  transition_2 [label=<<B>app_prompt</B>>, shape="box" regular=""];
+  transition_3 [label=<<B>app_prompt</B>>, shape="box" regular=""];
+  transition_4 [label=<<B>respond</B>>, shape="box" regular=""];
+  transition_5 [label=<<B>finish_app_response</B>>, shape="box" regular=""];
+  place_shell -> transition_0 [style="solid", comment="shell"];
+  transition_0 -> place_shell_response [style="solid"];
+  place_shell_response -> transition_1 [style="solid", comment="shell_response"];
+  transition_1 -> place_shell_response [style="solid"];
+  place_shell -> transition_2 [style="solid", comment="shell"];
+  transition_2 -> place_app_response [style="solid"];
+  place_app_response -> transition_3 [style="solid", comment="app_response"];
+  transition_3 -> place_app_response [style="solid"];
+  place_app_response -> transition_4 [style="solid", comment="app_response"];
+  transition_4 -> place_app_response [style="solid"];
+  place_app_response -> transition_5 [style="solid", comment="app_response"];
+  transition_5 -> place_shell [style="solid"];
+}

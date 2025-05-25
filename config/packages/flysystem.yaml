@@ -1,0 +1,61 @@
+# Read the documentation at https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md
+services:
+    Aws\S3\S3Client:
+        arguments:
+            - version: '2006-03-01'
+              region: 'nyc3'
+              endpoint: '%env(S3_ENDPOINT)%'
+              credentials:
+                  key: '%env(AWS_S3_ACCESS_ID)%'
+                  secret: '%env(AWS_S3_ACCESS_SECRET)%'
+
+
+flysystem:
+    storages:
+#        default.storage:
+#            adapter: 'aws'
+#            # visibility: public # Make the uploaded file publicly accessible in S3
+#            options:
+#                client: 'Aws\S3\S3Client' # The service ID of the Aws\S3\S3Client instance
+#                bucket: '%env(AWS_S3_BUCKET_NAME)%'
+#                streamReads: true
+#                prefix: '%env(S3_STORAGE_PREFIX)%'
+        # also on production, for thumbnail creation
+        local.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/casts'
+
+
+when@dev:
+    flysystem:
+        storages:
+#            default.storage:
+#                adapter: 'local'
+#                # not on production!
+#                options:
+#                    directory: '%kernel.project_dir%/public/default-storage'
+
+
+#        pictures.storage:
+#            adapter: 'local'
+#            options:
+##                directory: '%kernel.project_dir%/public/images'
+#                directory: '/home/tac/Pictures'
+#        s3.storage:
+#            adapter: 'aws'
+#            options:
+#                # the client is defined above.
+#                client: 'Aws\S3\S3Client' # The service ID of the Aws\S3\S3Client instance,
+#                bucket: '%env(AWS_S3_BUCKET_NAME)%'
+#                streamReads: true
+#                prefix: '%env(S3_STORAGE_PREFIX)%'
+#        s3.demo:
+#            adapter: 'aws'
+#            options:
+#                # the client is defined above.
+#                client: 'Aws\S3\S3Client' # The service ID of the Aws\S3\S3Client instance,
+#                bucket: 'survos-storage-demo-1'
+#                streamReads: true
+##                prefix: '%env(S3_STORAGE_PREFIX)%'
+#

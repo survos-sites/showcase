@@ -1,0 +1,74 @@
+{
+    "workflow.PlayerWorkflow.guard.app_prompt": [
+        {
+            "type": "function",
+            "name": "onAppPromptGuard",
+            "class": "App\\Workflow\\PlayerWorkflow",
+            "priority": 0
+        }
+    ],
+    "workflow.PlayerWorkflow.guard.shell_prompt": [
+        {
+            "type": "function",
+            "name": "onShellPromptGuard",
+            "class": "App\\Workflow\\PlayerWorkflow",
+            "priority": 0
+        }
+    ],
+    "workflow.PlayerWorkflow.transition.app_prompt": [
+        {
+            "type": "function",
+            "name": "onAppPrompt",
+            "class": "App\\Workflow\\PlayerWorkflow",
+            "priority": 0
+        }
+    ],
+    "workflow.PlayerWorkflow.transition.respond": [
+        {
+            "type": "function",
+            "name": "onRespond",
+            "class": "App\\Workflow\\PlayerWorkflow",
+            "priority": 0
+        }
+    ],
+    "workflow.PlayerWorkflow.transition.shell_prompt": [
+        {
+            "type": "function",
+            "name": "onShellPrompt",
+            "class": "App\\Workflow\\PlayerWorkflow",
+            "priority": 0
+        }
+    ],
+    "workflow.ProjectWorkflow.guard": [
+        {
+            "type": "function",
+            "name": "onGuard",
+            "class": "App\\Workflow\\ProjectWorkflow",
+            "priority": 0
+        }
+    ],
+    "workflow.ProjectWorkflow.transition.lock": [
+        {
+            "type": "function",
+            "name": "onLock",
+            "class": "App\\Workflow\\ProjectWorkflow",
+            "priority": 0
+        }
+    ],
+    "workflow.ProjectWorkflow.transition.refresh": [
+        {
+            "type": "function",
+            "name": "onRefresh",
+            "class": "App\\Workflow\\ProjectWorkflow",
+            "priority": 0
+        }
+    ],
+    "workflow.ProjectWorkflow.transition.update": [
+        {
+            "type": "function",
+            "name": "onUpdate",
+            "class": "App\\Workflow\\ProjectWorkflow",
+            "priority": 0
+        }
+    ]
+}

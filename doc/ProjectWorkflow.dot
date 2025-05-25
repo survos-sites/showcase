@@ -1,0 +1,18 @@
+digraph workflow {
+  ratio="compress" rankdir="LR" label=<<B>ProjectWorkflow</B>>
+  node [fontsize="8" fontname="Arial" color="#333333" fillcolor="lightgreen" fixedsize="false" width="1"];
+  edge [fontsize="7" fontname="Arial" color="#333333" arrowhead="normal" arrowsize="0.5"];
+
+  place_new [label=<<B>new</B>>, shape=oval fillcolor="lightgreen" style="filled"];
+  place_updated [label=<<B>updated</B>>, shape=oval fillcolor="lightgreen" style="filled"];
+  place_locked [label=<<B>locked</B>>, shape=oval fillcolor="lightgreen" style="filled"];
+  transition_0 [label=<<B>update</B>>, shape="box" regular=""];
+  transition_1 [label=<<B>lock</B>>, shape="box" regular=""];
+  transition_2 [label=<<B>refresh</B>>, shape="box" regular=""];
+  place_new -> transition_0 [style="solid", comment="new"];
+  transition_0 -> place_updated [style="solid"];
+  place_updated -> transition_1 [style="solid", comment="updated"];
+  transition_1 -> place_locked [style="solid"];
+  place_locked -> transition_2 [style="solid", comment="locked"];
+  transition_2 -> place_new [style="solid"];
+}

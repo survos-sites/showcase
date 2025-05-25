@@ -1,0 +1,18 @@
+digraph workflow {
+  ratio="compress" rankdir="LR" label=<<B>ShowWorkflow</B>>
+  node [fontsize="8" fontname="Arial" color="#333333" fillcolor="lightgreen" fixedsize="false" width="1"];
+  edge [fontsize="7" fontname="Arial" color="#333333" arrowhead="normal" arrowsize="0.5"];
+
+  place_shell [label=<<B>shell</B>>, shape=oval fillcolor="lightgreen" style="filled"];
+  place_prompt [label=<<B>prompt</B>>, shape=oval fillcolor="lightgreen" style="filled"];
+  place_response [label=<<B>response</B>>, shape=oval fillcolor="lightgreen" style="filled"];
+  transition_0 [label=<<B>prompt</B>>, shape="box" regular=""];
+  transition_1 [label=<<B>respond</B>>, shape="box" regular=""];
+  transition_2 [label=<<B>command</B>>, shape="box" regular=""];
+  place_shell -> transition_0 [style="solid", comment="shell"];
+  transition_0 -> place_prompt [style="solid"];
+  place_prompt -> transition_1 [style="solid", comment="prompt"];
+  transition_1 -> place_response [style="solid"];
+  place_response -> transition_2 [style="solid", comment="response"];
+  transition_2 -> place_shell [style="solid"];
+}
