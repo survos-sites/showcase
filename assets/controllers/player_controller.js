@@ -43,6 +43,17 @@ export default class extends Controller {
         // AsciinemaPlayer.create('https://asciinema.org/a/WIFw6ZhT0yFCNgUaVY876Ios8.cast',
         //     document.getElementById('demo'));
 
+        console.log(this.urlValue);
+        this.player = AsciinemaPlayer.create(this.urlValue, this.playerTarget, {
+            // autoPlay: true,
+            controls: true,
+            idleTimeLimit: 0.5,
+            preload: true,
+            // markers: data.markers
+        });
+
+
+        if (0)
         fetch('/cine/' + this.codeValue )
             .then(response => {
                 if (!response.ok) {

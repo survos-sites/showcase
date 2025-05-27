@@ -15,14 +15,15 @@
     {% set thumb = asset('2025-05-25-09-22-11.png') | imagine_filter('large')  %}
 {#    {% set thumb = asset('2025-05-25-09-22-11.png') | imagine_filter_cache('small')  %}#}
     <a href="{{ thumb }}" target="_blank">
-        <img src="{{thumb }}" />
+{#        <img src="{{thumb }}" />#}
+        Thumb
     </a>
 
 
     {% set _sc = 'player' %}
     <div class="row" {{ stimulus_controller(_sc, {
         code: castCode,
-        url: "/" ~ castCode ~ ".cast"
+        url: path('ciine_data', {cineCode: castCode, _format: original ? 'cast': 'txt'})
     }) }}>
         <div class="col-md-8">
             <div>
@@ -37,7 +38,7 @@
         </div>
         <div class="col-md-4">
             <h3>Markers</h3>
-            {% for m in jsonCast.markers %}
+            {% for m in jsonCast.markers|default([]) %}
                 <li>
                     <button {{ stimulus_action(_sc, 'seek', null, {timestamp: m[0]}) }}>
                         {{ ux_icon('play') }} @ {{ m[0]|number_format(1) }}
@@ -60,15 +61,17 @@
                         </tr>
                         </thead>
                         <tbody>
+                        {% set elapsedTime = 0 %}
                         {% for l in jsonCast.lines %}
+                            {% set elapsedTime = elapsedTime + l[0] %}
                             <tr>
                                 <td>
-                                    {{ l[3]|number_format(2) }}
+                                    {{ elapsedTime|number_format(1) }}
                                 </td>
                                 <td>
                                     {{ l[0]|number_format(2) }}
 
-                                    <button {{ stimulus_action(_sc, 'seek', null, {timestamp: l[3]}) }}>
+                                    <button {{ stimulus_action(_sc, 'seek', null, {timestamp: elapsedTime}) }}>
                                         {{ ux_icon('play') }}
                                     </button>
                                 </td>

@@ -116,17 +116,20 @@ final class CastController extends AbstractController
         ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT), json: true);
     }
 
-    #[Route('/player/{cineCode}', name: 'app_player')]
+    #[Route('/player/{cineCode}.{_format}', name: 'app_player')]
     #[Template('cine.html.twig')]
-    public function cinePlayer(string $cineCode, string $_format='json'): Response|array
+    public function cinePlayer(string $cineCode, string $_format='html'): Response|array
     {
         // @todo: refactor for .ndjson data
-        $asciiCast = $this->getAsciiCast($cineCode);
-        $clean = $this->cleanup($this->getAsciiCast($cineCode), $cineCode);
+//        $asciiCast = $this->getAsciiCast($cineCode);
+//        if ($_format === 'cast') {
+//            $clean = $this->cleanup($this->getAsciiCast($cineCode), $cineCode);
+//        }
 
         return $this->render('cine.html.twig', [
-            'asciiCast' => $asciiCast,
+//            'asciiCast' => $asciiCast,
             'jsonCast' => $this->cineJson($cineCode, true),
+            'original' => $_format === 'cast',
             'castCode' => $cineCode,
         ]);
 
@@ -150,15 +153,19 @@ final class CastController extends AbstractController
         $asciiCast = $this->getAsciiCast($cineCode);
         $clean = $this->cleanup($asciiCast, $cineCode);
         switch ($_format) {
+            case 'cast':
+                return new Response($asciiCast, 200, ['Content-Type' => 'text/text']);
+            case 'ndjson':
+                assert(false);
             case 'json':
                 return $this->json($clean);
-            case 'ndjson':
-            case 'cast':
+            case 'txt':
                 $lines = [json_encode($clean['header'], JSON_UNESCAPED_SLASHES)];
                 foreach ($clean['lines'] as $line) {
                     $lines[] = json_encode($line, JSON_UNESCAPED_SLASHES);
                 }
-                return new Response(join("\n", $lines), 200, ['Content-Type' => 'application/x-ndjson']);
+//                return new Response(join("\n", $lines), 200, ['Content-Type' => 'application/x-ndjson']);
+                return new Response(join("\n", $lines), 200, ['Content-Type' => 'text/text']);
             default:
                 return ['data' => $clean]; // $clean['header'], 'code' => $cineCode];
         }

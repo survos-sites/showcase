@@ -58,7 +58,8 @@ class AppController extends AbstractController
         $projects = $projectRepository->findBy([], ['name' => 'ASC']);
         return $this->render('home.html.twig', [
             'shows' => $showRepository->findAll(),
-            'casts' => (new Finder())->in($this->projectDir . '/public')->name('*.cast')->files(),
+            // @todo: load from disk? fixtures?
+            'casts' => [], // (new Finder())->in($this->projectDir . '/public')->name('*.cast')->files(),
             'runningOnly' => $runningOnly,
             'running' => $running,
             'projects' => $projects]);
