@@ -10,6 +10,15 @@
     <a href="{{ path('app_cine', {cineCode: castCode}) }}" target="_blank">
         JSON
     </a>
+
+    IMAGES
+    {% set thumb = asset('2025-05-25-09-22-11.png') | imagine_filter('large')  %}
+{#    {% set thumb = asset('2025-05-25-09-22-11.png') | imagine_filter_cache('small')  %}#}
+    <a href="{{ thumb }}" target="_blank">
+        <img src="{{thumb }}" />
+    </a>
+
+
     {% set _sc = 'player' %}
     <div class="row" {{ stimulus_controller(_sc, {
         code: castCode,

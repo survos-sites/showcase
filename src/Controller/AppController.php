@@ -34,7 +34,7 @@ class AppController extends AbstractController
                           ShowRepository $showRepository,
                           #[MapQueryParameter] bool $runningOnly = true): Response
     {
-        $projects = [];
+        $running = [];
         //
         $names = [];
         if ($this->environment === 'dev' && $runningOnly) {
@@ -51,16 +51,17 @@ class AppController extends AbstractController
                 $host = parse_url($url, PHP_URL_HOST);
                 $host = u($host)->before('.wip')->toString();
                 $names[] = $host;
-                $projects[] = $projectRepository->findOneBy(['name' => $host]);
+                $running[] = $projectRepository->findOneBy(['name' => $host]);
             }
-            $projects = $projectRepository->findBy(['name' => $names], ['name' => 'ASC']);
-        } else {
-            $projects = $projectRepository->findBy([], ['name' => 'ASC']);
+            $running = $projectRepository->findBy(['name' => $names], ['name' => 'ASC']);
         }
+        $projects = $projectRepository->findBy([], ['name' => 'ASC']);
         return $this->render('home.html.twig', [
             'shows' => $showRepository->findAll(),
             'casts' => (new Finder())->in($this->projectDir . '/public')->name('*.cast')->files(),
-            'runningOnly' => $runningOnly, 'projects' => $projects]);
+            'runningOnly' => $runningOnly,
+            'running' => $running,
+            'projects' => $projects]);
     }
 
     #[Route('/show/{id:project}', name: 'project_show', methods: [Request::METHOD_GET])]

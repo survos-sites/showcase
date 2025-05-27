@@ -2,33 +2,46 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Metadata\UrlGeneratorInterface;
+use App\Dto\Player;
+use App\Dto\PlayerEvent;
 use App\Entity\Show;
 use App\Repository\ShowRepository;
+use App\Workflow\IPlayerWorkflow;
 use Doctrine\ORM\EntityManagerInterface;
+use Liip\ImagineBundle\Message\WarmupCache;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\DependencyInjection\Attribute\Target;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Notifier\Message\DesktopMessage;
 use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
+use Symfony\Component\Workflow\WorkflowInterface;
 
 
 final class CastController extends AbstractController
 {
     private AnsiToHtmlConverter $converter;
+
     public function __construct(
         #[Autowire('%kernel.project_dir%')] private string $projectDir,
-        #[Autowire('%kernel.environment')] private string $environment,
+        #[Autowire('%kernel.environment')] private string  $environment,
+        #[Target(IPlayerWorkflow::WORKFLOW_NAME)] private WorkflowInterface $workflow,
+        private MessageBusInterface                        $messageBus,
         private LoggerInterface                            $logger,
         private TexterInterface                            $texter,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ShowRepository $showRepository,
-        private float $totalTime = 0.0,
+        private readonly EntityManagerInterface            $entityManager,
+        private readonly ShowRepository                    $showRepository,
+        private float                                      $totalTime = 0.0,
         // crying to be a DTO
         private array                                      $response = [
             'lines' => [],
@@ -42,17 +55,19 @@ final class CastController extends AbstractController
     }
 
     #[Route('/api/asciicasts', name: 'cast_upload')]
-    public function upload(Request $request,
+    public function upload(Request        $request,
                            ShowRepository $showRepository,
-                           string  $cineCode = 'test'): Response
+                           string         $cineCode = 'test'): Response
     {
         $fileBag = $request->files;
 //        return $this->json([]);
 
-            /** @var UploadedFile $uploadedFile */
+        /** @var UploadedFile $uploadedFile */
         $uploadedFile = $fileBag->all()['asciicast'];
 ////        dump($fileBag->all('asciicast'));
         if ($uploadedFile) {
+            file_put_contents($fn = $uploadedFile->getClientOriginalName(), $uploadedFile->getContent());
+
             $code = basename($uploadedFile->getClientOriginalName(), '.cast');
             $message = new DesktopMessage(
                 'New upload! 🎉 ' . $uploadedFile->getClientOriginalName(),
@@ -76,7 +91,7 @@ final class CastController extends AbstractController
                 ->setAsciiCast($content);
 
             $header = $show->getHeader();
-            $show->setTitle($header['title']??null);
+            $show->setTitle($header['title'] ?? null);
 
             $lines = $show->getLines();
             $show
@@ -84,7 +99,6 @@ final class CastController extends AbstractController
                 ->setLineCount(count($lines))
                 ->setMarkerCount(0)
                 ->setTotalTime(-1);
-
 
             $this->entityManager->flush();
 
@@ -98,19 +112,59 @@ final class CastController extends AbstractController
             'status' => 'okay',
             'orig' => $uploadedFile->getClientOriginalName(),
             'show' => $show->getCode(),
-            'url' => 'https://showcase.wip',
+            'url' => $this->generateUrl('app_player', ['cineCode' => $show->getCode()], UrlGeneratorInterface::ABS_URL),
         ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT), json: true);
     }
 
     #[Route('/player/{cineCode}', name: 'app_player')]
-    public function cinePlayer(string $cineCode = 'test'): Response
+    #[Template('cine.html.twig')]
+    public function cinePlayer(string $cineCode, string $_format='json'): Response|array
     {
+        // @todo: refactor for .ndjson data
         $asciiCast = $this->getAsciiCast($cineCode);
+        $clean = $this->cleanup($this->getAsciiCast($cineCode), $cineCode);
+
         return $this->render('cine.html.twig', [
             'asciiCast' => $asciiCast,
             'jsonCast' => $this->cineJson($cineCode, true),
             'castCode' => $cineCode,
         ]);
+
+    }
+
+    #[Route('/api/{cineCode}.{_format}', name: 'ciine_data')]
+    #[Template('cine-data.html.twig')]
+    public function cineData(string $cineCode, string $_format='json'): Response|array
+    {
+
+//        foreach (new Finder()->in($this->projectDir . '/casts/' . $cineCode) as $file) {
+//            try {
+//                $this->messageBus->dispatch(new WarmupCache($cineCode . '/' . $file->getFilename()));
+//            } catch (\Exception $e) {
+//
+//            }
+//        }
+//        // warmup specific cache
+//        $messageBus->dispatch(new WarmupCache('the/path/img.png', ['fooFilter']));
+
+        $asciiCast = $this->getAsciiCast($cineCode);
+        $clean = $this->cleanup($asciiCast, $cineCode);
+        switch ($_format) {
+            case 'json':
+                return $this->json($clean);
+            case 'ndjson':
+            case 'cast':
+                $lines = [json_encode($clean['header'], JSON_UNESCAPED_SLASHES)];
+                foreach ($clean['lines'] as $line) {
+                    $lines[] = json_encode($line, JSON_UNESCAPED_SLASHES);
+                }
+                return new Response(join("\n", $lines), 200, ['Content-Type' => 'application/x-ndjson']);
+            default:
+                return ['data' => $clean]; // $clean['header'], 'code' => $cineCode];
+        }
+        dd($clean);
+
+        dd($asciiCast);
 
     }
 
@@ -121,8 +175,9 @@ final class CastController extends AbstractController
         } else {
             // debug only
             $filename = $cineCode . '.cast';
-            $asciiCast = file_get_contents($this->projectDir . '/public/' . $filename);
+            $asciiCast = file_get_contents($this->projectDir . '/casts/' . $filename);
         }
+        assert($show, "Missing $cineCode in database");
         return $asciiCast;
 
     }
@@ -131,10 +186,18 @@ final class CastController extends AbstractController
     public function cineJson(string $cineCode, bool $asArray = false): Response|array
     {
 
-        $clean = $this->cleanup($this->getAsciiCast($cineCode));
+        $clean = $this->cleanup($this->getAsciiCast($cineCode), $cineCode);
         if ($asArray) {
             return $clean;
         }
+        $nlJson = json_encode($clean['header'], JSON_UNESCAPED_SLASHES) . "\n";
+        foreach ($clean['lines'] as $line) {
+            $nlJson .= json_encode($line, JSON_UNESCAPED_SLASHES) . "\n";
+        }
+        file_put_contents($fn= $this->projectDir . '/casts/new-' . $cineCode . '.cast', $nlJson);
+        return new Response($nlJson, 200, ['Content-Type' => 'application/x-asciicast']);
+
+        // return in cast format
         $json = json_encode($clean, JSON_UNESCAPED_UNICODE); //  + JSON_UNESCAPED_SLASHES);
         return new Response($json, Response::HTTP_OK, ['Content-Type' => 'application/json']);
 //        $header = json_encode([
@@ -154,7 +217,7 @@ final class CastController extends AbstractController
 
     }
 
-    private function cleanup(string $cast): array
+    private function cleanup(string $cast, string $cineCode): array
     {
         // of interest: https://blog.mbedded.ninja/programming/ansi-escape-sequences/
 
@@ -169,13 +232,74 @@ final class CastController extends AbstractController
         $lines = explode("\n", $cast);
 
         foreach ($lines as $idx => $line) {
+            if (!$line) {
+                continue;
+            }
             $json = json_decode($line, true);
+            assert($json, "invalid line: " . $line);
             if ($idx === 0) {
                 $this->response['header'] = $json;
+                $player = new Player();
 //                $prompt = $ndjson->readline(); // i guess we can show this
                 continue;
             }
+            $player->setEvent($playerEvent = new PlayerEvent(...$json));
+            switch ($player->getEventType()) {
+                case 'i':
+                    if ($playerEvent->isReturn()) {
+                        $player->setMarking(IPlayerWorkflow::PLACE_CLI_RESPONSE);
+                        foreach (explode(" ", $player->prompt) as $word) {
+                            $this->addOutput(0.5, $word);
+                        }
+                        $this->addOutput(1.0, $player->outputString);
+                        if ($player->prompt) {
+                            assert($player->prompt, "Missing prompt");
+                            $this->addOutput(1.0, $player->prompt, 'm');
+                            $player->prompt = '';
+                        }
+                        $player->outputString = '';
+                        $player->inputString = '';
+                    } else {
+                        $player->appendPrompt();
+                    }
+//                    if ($player->getMarking() === IPlayerWorkflow::PLACE_SHELL) {
+//                        $player->add
+//                    }
+                    break;
+                case 'o':
+                    $player->appendOutput();
+                    if ($playerEvent->isReturn()) {
+                        $this->addOutput(0.3, $player->outputString);
+                        $player->outputString = '';
+                        $this->addOutput(0.63, $currentOutput);
+                        $currentOutput = '';
+
+                    }
+                    break;
+            }
+
+            if ($this->workflow->can($player, IPlayerWorkflow::TRANSITION_SHELL_PROMPT)) {
+//                dd($player, $playerEvent, $player->getMarking(), $player->getEvent()->getText());
+            }
+
+        }
+        $this->addOutput(0.3, $player->outputString);
+        $this->addOutput(0.42, "cast has finished");
+        return $this->response;
+    }
+
+    private function oldWay()
+    {
+
+        dd($this->response);
+
+        if (0)
+        foreach ($lines as $idx => $line)
+        {
+
             [$interval, $type, $text] = $json;
+
+
             $interval = max($interval, "0.1");
             $interval = min($interval, "0.2");
             if ($idx === 1) {
@@ -211,7 +335,7 @@ final class CastController extends AbstractController
                         } elseif ($isCapturingCommand) {
                             $isCapturingCommand = false;
                             $this->addOutput(0.4, $currentOutput);
-                            $this->addMarker($this->totalTime+0.1, $currentCommand);
+                            $this->addMarker($this->totalTime + 0.1, $currentCommand);
                             $currentOutput = ''; // reset
                             $currentCommand = ''; //?
                         }
@@ -252,8 +376,9 @@ final class CastController extends AbstractController
             }
             // stream
         }
-        $this->addOutput(0.25, $currentOutput);
-        $this->addOutput(0.25 , "cast $cast has finished");
+        $this->addOutput(0.25, 'last line?');
+        $this->addOutput(0.25, $player->outputString);
+        $this->addOutput(0.25, "cast $cast has finished");
 //        dd($this->response['markers']);
 //        dd($this->response);
 //        dd($inputStartTime, $currentCommand, $currentOutput);
@@ -313,18 +438,19 @@ final class CastController extends AbstractController
 //        return $response;
     }
 
-    private function addOutput(float $interval, string $text): void
+    private function addOutput(float $interval, string $text, string $type='o'): void
     {
         if ($text) {
             $this->totalTime += $interval;
-            $this->response['lines'][] = [$interval, 'o', $text, $this->totalTime];
+            $this->response['lines'][] = [$interval, $type, $text]; // , $this->totalTime];
         }
     }
+
     private function addMarker(float $timestamp, string $text)
     {
 
         $html = $this->converter->convert($text);
-        $html  = strip_tags($html);
+        $html = strip_tags($html);
 //        $this->response['lines'][] = [$timestamp, 'm', $text, -1];
         $this->response['markers'][] = [$timestamp, $html];
     }

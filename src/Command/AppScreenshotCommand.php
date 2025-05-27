@@ -40,6 +40,9 @@ final class AppScreenshotCommand
             if (is_numeric($site['port'])) {
                 if (!empty($site['domains'])) {
                     $url = $site['domains'];
+                    $url = preg_replace('|https://\*\..*?/|', '', $url);
+//                    dump($url);
+//                    continue;
                     $host = parse_url($url, PHP_URL_HOST);
                     $io->warning($url);
                     $client->request('GET', $url);

@@ -74,4 +74,11 @@ return [
         'version' => '3.9.0',
         'type' => 'css',
     ],
+    'simple-datatables' => [
+        'version' => '9.2.2',
+    ],
+    'simple-datatables/dist/style.min.css' => [
+        'version' => '9.2.2',
+        'type' => 'css',
+    ],
 ];

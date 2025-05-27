@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ dump(data.header) }}
+
+    {% for line in data.lines %}
+        <li>
+            {{ dump(line) }}
+        </li>
+    {% endfor %}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

@@ -12,9 +12,16 @@
             {{ show.lineCount }}
             {{ show.fileSize }}
         </a>
+        DATA:
+        {% for format in ['html','json','ndjson'] %}
+            <a href="{{ path('ciine_data', {cineCode: show.code, _format: format}) }}">
+                {{ format }}
+            </a>
+
+        {% endfor %}
     </li>
     {% endfor %}
-    <h3>Casts</h3>
+    <h3>Files (*.casts)</h3>
     {% for cast in casts %}
         <li>
             <a href="{{ path('app_player', {cineCode: cast.basename|replace({'.cast': ''})}) }}">
@@ -22,14 +29,14 @@
             </a>
         </li>
     {% endfor %}
-    <h3>Running Projects</h3>
+    <h3>{{ running|length }} Running Projects</h3>
 
     <div class="row" data-masonry='{"percentPosition": true }'>
 
         {% if runningOnly %}
         <div class="container-xl">
             <div class="row row-cards">
-                {% for project in projects   %}
+                {% for project in running   %}
                     <div class="col-sm-6 col-lg-4">
                         <div class="card card-sm">
                             {% set imageUrl = "%s.wip.png"|format(project.name) %}

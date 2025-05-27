@@ -41,6 +41,12 @@ class Project implements \Stringable, MarkingInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $localDir = null;
 
+    #[ORM\Column(length: 6, nullable: true)]
+    private ?string $minimumStability = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $lastUpdatedTime = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -148,6 +154,30 @@ class Project implements \Stringable, MarkingInterface
     public function setLocalDir(?string $localDir): static
     {
         $this->localDir = $localDir;
+
+        return $this;
+    }
+
+    public function getMinimumStability(): ?string
+    {
+        return $this->minimumStability;
+    }
+
+    public function setMinimumStability(?string $minimumStability): static
+    {
+        $this->minimumStability = $minimumStability;
+
+        return $this;
+    }
+
+    public function getLastUpdatedTime(): ?\DateTimeImmutable
+    {
+        return $this->lastUpdatedTime;
+    }
+
+    public function setLastUpdatedTime(?\DateTimeImmutable $lastUpdatedTime): static
+    {
+        $this->lastUpdatedTime = $lastUpdatedTime;
 
         return $this;
     }
