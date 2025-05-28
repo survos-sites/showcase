@@ -108,6 +108,8 @@ final class CastController extends AbstractController
         } else {
         }
 
+
+
         return new JsonResponse(json_encode([
             'status' => 'okay',
             'orig' => $uploadedFile->getClientOriginalName(),
@@ -120,14 +122,19 @@ final class CastController extends AbstractController
     #[Template('cine.html.twig')]
     public function cinePlayer(string $cineCode, string $_format='html'): Response|array
     {
-        // @todo: refactor for .ndjson data
-//        $asciiCast = $this->getAsciiCast($cineCode);
-//        if ($_format === 'cast') {
-//            $clean = $this->cleanup($this->getAsciiCast($cineCode), $cineCode);
-//        }
+        // @todo: refactor to get markers better
+        $asciiCast = $this->getAsciiCast($cineCode);
+        $clean = $this->cleanup($this->getAsciiCast($cineCode), $cineCode);
+        // we need this for the marker menu
+        foreach ($clean['lines'] as $line) {
+            if ($line[1] === 'm') {
+                $this->addMarker($line[3]-$line[0], $line[2]);
+            }
+        }
 
         return $this->render('cine.html.twig', [
 //            'asciiCast' => $asciiCast,
+        'markers' => $this->response['markers'],
             'jsonCast' => $this->cineJson($cineCode, true),
             'original' => $_format === 'cast',
             'castCode' => $cineCode,
@@ -254,14 +261,21 @@ final class CastController extends AbstractController
             switch ($player->getEventType()) {
                 case 'i':
                     if ($playerEvent->isReturn()) {
-                        $player->setMarking(IPlayerWorkflow::PLACE_CLI_RESPONSE);
-                        foreach (explode(" ", $player->prompt) as $word) {
-                            $this->addOutput(0.5, $word);
-                        }
-                        $this->addOutput(1.0, $player->outputString);
+//                        $player->setMarking(IPlayerWorkflow::PLACE_CLI_RESPONSE);
+//                        $this->addMarker(0.0, $player->prompt);
+//                        $this->addOutput(1.0, $player->outputString);
                         if ($player->prompt) {
                             assert($player->prompt, "Missing prompt");
-                            $this->addOutput(1.0, $player->prompt, 'm');
+                            foreach (explode(" ", $player->prompt) as $word) {
+                                $word .= ' ';
+                                $this->addOutput(0.5, $word);
+                            }
+                            // pretty return symbols
+                            $word = '\u21B5\n' . '\u23CE\n';
+                            $this->addOutput(0.5, $word);
+                            if ($player->getMarking() === IPlayerWorkflow::PLACE_CLI_RESPONSE) {
+                                $this->addOutput(1.0, $player->prompt, 'm');
+                            }
                             $player->prompt = '';
                         }
                         $player->outputString = '';
@@ -275,13 +289,22 @@ final class CastController extends AbstractController
                     break;
                 case 'o':
                     $player->appendOutput();
-                    if ($playerEvent->isReturn()) {
-                        $this->addOutput(0.3, $player->outputString);
-                        $player->outputString = '';
-                        $this->addOutput(0.63, $currentOutput);
-                        $currentOutput = '';
-
+                    if ($playerEvent->endWithAppPrompt()) {
+                        $x = $playerEvent->getText();
+                        $this->addOutput(0.63, $x);
+                        $player->setMarking(IPlayerWorkflow::PLACE_APP);
                     }
+                    if ($playerEvent->endWithShellPrompt()) {
+                        $player->setMarking(IPlayerWorkflow::PLACE_CLI_RESPONSE);
+                        $this->addOutput(0.63, $player->outputString);
+                    }
+                    if ($playerEvent->isReturn()) {
+                        $this->addOutput(0.63, $player->outputString);
+                    }
+//                    dd(
+//                        $playerEvent->endWithShellPrompt(),
+//                        $playerEvent->endWithAppPrompt(),
+//                        $playerEvent, json_encode($this->response['lines'], JSON_PRETTY_PRINT + JSON_UNESCAPED_UNICODE));
                     break;
             }
 
@@ -291,7 +314,6 @@ final class CastController extends AbstractController
 
         }
         $this->addOutput(0.3, $player->outputString);
-        $this->addOutput(0.42, "cast has finished");
         return $this->response;
     }
 
@@ -342,7 +364,7 @@ final class CastController extends AbstractController
                         } elseif ($isCapturingCommand) {
                             $isCapturingCommand = false;
                             $this->addOutput(0.4, $currentOutput);
-                            $this->addMarker($this->totalTime + 0.1, $currentCommand);
+//                            $this->addMarker($this->totalTime + 0.1, $currentCommand);
                             $currentOutput = ''; // reset
                             $currentCommand = ''; //?
                         }
@@ -445,12 +467,14 @@ final class CastController extends AbstractController
 //        return $response;
     }
 
-    private function addOutput(float $interval, string $text, string $type='o'): void
+    private function addOutput(float $interval, string &$text, string $type='o'): void
     {
         if ($text) {
             $this->totalTime += $interval;
-            $this->response['lines'][] = [$interval, $type, $text]; // , $this->totalTime];
+            $this->response['lines'][] = [$interval, $type, $text, $this->totalTime];
+            $text = '';
         }
+
     }
 
     private function addMarker(float $timestamp, string $text)

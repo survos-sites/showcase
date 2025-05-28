@@ -22,3 +22,12 @@ bin/console app:screenshots
 
 mkdir casts -p
 acine rec casts/${HOSTNAME}.${USER}--$(date '+%Y-%m-%d-%H-%M-%S')-$$.cast
+
+# Tutorial Idea: Quotes
+
+## Steps
+
+* symfony new 
+* composer req survos/code-bundle --dev
+* bin/console survos:make:command app:load "Load the quote data from remote source"
+* fields: url

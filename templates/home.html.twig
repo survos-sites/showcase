@@ -13,12 +13,16 @@
             {{ show.fileSize }}
         </a>
 
+        original .cast:
         <a href="{{ path('app_player', {cineCode: show.code, _format: 'cast'}) }}">
-            Play original .cast
+            Play
+        </a>
+        <a href="{{ path('ciine_data', {cineCode: show.code, _format: 'cast'}) }}">
+            show
         </a>
 
         DATA:
-        {% for format in ['html','json','ndjson'] %}
+        {% for format in ['html','json','ndjson','cast','txt'] %}
             <a href="{{ path('ciine_data', {cineCode: show.code, _format: format}) }}">
                 {{ format }}
             </a>

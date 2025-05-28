@@ -45,7 +45,8 @@ class PlayerEvent
 
     public function endWithAppPrompt(): bool
     {
-        return str_ends_with($this->getText(), '> ');
+        return str_ends_with($this->getText(), '> ') ||
+        str_ends_with($this->getText(), '% ');
     }
 
     public function isReturn(): bool
@@ -55,9 +56,7 @@ class PlayerEvent
 
     public function endWithShellPrompt(): bool
     {
-        return
-            str_ends_with($this->getText(), '> ') ||
-            str_ends_with($this->getText(), '% ');
+        return str_ends_with($this->getText(), '$ ');
     }
 
 
