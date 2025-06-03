@@ -13,7 +13,7 @@ symfony open:local --path=/player/reg
 ````
 
 For screenshots, etc.
-
+    
 ```bash
 vendor/bin/bdi detect drivers
 bin/console app:screenshots 
@@ -31,3 +31,10 @@ acine rec casts/${HOSTNAME}.${USER}--$(date '+%Y-%m-%d-%H-%M-%S')-$$.cast
 * composer req survos/code-bundle --dev
 * bin/console survos:make:command app:load "Load the quote data from remote source"
 * fields: url
+
+## Zipped Show File
+
+Cast + images/*.png
+
+Multiple cast files, order by time?
+@todo: look for ciine/snapshot /info/abc and it's OUTPUT (screenshot saved to /casts/abc.jpg)
