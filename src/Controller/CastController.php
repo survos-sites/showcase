@@ -124,7 +124,7 @@ final class CastController extends AbstractController
     {
         // @todo: refactor to get markers better
         $asciiCast = $this->getAsciiCast($cineCode);
-        $clean = $this->cleanup($this->getAsciiCast($cineCode), $cineCode);
+        $clean = $this->cleanup($asciiCast, $cineCode);
         // we need this for the marker menu
         foreach ($clean['lines'] as $line) {
             if ($line[1] === 'm') {

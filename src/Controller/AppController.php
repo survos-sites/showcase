@@ -59,7 +59,7 @@ class AppController extends AbstractController
         return $this->render('home.html.twig', [
             'shows' => $showRepository->findAll(),
             // @todo: load from disk? fixtures?
-            'casts' => [], // (new Finder())->in($this->projectDir . '/public')->name('*.cast')->files(),
+            'casts' => (new Finder())->in($this->projectDir . '/public')->name('*.cast')->files(),
             'runningOnly' => $runningOnly,
             'running' => $running,
             'projects' => $projects]);

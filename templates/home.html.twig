@@ -2,6 +2,18 @@
 
 {% block body %}
 
+    <h3>Files (*.casts)</h3>
+    {% for cast in casts %}
+        <li>
+            {{ cast }}
+            <a href="{{ path('app_player', {cineCode: cast.basename|replace({'.cast': ''})}) }}">
+                {{ cast.basename }}
+            </a>
+        </li>
+    {% endfor %}
+
+    <hr />
+
 
     <h3>Shows in Database</h3>
     {% for show in shows %}
@@ -29,14 +41,6 @@
 
         {% endfor %}
     </li>
-    {% endfor %}
-    <h3>Files (*.casts)</h3>
-    {% for cast in casts %}
-        <li>
-            <a href="{{ path('app_player', {cineCode: cast.basename|replace({'.cast': ''})}) }}">
-                {{ cast.basename }}
-            </a>
-        </li>
     {% endfor %}
     <h3>{{ running|length }} Running Projects</h3>
 

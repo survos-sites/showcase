@@ -12,8 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Show
 {
     public function __construct(
-        #[ORM\Id]
-        #[ORM\Column]
+        #[ORM\Id] #[ORM\Column]
         private readonly ?string $code = null
 )
     {
