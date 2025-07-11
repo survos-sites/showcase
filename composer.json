@@ -3,7 +3,7 @@
     "name": "survos-sites/show",
     "description": "A showcase of survos sites and screenshows",
     "license": "proprietary",
-    "minimum-stability": "RC",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
         "php": "^8.4",
@@ -12,7 +12,7 @@
         "ext-intl": "*",
         "adhocore/cli-syntax": "^0.4.0",
         "api-platform/core": "^4.0",
-        "bakame/html-table": "^0.4.0",
+        "bakame/html-table": "^0.5.0",
         "doctrine/dbal": "^4",
         "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-migrations-bundle": "^3.3",
@@ -31,7 +31,9 @@
         "sensiolabs/ansi-to-html": "^2.0",
         "survos/bootstrap-bundle": "^1.5",
         "survos/command-bundle": "^1.5",
-        "survos/installer": "*",
+        "survos/inspection-bundle": "dev-main",
+        "survos/installer": "^2.1.2",
+        "survos/meili-bundle": "^1.5",
         "survos/simple-datatables-bundle": "^1.5",
         "survos/storage-bundle": "*",
         "survos/workflow-helper-bundle": "^1.5",
@@ -70,7 +72,7 @@
     },
     "config": {
         "allow-plugins": {
-            "endroid/installer": true,
+            "endroid/installer": false,
             "php-http/discovery": true,
             "survos/installer": true,
             "symfony/flex": true,

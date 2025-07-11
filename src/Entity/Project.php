@@ -2,13 +2,41 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ProjectRepository;
 use App\Workflow\IProjectWorkflow;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Survos\MeiliBundle\Api\Filter\FacetsFieldSearchFilter;
 use Survos\WorkflowBundle\Traits\MarkingInterface;
 use Survos\WorkflowBundle\Traits\MarkingTrait;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
+#[ApiResource(
+    // ugh, used for meili
+    normalizationContext: [
+        'groups' => ['project.read', 'rp','translation','marking','_translations'],
+    ],
+    operations: [
+        new Get(
+            normalizationContext: ['groups' => ['project.read', 'marking']],
+        ),
+        new GetCollection(
+            normalizationContext: ['groups' => ['project.read', 'marking']],
+        )
+    ]
+)]
+#[ApiFilter(OrderFilter::class, properties: ['marking', 'name'], arguments: ['orderParameterName' => 'order'])]
+#[ApiFilter(SearchFilter::class, properties: ['marking' => 'exact', 'name' => 'partial'])]
+#[ApiFilter(FacetsFieldSearchFilter::class,
+    properties: ['tags', 'license','dependencies','extensions','minimumStability'])]
+
 class Project implements \Stringable, MarkingInterface
 {
     use MarkingTrait;
@@ -18,15 +46,39 @@ class Project implements \Stringable, MarkingInterface
         $this->marking = IProjectWorkflow::PLACE_NEW;
     }
 
+    // virtual properties
+
+    #[Groups(['project.read'])]
+    public ?string $license {
+        get => $this->composerJson['license']??null;
+    }
+
+    #[Groups(['project.read'])]
+    public array $tags {
+        get => $this->composerJson['keywords']??[];
+    }
+
+    #[Groups(['project.read'])]
+    public array $dependencies {
+        get => array_values(array_filter(array_keys($this->composerJson['require']??[]), fn(string $key) => str_contains($key, '/')));
+    }
+
+    #[Groups(['project.read'])]
+    public array $extensions {
+        get => array_values(array_filter(array_keys($this->composerJson['require']??[]), fn(string $key) => str_starts_with($key, 'ext-')));
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue()]
     #[ORM\Column]
+    #[Groups(['project.read'])]
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
     private ?array $appJson = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['project.read'])]
     private ?array $composerJson = null;
 
     #[ORM\Column(nullable: true)]
@@ -40,6 +92,9 @@ class Project implements \Stringable, MarkingInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $localDir = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    public ?string $description = null;
 
     #[ORM\Column(length: 6, nullable: true)]
     private ?string $minimumStability = null;
@@ -57,9 +112,11 @@ class Project implements \Stringable, MarkingInterface
         return $this->appJson;
     }
 
+    #[Groups(['project.read'])]
     public function setAppJson(?array $appJson): static
     {
         $this->appJson = $appJson;
+        $this->description = $appJson['description'] ?? null;
 
         return $this;
     }
@@ -93,6 +150,7 @@ class Project implements \Stringable, MarkingInterface
         return $this->name;
     }
 
+    #[Groups(['project.read'])]
     public function setName(string $name): static
     {
         $this->name = $name;
@@ -105,6 +163,7 @@ class Project implements \Stringable, MarkingInterface
         return $this->getName();
     }
 
+    #[Groups(['project.read'])]
     public function getLiveUrl(): string
     {
         return sprintf("https://%s.survos.com", $this->getName());
@@ -140,6 +199,7 @@ class Project implements \Stringable, MarkingInterface
         return $this;
     }
 
+    #[Groups(['project.read'])]
     public function getGithubUrl(): string
     {
         return sprintf("https://github.com/%s", $this->getComposerJson()['name']??'!!');
@@ -158,6 +218,7 @@ class Project implements \Stringable, MarkingInterface
         return $this;
     }
 
+    #[Groups(['project.read'])]
     public function getMinimumStability(): ?string
     {
         return $this->minimumStability;

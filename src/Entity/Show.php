@@ -3,12 +3,29 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ShowRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ShowRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    // ugh, used for meili
+    normalizationContext: [
+        'groups' => ['show.read', 'rp','translation','marking','_translations'],
+    ],
+    operations: [
+        new Get(
+            normalizationContext: ['groups' => ['show.read', 'marking']],
+        ),
+        new GetCollection(
+            normalizationContext: ['groups' => ['show.read', 'marking']],
+        )
+    ]
+)]
+#[Groups(['show.read'])]
 class Show
 {
     public function __construct(

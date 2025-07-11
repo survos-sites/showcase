@@ -62,8 +62,8 @@ final class LoadDataCommand
         $dir = $project->getLocalDir();
         // @todo: skip the ones that are already running
         $processes = [
-//            new Process(['composer', 'config', 'minimum-stability', 'rc', "--working-dir=$dir"]),
-//            new Process(['composer', 'config', 'extra.symfony.require', '^7.3', "--working-dir=$dir"]),
+            new Process(['composer', 'config', 'minimum-stability', 'stable', "--working-dir=$dir"]),
+            new Process(['composer', 'config', 'extra.symfony.require', '^7.3', "--working-dir=$dir"]),
 //            new Process(['composer', 'update', "--working-dir=$dir"]),
             new Process(['symfony', 'server:start', "-d",  "--dir=$dir"]),
             // composer req phpunit/phpunit:^12.1 --dev phpunit/php-code-coverage:^12.1 -W
