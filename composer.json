@@ -18,6 +18,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.1",
         "easycorp/easyadmin-bundle": "^4.24",
+        "friendsofsymfony/jsrouting-bundle": "^3.5",
         "inspector-apm/inspector-symfony": "^1.8",
         "jolicode/jolinotif": "*",
         "knplabs/knp-time-bundle": "^2.4",
@@ -35,8 +36,8 @@
         "survos/installer": "^2.1.2",
         "survos/meili-bundle": "^1.5",
         "survos/simple-datatables-bundle": "^1.5",
+        "survos/state-bundle": "dev-main",
         "survos/storage-bundle": "*",
-        "survos/workflow-helper-bundle": "^1.5",
         "symfony/asset": "^7.0",
         "symfony/asset-mapper": "^7.0",
         "symfony/console": "^7.3",
@@ -53,6 +54,7 @@
         "symfony/mime": "^7.0",
         "symfony/monolog-bundle": "^3.0",
         "symfony/notifier": "^7.0",
+        "symfony/object-mapper": "^7.3",
         "symfony/process": "^7.0",
         "symfony/property-access": "^7.0",
         "symfony/property-info": "^7.0",
@@ -103,6 +105,7 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
+            "fos:js-routing:dump --format=js --target=public/js/fos_js_routes.js --callback=\"export default  \"": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "importmap:install": "symfony-cmd"
         },

@@ -4,15 +4,14 @@ namespace App\Workflow;
 
 use App\Entity\Project;
 use Psr\Log\LoggerInterface;
-use Survos\WorkflowBundle\Attribute\Workflow;
+use Survos\StateBundle\Attribute\Workflow;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Workflow\Attribute\AsGuardListener;
 use Symfony\Component\Workflow\Attribute\AsTransitionListener;
 use Symfony\Component\Workflow\Event\GuardEvent;
 use Symfony\Component\Workflow\Event\TransitionEvent;
-
-#[Workflow(supports: [Project::class], name: self::WORKFLOW_NAME)]
-class ProjectWorkflow implements IProjectWorkflow
+use App\Workflow\IProjectWorkflow as WF;
+class ProjectWorkflow
 {
 	public const WORKFLOW_NAME = 'ProjectWorkflow';
 
@@ -29,7 +28,7 @@ class ProjectWorkflow implements IProjectWorkflow
 	}
 
 
-	#[AsGuardListener(self::WORKFLOW_NAME)]
+	#[AsGuardListener(WF::WORKFLOW_NAME)]
 	public function onGuard(GuardEvent $event): void
 	{
 		/** @var Project project */
@@ -43,17 +42,17 @@ class ProjectWorkflow implements IProjectWorkflow
 		}
 		App\Entity\Project
 		*/
-		    case self::TRANSITION_UPDATE:
+		    case WF::TRANSITION_UPDATE:
 		        break;
-		    case self::TRANSITION_LOCK:
+		    case WF::TRANSITION_LOCK:
 		        break;
-		    case self::TRANSITION_REFRESH:
+		    case WF::TRANSITION_REFRESH:
 		        break;
 		}
 	}
 
 
-	#[AsTransitionListener(self::WORKFLOW_NAME, self::TRANSITION_UPDATE)]
+	#[AsTransitionListener(WF::WORKFLOW_NAME, WF::TRANSITION_UPDATE)]
 	public function onUpdate(TransitionEvent $event): void
 	{
 		$project = $this->getProject($event);
@@ -62,14 +61,14 @@ class ProjectWorkflow implements IProjectWorkflow
     }
 
 
-	#[AsTransitionListener(self::WORKFLOW_NAME, self::TRANSITION_LOCK)]
+	#[AsTransitionListener(WF::WORKFLOW_NAME, WF::TRANSITION_LOCK)]
 	public function onLock(TransitionEvent $event): void
 	{
 		$project = $this->getProject($event);
 	}
 
 
-	#[AsTransitionListener(self::WORKFLOW_NAME, self::TRANSITION_REFRESH)]
+	#[AsTransitionListener(WF::WORKFLOW_NAME, WF::TRANSITION_REFRESH)]
 	public function onRefresh(TransitionEvent $event): void
 	{
 		$project = $this->getProject($event);

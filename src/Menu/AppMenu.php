@@ -71,13 +71,13 @@ final class AppMenu implements KnpMenuHelperInterface
 
             $subMenu = $this->addSubmenu($menu, 'survos_commands');
             $this->add($subMenu, 'survos_commands', label: 'All');
-            foreach (['workflow:iterate', 'storage:iterate'] as $commandName) {
+            foreach (['state:iterate', 'storage:iterate'] as $commandName) {
                 $this->add($subMenu, 'survos_command', ['commandName' => $commandName], $commandName);
             }
-            $subMenu = $this->addSubmenu($menu, 'workflow:iterate');
+            $subMenu = $this->addSubmenu($menu, 'state:iterate');
             foreach ([Show::class, Project::class] as $className) {
                 $className = str_replace("\\", "\\\\", $className);
-                $this->add($subMenu, 'survos_command', ['commandName' => 'workflow:iterate', 'className' => $className], $className);
+                $this->add($subMenu, 'survos_command', ['commandName' => 'state:iterate', 'className' => $className], $className);
             }
             $this->add($subMenu, 'survos_workflows', label: 'Workflows');
 
