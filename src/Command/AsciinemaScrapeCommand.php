@@ -21,6 +21,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 #[AsCommand('asciinema:scrape', 'Scrape Asciinema Explore pages (listing only) to JSONL. Uses Symfony Cache for HTML.')]
 final class AsciinemaScrapeCommand extends Command
 {
+    const string DEFAULT_JSONL = 'data/asciinema.explore.jsonl';
+
     private const BASE    = 'https://asciinema.org';
     private const EXPLORE = '/explore/public?order=date&page=';
 
@@ -38,7 +40,7 @@ final class AsciinemaScrapeCommand extends Command
         SymfonyStyle $io,
 
         #[Option('Output JSONL file path')]
-        string $out = 'data/asciinema.explore.jsonl',
+        string $out = self::DEFAULT_JSONL,
 
         #[Option('First page number to start from')]
         int $startPage = 1,
