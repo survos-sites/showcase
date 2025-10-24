@@ -2,6 +2,7 @@
 
 namespace App\Menu;
 
+use App\Entity\Ciine;
 use App\Entity\Img;
 use App\Entity\Inst;
 use App\Entity\Media;
@@ -13,6 +14,7 @@ use Survos\BootstrapBundle\Event\KnpMenuEvent;
 use Survos\BootstrapBundle\Service\MenuService;
 use Survos\BootstrapBundle\Traits\KnpMenuHelperInterface;
 use Survos\BootstrapBundle\Traits\KnpMenuHelperTrait;
+use Survos\MeiliBundle\Service\MeiliService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -33,9 +35,10 @@ final class AppMenu implements KnpMenuHelperInterface
 
     public function __construct(
         #[Autowire('%kernel.environment%')] protected string $env,
-        private MenuService $menuService,
-        private Security $security,
-        private ?AuthorizationCheckerInterface $authorizationChecker = null
+        private MenuService                                  $menuService,
+        private Security                                     $security,
+        private readonly MeiliService $meiliService,
+        private ?AuthorizationCheckerInterface               $authorizationChecker = null
     ) {
     }
 
@@ -51,8 +54,9 @@ final class AppMenu implements KnpMenuHelperInterface
         $menu = $event->getMenu();
         $options = $event->getOptions();
         $this->add($menu, 'app_homepage');
+        $this->add($menu, 'app_slides', label: 'slides');
         $this->add($menu, 'survos_commands');
-//        $this->add($menu, 'admin', label: 'ez');
+        $this->add($menu, 'admin', label: 'ez');
 
 //        $this->add($menu, uri: '/db.svg', external: true, label: 'db.svg');
 
@@ -61,6 +65,11 @@ final class AppMenu implements KnpMenuHelperInterface
             $subMenu = $this->addSubmenu($menu, 'meili');
             $this->add($subMenu, 'media_meili');
             $this->add($subMenu, 'media_index');
+        }
+
+        foreach ($this->meiliService->settings as $index => $setting) {
+            $this->add($menu, 'meili_insta', ['indexName' => $index], label: $index, external: true);
+
         }
 
 
@@ -75,7 +84,7 @@ final class AppMenu implements KnpMenuHelperInterface
                 $this->add($subMenu, 'survos_command', ['commandName' => $commandName], $commandName);
             }
             $subMenu = $this->addSubmenu($menu, 'state:iterate');
-            foreach ([Show::class, Project::class] as $className) {
+            foreach ([Show::class, Project::class, Ciine::class] as $className) {
                 $className = str_replace("\\", "\\\\", $className);
                 $this->add($subMenu, 'survos_command', ['commandName' => 'state:iterate', 'className' => $className], $className);
             }

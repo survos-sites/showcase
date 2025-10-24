@@ -2,7 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Ciine;
 use App\Entity\Project;
+use App\Entity\Show;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -47,5 +49,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
          yield MenuItem::linkToCrud('Projects', 'fas fa-list', Project::class);
+         yield MenuItem::linkToCrud('Ciine', 'fas fa-list', Ciine::class);
+         yield MenuItem::linkToCrud('Show', 'fas fa-list', Show::class);
     }
 }

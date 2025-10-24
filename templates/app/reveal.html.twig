@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal Slideshow</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .reveal {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+
+    {# Asset Mapper imports #}
+    {% block importmap %}
+        {{ importmap('app') }}
+    {% endblock %}
+</head>
+<body>
+{% set _sc = '@survos/reveal-bundle/reveal' %}
+
+<div class="reveal" {{ stimulus_controller(_sc) }}>
+    <div class="slides">
+        <section>
+            <h2>Bullet Points</h2>
+            <ul>
+                <li>Point one</li>
+                <li>Point two</li>
+            </ul>
+        </section>
+
+        {% for i in 0..9 %}
+            <section>
+                <h2>PHP Code Example {{ i }}</h2>
+                <pre><code class="language-php">
+function hello($name) {
+    return "Hello, $name!";
+}
+                </code></pre>
+            </section>
+        {% endfor %}
+
+        <section>
+            <h2>More Bullet Points</h2>
+            <ul>
+                <li>Point one</li>
+                <li>Point two</li>
+            </ul>
+        </section>
+    </div>
+</div>
+</body>
+</html>

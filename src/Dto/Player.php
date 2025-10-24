@@ -13,6 +13,7 @@ class Player
         public string $inputString = '',
         public string $outputString = '',
         public string $prompt = '', // the CLI prompt response, e.g. ls
+        public int $version = 2,
 
     ) {
 

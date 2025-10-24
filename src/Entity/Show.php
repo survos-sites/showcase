@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ShowRepository;
+use App\Workflow\ShowWFDefinition;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Survos\StateBundle\Traits\MarkingInterface;
+use Survos\StateBundle\Traits\MarkingTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ShowRepository::class)]
@@ -26,13 +30,15 @@ use Symfony\Component\Serializer\Attribute\Groups;
     ]
 )]
 #[Groups(['show.read'])]
-class Show
+class Show implements MarkingInterface, \Stringable
 {
+    use MarkingTrait;
     public function __construct(
         #[ORM\Id] #[ORM\Column]
         private readonly ?string $code = null
 )
     {
+        $this->marking = ShowWFDefinition::PLACE_NEW;
     }
 
     public function getCode(): ?string
@@ -52,22 +58,41 @@ class Show
 
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $title = null;
+    public ?string $title = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $asciiCast = null;
+    #[ORM\Column(nullable: true)]
+    public ?string $author = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    public ?string $asciiCast = null;
+
+    #[ORM\Column(nullable: true)]
+    public ?int $fileSize = null;
+
+    #[ORM\Column(nullable: true)]
+    public ?int $asciinamaId = null;
+
+    public ?string $castUrl { get => $this->asciinamaId ? 'https://asciinema.org/a/' . $this->asciinamaId : null; }
+    public ?string $downloadUrl { get => $this->asciinamaId ? 'https://asciinema.org/a/' . $this->asciinamaId  . '.cast': null; }
+
+
+
+//    #[ORM\Column]
+//    #[ApiProperty("duration in seconds")]
+//    public ?int $duration = null;
 
     #[ORM\Column]
-    private ?int $fileSize = null;
+    public ?int $markerCount = null;
 
     #[ORM\Column]
-    private ?int $markerCount = null;
+    public ?int $lineCount = null;
+
+    #[ORM\Column(nullable: true)]
+    #[ApiProperty("the number of type 'i' in the file")]
+    public int $inputCount = 0;
 
     #[ORM\Column]
-    private ?int $lineCount = null;
-
-    #[ORM\Column]
-    private ?float $totalTime = null;
+    public ?float $totalTime = null;
 
     public function getTitle(): ?string
     {
@@ -139,5 +164,10 @@ class Show
         $this->totalTime = $totalTime;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->code;
     }
 }

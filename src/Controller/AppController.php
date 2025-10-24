@@ -24,9 +24,22 @@ class AppController extends AbstractController
     public function __construct(
         #[Autowire('%kernel.project_dir%')] private string $projectDir,
         private readonly ProjectRepository                 $repo,
+        private readonly ShowRepository $showRepo,
         #[Autowire('%kernel.environment%')] private string $environment,
     )
     {
+    }
+
+    #[Route('/slides', name: 'app_slides', methods: [Request::METHOD_GET])]
+//    #[Template('app/reveal.html.twig')]
+    #[Template('app/slideshow.html.twig')]
+
+    public function slideshow(Request $request): Response|array
+    {
+        return [
+            'shows' => $this->showRepo->findBy([], limit: 30)
+        ];
+
     }
 
     #[Route('/', name: 'app_homepage', methods: [Request::METHOD_GET])]
