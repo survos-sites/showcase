@@ -1,4 +1,5 @@
-import './bootstrap.js';
+import 'instantsearch.css/themes/algolia.min.css';
+
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -8,6 +9,11 @@ import './bootstrap.js';
 import './styles/app.css';
 import '@tabler/core';
 import '@tabler/core/dist/css/tabler.min.css';
+
+import '@tabler/core';
+import '@tabler/core/dist/css/tabler.min.css';
+
+import './bootstrap.js';
 
 // import Masonry from 'masonry-layout';
 // // https://getbootstrap.com/docs/5.0/examples/masonry/

@@ -25,6 +25,8 @@
             {{ show.fileSize }}
         </a>
 
+        @Asci: <a href="{{ show.castUrl }}" target="_blank">{{ show.castUrl }}</a>
+
         original .cast:
         <a href="{{ path('app_player', {cineCode: show.code, _format: 'cast'}) }}">
             Play

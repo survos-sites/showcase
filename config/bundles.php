@@ -37,4 +37,6 @@ return [
     Knp\Bundle\TimeBundle\KnpTimeBundle::class => ['all' => true],
     Survos\MeiliBundle\SurvosMeiliBundle::class => ['all' => true],
     FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
+    Survos\JsonlBundle\SurvosJsonlBundle::class => ['all' => true],
+    Survos\RevealBundle\SurvosRevealBundle::class => ['all' => true],
 ];

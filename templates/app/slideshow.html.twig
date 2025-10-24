@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal Slideshow</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/asciinema-player@3/dist/bundle/asciinema-player.css">
+    <script src="https://cdn.jsdelivr.net/npm/asciinema-player@3/dist/bundle/asciinema-player.min.js"></script>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .reveal {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+
+    {# Asset Mapper imports #}
+    {% block importmap %}
+        {{ importmap('app') }}
+    {% endblock %}
+</head>
+<body>
+{% set _sc = '@survos/reveal-bundle/reveal' %}
+
+<div class="reveal" {{ stimulus_controller(_sc) }}>
+    <div class="slides">
+        <section>
+            <h2>Bullet Points</h2>
+            <pre><code class="language-bash" data-lang="bash">
+symfony new --webapp movies && cd movies
+composer req survos/meili-bundle easycorp/easyadmin
+composer req survos/code-bundle --dev
+            </code>
+                </pre>
+
+
+            <ul>
+                <li>App Bundles</li>
+                <li>Dev Bundles</li>
+            </ul>
+            <a href="{{ path('app_cine', {cineCode: 'install'}) }}">
+                Terminal
+            </a>
+        </section>
+
+        {% for show in shows %}
+            <section>
+                {% set castCode = show.code %}
+                <h2>{{ castCode }}/{{ show.title }}</h2>
+                {% set _sc_player = 'player' %}
+
+                <a href="{{ path('app_player', {cineCode: castCode }) }}" target="_blank">
+                    Open Terminal
+                </a>
+
+                <div  {{ stimulus_controller(_sc_player, {
+                    code: castCode,
+                    url: "/api/ascii_486888.cast"
+                }) }}>
+                    <b {{ stimulus_target(_sc_player, 'marker') }}>
+                        marker text
+                    </b>
+                    <!-- ... -->
+                    <div {{ stimulus_target(_sc_player, 'player') }}>
+
+                    </div>
+
+                    {#                    url: path('ciine_data', {cineCode: castCode, _format: original ? 'cast': 'txt'})#}
+                </div>
+
+            </section>
+            {% endfor %}
+
+            <section>
+
+                <pre><code class="language-php">
+function hello($name) {
+    return "Hello, $name!";
+}
+                </code></pre>
+            </section>
+
+        <section>
+            <h2>More Bullet Points</h2>
+            <ul>
+                <li>Point one</li>
+                <li>Point two</li>
+            </ul>
+        </section>
+    </div>
+</div>
+</body>
+</html>

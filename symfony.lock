@@ -250,11 +250,17 @@
     "survos/inspection-bundle": {
         "version": "dev-main"
     },
+    "survos/jsonl-bundle": {
+        "version": "dev-main"
+    },
     "survos/meili-admin-bundle": {
         "version": "1.5.529"
     },
     "survos/meili-bundle": {
         "version": "1.5.0"
+    },
+    "survos/reveal-bundle": {
+        "version": "1.6.44"
     },
     "survos/simple-datatables-bundle": {
         "version": "1.5.529"

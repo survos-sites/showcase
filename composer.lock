@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "caba3e7200fdb9565fa4c9dd2f8bdb77",
+    "content-hash": "629d6830f8eccd99c66df2faf4114439",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -5700,6 +5700,59 @@
             "time": "2025-07-14T14:06:29+00:00"
         },
         {
+            "name": "survos/jsonl-bundle",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/survos/jsonl-bundle.git",
+                "reference": "6c2dbbdb06dacbe9bfe81e09a7b7b017a3896bac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/survos/jsonl-bundle/zipball/6c2dbbdb06dacbe9bfe81e09a7b7b017a3896bac",
+                "reference": "6c2dbbdb06dacbe9bfe81e09a7b7b017a3896bac",
+                "shasum": ""
+            },
+            "require": {
+                "ext-zlib": "*",
+                "php": "^8.4",
+                "psr/log": "^3.0",
+                "symfony/console": "^7.0",
+                "symfony/http-client": "^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^12"
+            },
+            "default-branch": true,
+            "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "bundle": "Survos\\JsonlBundle\\SurvosJsonlBundle"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Survos\\JsonlBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Fast, concurrent, resumable, strictly-ordered JSONL ingestion utilities for Symfony 7.3 / PHP 8.4",
+            "support": {
+                "issues": "https://github.com/survos/jsonl-bundle/issues",
+                "source": "https://github.com/survos/jsonl-bundle/tree/main"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/kbond",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-10-09T21:26:15+00:00"
+        },
+        {
             "name": "survos/meili-bundle",
             "version": "1.6.44",
             "source": {
@@ -5775,6 +5828,60 @@
                 }
             ],
             "time": "2025-08-12T14:05:41+00:00"
+        },
+        {
+            "name": "survos/reveal-bundle",
+            "version": "1.6.44",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/survos/SurvosRevealBundle.git",
+                "reference": "a51bcd9981632e09aedca5d2fc11adfb9f9ff54c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/survos/SurvosRevealBundle/zipball/a51bcd9981632e09aedca5d2fc11adfb9f9ff54c",
+                "reference": "a51bcd9981632e09aedca5d2fc11adfb9f9ff54c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3",
+                "survos/core-bundle": "^1.5",
+                "symfony/config": "^7.3",
+                "symfony/dependency-injection": "^7.3",
+                "twig/twig": "^3.4"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.0",
+                "symfony/browser-kit": "^7.3",
+                "symfony/framework-bundle": "^7.3",
+                "symfony/phpunit-bridge": "^7.3",
+                "symfony/twig-bundle": "^7.3",
+                "symfony/var-dumper": "^7.3"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Survos\\RevealBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "keywords": [
+                "symfony-ux"
+            ],
+            "support": {
+                "issues": "https://github.com/survos/SurvosRevealBundle/issues",
+                "source": "https://github.com/survos/SurvosRevealBundle/tree/1.6.44"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/kbond",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-07-26T14:04:26+00:00"
         },
         {
             "name": "survos/simple-datatables-bundle",
@@ -16737,6 +16844,7 @@
         "survos/code-bundle": 20,
         "survos/doc-bundle": 20,
         "survos/inspection-bundle": 20,
+        "survos/jsonl-bundle": 20,
         "survos/state-bundle": 20,
         "symfony/panther": 20
     },
