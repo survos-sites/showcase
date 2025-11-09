@@ -2,7 +2,7 @@
 
 namespace App\Workflow;
 
-use App\Dto\Player;
+use Survos\CiineBundle\Dto\Player;
 use Survos\WorkflowBundle\Attribute\Workflow;
 use Symfony\Component\Workflow\Attribute\AsGuardListener;
 use Symfony\Component\Workflow\Attribute\AsTransitionListener;

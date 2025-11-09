@@ -2,13 +2,8 @@
 
 namespace App\Menu;
 
-use App\Entity\Img;
-use App\Entity\Inst;
-use App\Entity\Media;
-use App\Entity\Obj;
 use App\Entity\Project;
 use App\Entity\Show;
-use App\Entity\Thumb;
 use Survos\BootstrapBundle\Event\KnpMenuEvent;
 use Survos\BootstrapBundle\Service\MenuService;
 use Survos\BootstrapBundle\Traits\KnpMenuHelperInterface;
@@ -17,15 +12,6 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
-// events are
-/*
-// #[AsEventListener(event: KnpMenuEvent::NAVBAR_MENU2)]
-#[AsEventListener(event: KnpMenuEvent::SIDEBAR_MENU, method: 'sidebarMenu')]
-#[AsEventListener(event: KnpMenuEvent::PAGE_MENU, method: 'pageMenu')]
-#[AsEventListener(event: KnpMenuEvent::FOOTER_MENU, method: 'footerMenu')]
-#[AsEventListener(event: KnpMenuEvent::AUTH_MENU, method: 'appAuthMenu')]
-*/
 
 final class AppMenu implements KnpMenuHelperInterface
 {

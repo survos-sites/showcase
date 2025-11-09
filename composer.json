@@ -30,6 +30,7 @@
         "roave/better-reflection": "^6.32",
         "sensiolabs/ansi-to-html": "^2.0",
         "survos/bootstrap-bundle": "^1.5",
+        "survos/ciine-bundle": "dev-main",
         "survos/command-bundle": "^1.5",
         "survos/inspection-bundle": "dev-main",
         "survos/installer": "^2.1.2",

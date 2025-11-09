@@ -31,3 +31,7 @@ phpstan.neon
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
+
+###> survos/inspection-bundle ###
+/flickr-downloads
+###< survos/inspection-bundle ###

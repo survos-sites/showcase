@@ -3,19 +3,18 @@
 namespace App\Controller;
 
 use ApiPlatform\Metadata\UrlGeneratorInterface;
-use App\Dto\Player;
-use App\Dto\PlayerEvent;
 use App\Entity\Show;
 use App\Repository\ShowRepository;
 use App\Workflow\IPlayerWorkflow;
 use Doctrine\ORM\EntityManagerInterface;
-use Liip\ImagineBundle\Message\WarmupCache;
 use Psr\Log\LoggerInterface;
+use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
+use Survos\CiineBundle\Dto\Player;
+use Survos\CiineBundle\Dto\PlayerEvent;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\Attribute\Target;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +23,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Notifier\Message\DesktopMessage;
 use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 use Symfony\Component\Workflow\WorkflowInterface;
 
 
@@ -41,13 +39,7 @@ final class CastController extends AbstractController
         private TexterInterface                            $texter,
         private readonly EntityManagerInterface            $entityManager,
         private readonly ShowRepository                    $showRepository,
-        private float                                      $totalTime = 0.0,
-        // crying to be a DTO
-        private array                                      $response = [
-            'lines' => [],
-            'header' => null,
-            'markers' => [],
-        ]
+
     )
     {
         $this->converter = new AnsiToHtmlConverter();

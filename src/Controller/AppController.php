@@ -29,10 +29,17 @@ class AppController extends AbstractController
     {
     }
 
+    #[Route('/blank', name: 'app_blank', methods: [Request::METHOD_GET])]
+    #[Template('blank.html.twig')]
+    public function blank(): Response|array
+    {
+        return [];
+    }
+
     #[Route('/', name: 'app_homepage', methods: [Request::METHOD_GET])]
     public function index(ProjectRepository $projectRepository,
                           ShowRepository $showRepository,
-                          #[MapQueryParameter] bool $runningOnly = true): Response
+                          #[MapQueryParameter] bool $runningOnly = false): Response
     {
         $running = [];
         //

@@ -1,14 +1,16 @@
-{% extends "@SurvosBootstrap/%s/base.html.twig"|format(theme_option('theme')) %}
+{% extends "layout.html.twig" %}
+{% set appShortName = 'KPA' %}
+{% block logo_mini 'KPA' %}
 
      {% block stylesheets %}
-{#         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/survosbootstrap/bootstrap/style.css') }}">#}
+         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/survosmeili/style.css') }}">
+         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/survosbootstrap/bootstrap/style.css') }}">
 
          {{ parent() }}
      {% endblock %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-            {#            {{ pwa() }}#}
-        {% endblock %}
-
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {{ parent() }}
+    {% endblock %}
 

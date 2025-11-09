@@ -19,14 +19,13 @@ survos_bootstrap:
       instance: null
       frontPage: false
       showAppMenu: false
-
-
   app:
-    code: my-app
-    abbr: <b>my</b>App
+    code: showcase
+    abbr: <b>show</b>case
   options:
     # consider https://startbootstrap.com/previews/simple-sidebar as another theme
     theme: tabler
+    layout_direction: horizontal
     allow_login: false
     offcanvas: end
 
