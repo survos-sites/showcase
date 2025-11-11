@@ -242,9 +242,6 @@
     "survos/import-bundle": {
         "version": "2.0.45"
     },
-    "survos/inspection-bundle": {
-        "version": "dev-main"
-    },
     "survos/jsonl-bundle": {
         "version": "dev-main"
     },
