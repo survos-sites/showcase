@@ -23,6 +23,17 @@
                 "autoimport": []
             }
         },
+        "@survos/reveal-bundle": {
+            "reveal": {
+                "enabled": true,
+                "fetch": "lazy",
+                "autoimport": {
+                    "reveal.js/dist/reveal.js": true,
+                    "reveal.js/dist/reveal.css": true,
+                    "reveal.js/dist/theme/black.css": true
+                }
+            }
+        },
         "@survos/simple-datatables-bundle": {
             "table": {
                 "enabled": true,
@@ -30,12 +41,6 @@
                 "autoimport": {
                     "@survos/simple-datatables/style.css": true
                 }
-            }
-        },
-        "@survos/workflow-helper-bundle": {
-            "workflow": {
-                "enabled": true,
-                "fetch": "eager"
             }
         },
         "@symfony/ux-turbo": {

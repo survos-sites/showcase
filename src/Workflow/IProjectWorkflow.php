@@ -2,10 +2,13 @@
 
 namespace App\Workflow;
 
-use Survos\WorkflowBundle\Attribute\Place;
-use Survos\WorkflowBundle\Attribute\Transition;
+use App\Entity\Project;
+use Survos\StateBundle\Attribute\Place;
+use Survos\StateBundle\Attribute\Transition;
+use Survos\StateBundle\Attribute\Workflow;
 
-interface IProjectWorkflow
+#[Workflow(supports: [Project::class], name: self::WORKFLOW_NAME)]
+class IProjectWorkflow
 {
 	public const WORKFLOW_NAME = 'ProjectWorkflow';
 

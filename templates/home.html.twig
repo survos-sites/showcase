@@ -25,6 +25,8 @@
             {{ show.fileSize }}
         </a>
 
+        @Asci: <a href="{{ show.castUrl }}" target="_blank">{{ show.castUrl }}</a>
+
         original .cast:
         <a href="{{ path('app_player', {cineCode: show.code, _format: 'cast'}) }}">
             Play
@@ -105,7 +107,9 @@
 
                         <twig:block name="card_title">
                             <h1>
-                                {{ project.code }}
+                                <a href="https://{{ project.code }}.wip">
+                                    {{ project.code }}
+                                </a>
                                 {{ project.composerJson.name??project.name }}
                             </h1>
                             {{ project.githubUrl }}
@@ -125,6 +129,9 @@
                             <a href="{{ path('project_show', {id: project.id}) }}">Show</a>
                             <a href="{{ project.liveUrl }}" target="_blank">
                                 {{ project.liveUrl }}
+                            </a>
+                            <a href="https://{{ project.name }}.wip" target="_blank">
+                                {{ project.name }}.wip
                             </a>
                         </twig:block>
 

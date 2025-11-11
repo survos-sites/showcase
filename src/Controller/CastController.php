@@ -5,6 +5,7 @@ namespace App\Controller;
 use ApiPlatform\Metadata\UrlGeneratorInterface;
 use App\Entity\Show;
 use App\Repository\ShowRepository;
+use App\Service\CiineService;
 use App\Workflow\IPlayerWorkflow;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -28,21 +29,25 @@ use Symfony\Component\Workflow\WorkflowInterface;
 
 final class CastController extends AbstractController
 {
-    private AnsiToHtmlConverter $converter;
 
     public function __construct(
-        #[Autowire('%kernel.project_dir%')] private string $projectDir,
-        #[Autowire('%kernel.environment')] private string  $environment,
-        #[Target(IPlayerWorkflow::WORKFLOW_NAME)] private WorkflowInterface $workflow,
-        private MessageBusInterface                        $messageBus,
-        private LoggerInterface                            $logger,
-        private TexterInterface                            $texter,
-        private readonly EntityManagerInterface            $entityManager,
-        private readonly ShowRepository                    $showRepository,
-
+        #[Autowire('%kernel.project_dir%')] private string                  $projectDir,
+        #[Autowire('%kernel.environment')] private string                   $environment,
+        private MessageBusInterface                                         $messageBus,
+        private LoggerInterface                                             $logger,
+        private TexterInterface                                             $texter,
+        private CiineService                                                $ciine,
+        private readonly EntityManagerInterface                             $entityManager,
+        private readonly ShowRepository                                     $showRepository, private readonly CiineService $ciineService,
+        private float                                                       $totalTime = 0.0,
+        // crying to be a DTO
+        private array                                                       $response = [
+            'lines' => [],
+            'header' => null,
+            'markers' => [],
+        ]
     )
     {
-        $this->converter = new AnsiToHtmlConverter();
 
     }
 
@@ -86,10 +91,10 @@ final class CastController extends AbstractController
             $show->setTitle($header['title'] ?? null);
 
             $lines = $show->getLines();
+            $show->markerCount = 0;
             $show
                 ->setFileSize($uploadedFile->getFileInfo()->getSize())
                 ->setLineCount(count($lines))
-                ->setMarkerCount(0)
                 ->setTotalTime(-1);
 
             $this->entityManager->flush();
@@ -116,13 +121,14 @@ final class CastController extends AbstractController
     {
         // @todo: refactor to get markers better
         $asciiCast = $this->getAsciiCast($cineCode);
-        $clean = $this->cleanup($asciiCast, $cineCode);
+        $clean = $this->ciineService->cleanup($asciiCast, $cineCode);
         // we need this for the marker menu
         foreach ($clean['lines'] as $line) {
             if ($line[1] === 'm') {
                 $this->addMarker($line[3]-$line[0], $line[2]);
             }
         }
+
 
         return $this->render('cine.html.twig', [
 //            'asciiCast' => $asciiCast,
@@ -150,7 +156,7 @@ final class CastController extends AbstractController
 //        $messageBus->dispatch(new WarmupCache('the/path/img.png', ['fooFilter']));
 
         $asciiCast = $this->getAsciiCast($cineCode);
-        $clean = $this->cleanup($asciiCast, $cineCode);
+        $clean = $this->ciineService->cleanup($asciiCast, $cineCode);
         switch ($_format) {
             case 'cast':
                 return new Response($asciiCast, 200, ['Content-Type' => 'text/text']);
@@ -177,13 +183,16 @@ final class CastController extends AbstractController
     private function getAsciiCast($cineCode): string
     {
         if ($show = $this->showRepository->findOneBy(['code' => $cineCode])) {
-            $asciiCast = $show->getAsciiCast();
+            if (!$asciiCast = $show->getAsciiCast()) {
+                $asciiCast = file_get_contents($this->projectDir . sprintf('/data/%d.ciine', $show->asciinamaId));
+            }
         } else {
             // debug only
             $filename = $cineCode . '.cast';
             $asciiCast = file_get_contents($this->projectDir . '/casts/' . $filename);
         }
         assert($show, "Missing $cineCode in database");
+        assert($asciiCast, "Missing $cineCode in database");
         return $asciiCast;
 
     }
@@ -192,7 +201,7 @@ final class CastController extends AbstractController
     public function cineJson(string $cineCode, bool $asArray = false): Response|array
     {
 
-        $clean = $this->cleanup($this->getAsciiCast($cineCode), $cineCode);
+        $clean = $this->ciineService->cleanup($this->getAsciiCast($cineCode), $cineCode);
         if ($asArray) {
             return $clean;
         }
@@ -223,91 +232,6 @@ final class CastController extends AbstractController
 
     }
 
-    private function cleanup(string $cast, string $cineCode): array
-    {
-        // of interest: https://blog.mbedded.ninja/programming/ansi-escape-sequences/
-
-        $isCapturingCommand = true;
-        $isCapturingPrompt = false;
-
-        $currentCommand = '';
-        $currentOutput = '';
-        $inputStartTime = 0.0;
-        $lastInput = null;
-
-        $lines = explode("\n", $cast);
-
-        foreach ($lines as $idx => $line) {
-            if (!$line) {
-                continue;
-            }
-            $json = json_decode($line, true);
-            assert($json, "invalid line: " . $line);
-            if ($idx === 0) {
-                $this->response['header'] = $json;
-                $player = new Player();
-//                $prompt = $ndjson->readline(); // i guess we can show this
-                continue;
-            }
-            $player->setEvent($playerEvent = new PlayerEvent(...$json));
-            switch ($player->getEventType()) {
-                case 'i':
-                    if ($playerEvent->isReturn()) {
-//                        $player->setMarking(IPlayerWorkflow::PLACE_CLI_RESPONSE);
-//                        $this->addMarker(0.0, $player->prompt);
-//                        $this->addOutput(1.0, $player->outputString);
-                        if ($player->prompt) {
-                            assert($player->prompt, "Missing prompt");
-                            foreach (explode(" ", $player->prompt) as $word) {
-                                $word .= ' ';
-                                $this->addOutput(0.5, $word);
-                            }
-                            // pretty return symbols
-                            $word = '\u21B5\n' . '\u23CE\n';
-                            $this->addOutput(0.5, $word);
-                            if ($player->getMarking() === IPlayerWorkflow::PLACE_CLI_RESPONSE) {
-                                $this->addOutput(1.0, $player->prompt, 'm');
-                            }
-                            $player->prompt = '';
-                        }
-                        $player->outputString = '';
-                        $player->inputString = '';
-                    } else {
-                        $player->appendPrompt();
-                    }
-//                    if ($player->getMarking() === IPlayerWorkflow::PLACE_SHELL) {
-//                        $player->add
-//                    }
-                    break;
-                case 'o':
-                    $player->appendOutput();
-                    if ($playerEvent->endWithAppPrompt()) {
-                        $x = $playerEvent->getText();
-                        $this->addOutput(0.63, $x);
-                        $player->setMarking(IPlayerWorkflow::PLACE_APP);
-                    }
-                    if ($playerEvent->endWithShellPrompt()) {
-                        $player->setMarking(IPlayerWorkflow::PLACE_CLI_RESPONSE);
-                        $this->addOutput(0.63, $player->outputString);
-                    }
-                    if ($playerEvent->isReturn()) {
-                        $this->addOutput(0.63, $player->outputString);
-                    }
-//                    dd(
-//                        $playerEvent->endWithShellPrompt(),
-//                        $playerEvent->endWithAppPrompt(),
-//                        $playerEvent, json_encode($this->response['lines'], JSON_PRETTY_PRINT + JSON_UNESCAPED_UNICODE));
-                    break;
-            }
-
-            if ($this->workflow->can($player, IPlayerWorkflow::TRANSITION_SHELL_PROMPT)) {
-//                dd($player, $playerEvent, $player->getMarking(), $player->getEvent()->getText());
-            }
-
-        }
-        $this->addOutput(0.3, $player->outputString);
-        return $this->response;
-    }
 
     private function oldWay()
     {

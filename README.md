@@ -12,6 +12,8 @@ symfony server:start -d
 symfony open:local --path=/player/reg
 ````
 
+
+
 For screenshots, etc.
     
 ```bash
@@ -19,9 +21,19 @@ vendor/bin/bdi detect drivers
 bin/console app:screenshots 
 
 ```
+```bash
+# scrapes titles, etc. to jsonl
+bin/console asciinema:scrape
+# imports jsonl to database
+bin/console import:entities Ciine --file data/asciinema.explore.jsonl
+# fetches asciicasts from remote
+c iterate Ciine --transition=download --marking=basic --sync -vv
+````
 
+```bash
 mkdir casts -p
 acine rec casts/${HOSTNAME}.${USER}--$(date '+%Y-%m-%d-%H-%M-%S')-$$.cast
+```
 
 # Tutorial Idea: Quotes
 

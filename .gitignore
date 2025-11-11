@@ -9,11 +9,6 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
-
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml
@@ -35,3 +30,8 @@ phpstan.neon
 ###> survos/inspection-bundle ###
 /flickr-downloads
 ###< survos/inspection-bundle ###
+
+.castor.stub.php
+
+drivers
+data

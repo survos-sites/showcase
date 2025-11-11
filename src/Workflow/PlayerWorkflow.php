@@ -3,14 +3,12 @@
 namespace App\Workflow;
 
 use Survos\CiineBundle\Dto\Player;
-use Survos\WorkflowBundle\Attribute\Workflow;
 use Symfony\Component\Workflow\Attribute\AsGuardListener;
 use Symfony\Component\Workflow\Attribute\AsTransitionListener;
 use Symfony\Component\Workflow\Event\GuardEvent;
 use Symfony\Component\Workflow\Event\TransitionEvent;
-
-#[Workflow(supports: [Player::class], name: self::WORKFLOW_NAME)]
-class PlayerWorkflow implements IPlayerWorkflow
+use App\Workflow\IPlayerWorkflow as WF;
+class PlayerWorkflow
 {
 	public const WORKFLOW_NAME = 'PlayerWorkflow';
 
@@ -25,7 +23,7 @@ class PlayerWorkflow implements IPlayerWorkflow
 	}
 
 
-	#[AsGuardListener(self::WORKFLOW_NAME, self::TRANSITION_APP_PROMPT)]
+	#[AsGuardListener(WF::WORKFLOW_NAME, WF::TRANSITION_APP_PROMPT)]
     public function onAppPromptGuard(GuardEvent $event): void
     {
         $player = $this->getPlayer($event);
@@ -34,7 +32,7 @@ class PlayerWorkflow implements IPlayerWorkflow
         }
     }
 
-    #[AsGuardListener(self::WORKFLOW_NAME, self::TRANSITION_SHELL_PROMPT)]
+    #[AsGuardListener(WF::WORKFLOW_NAME, WF::TRANSITION_SHELL_PROMPT)]
     public function onShellPromptGuard(GuardEvent $event): void
     {
         $player = $this->getPlayer($event);
@@ -43,21 +41,21 @@ class PlayerWorkflow implements IPlayerWorkflow
         }
     }
 
-	#[AsTransitionListener(self::WORKFLOW_NAME, self::TRANSITION_SHELL_PROMPT)]
+	#[AsTransitionListener(WF::WORKFLOW_NAME, WF::TRANSITION_SHELL_PROMPT)]
 	public function onShellPrompt(TransitionEvent $event): void
 	{
 		$player = $this->getPlayer($event);
 	}
 
 
-	#[AsTransitionListener(self::WORKFLOW_NAME, self::TRANSITION_APP_PROMPT)]
+	#[AsTransitionListener(WF::WORKFLOW_NAME, WF::TRANSITION_APP_PROMPT)]
 	public function onAppPrompt(TransitionEvent $event): void
 	{
 		$player = $this->getPlayer($event);
 	}
 
 
-	#[AsTransitionListener(self::WORKFLOW_NAME, self::TRANSITION_RESPOND)]
+	#[AsTransitionListener(WF::WORKFLOW_NAME, WF::TRANSITION_RESPOND)]
 	public function onRespond(TransitionEvent $event): void
 	{
 		$player = $this->getPlayer($event);

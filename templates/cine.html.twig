@@ -1,25 +1,32 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Playing {{ castCode }}{% endblock %}
-
-{#{% block stylesheets %}#}
-{#{{ parent() }}#}
-{# {{ ansi_css }}#}
-{#{% endblock %}#}
-{% block body %}
+{% block page_header %}Playing {{ castCode }}{% endblock %}
+{% block nav '' %}
+{# {% block stylesheets %} #}
+{# {{ parent() }} #}
+{# {{ ansi_css }} #}
+{# {% endblock %} #}
+{% block raw_body %}
+    <body>
     <a href="{{ path('app_cine', {cineCode: castCode}) }}" target="_blank">
         JSON
     </a>
 
     IMAGES
-    {% set thumb = asset('2025-05-25-09-22-11.png') | imagine_filter('large')  %}
-{#    {% set thumb = asset('2025-05-25-09-22-11.png') | imagine_filter_cache('small')  %}#}
+    {% set thumb = asset('2025-05-25-09-22-11.png') | imagine_filter('large') %}
+    {#    {% set thumb = asset('2025-05-25-09-22-11.png') | imagine_filter_cache('small')  %} #}
     <a href="{{ thumb }}" target="_blank">
-{#        <img src="{{thumb }}" />#}
+        {#        <img src="{{thumb }}" /> #}
         Thumb
     </a>
 
+    {{ block('player') }}
 
+    </body>
+{% endblock %}
+
+{% block player %}
     {% set _sc = 'player' %}
     <div class="row" {{ stimulus_controller(_sc, {
         code: castCode,
@@ -41,13 +48,14 @@
             {% for m in markers|default([]) %}
                 <li>
                     <a {{ stimulus_action(_sc, 'seek', null, {timestamp: m[0]}) }}>
-                       M {{ ux_icon('play') }} @ {{ m[0]|number_format(1) }}
+                        M {{ ux_icon('play') }} @ {{ m[0]|number_format(1) }}
                     </a>
 
-{#                    <pre>#}
-{#                    {{ m[1]|ansi_to_html }}</li>#}
-{#                    </pre>#}
-                    {{ (m[1]|ansi_to_html)|raw }}</li>
+                    {#                    <pre> #}
+                    {#                    {{ m[1]|ansi_to_html }}</li> #}
+                    {#                    </pre> #}
+                    {{ (m[1]|ansi_to_html)|raw }}
+                </li>
             {% endfor %}
             <div class="scrollable-container" data-controller="scrollable">
                 <div id="scrollable-content">
@@ -74,7 +82,9 @@
                                         {{ ux_icon('play') }}
                                     </a>
                                 </td>
-                                <td>{{ l[2]|ansi_to_html }}</td>
+                                <td>
+                                    {{ l[2]|ansi_to_html }}
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -82,10 +92,7 @@
                     {#            {{ jsonCast|json_pretty }} #}
                 </div>
             </div>
-
         </div>
+
     </div>
-
-
-
 {% endblock %}

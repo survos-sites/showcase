@@ -3,13 +3,16 @@
 namespace App\Command;
 
 use Bakame\TabularData\HtmlTable\Parser;
+use Castor\Attribute\AsSymfonyTask;
+use Survos\CoreBundle\Service\SurvosUtils;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Panther\Client;
 
-#[AsCommand('app:screenshot', 'take screenshot')]
+#[AsCommand('app:screenshot', 'take screenshot for all the sites')]
+#[AsSymfonyTask('app:screenshots')]
 final class AppScreenshotCommand
 {
 
@@ -21,11 +24,12 @@ final class AppScreenshotCommand
     {
 
         // of interest: https_proxy=$(symfony proxy:url) curl https://my-domain.wip
-
-        $sites = Parser::new()
-            ->ignoreTableHeader()
-            ->tableHeader(['dir', 'port', 'domains'])
-            ->parseFile('http://127.0.0.1:7080');
+        $sites = SurvosUtils::getSymfonyProxySites();
+//
+//        $sites = Parser::new()
+//            ->ignoreTableHeader()
+//            ->tableHeader(['dir', 'port', 'domains'])
+//            ->parseFile('http://127.0.0.1:7080');
 
         $client = Client::createChromeClient(
             null,
@@ -39,8 +43,8 @@ final class AppScreenshotCommand
         foreach ($sites as $idx => $site) {
             if (is_numeric($site['port'])) {
                 if (!empty($site['domains'])) {
-                    $url = $site['domains'];
-                    $url = preg_replace('|https://\*\..*?/|', '', $url);
+                    $url = $site['domains'][0];
+//                    $url = preg_replace('|https://\*\..*?/|', '', $url);
 //                    dump($url);
 //                    continue;
                     $host = parse_url($url, PHP_URL_HOST);
@@ -53,8 +57,6 @@ final class AppScreenshotCommand
                 }
             }
         }
-
         return Command::SUCCESS;
-
     }
 }

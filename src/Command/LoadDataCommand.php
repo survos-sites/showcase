@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Project;
 use App\Repository\ProjectRepository;
+use Castor\Attribute\AsSymfonyTask;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -16,6 +17,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Yaml\Yaml;
 
 #[AsCommand('app:load', 'load projects from local source')]
+#[AsSymfonyTask('app:load')]
 final class LoadDataCommand
 {
 

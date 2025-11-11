@@ -1,0 +1,55 @@
+{% extends "@SurvosBootstrap/%s/base.html.twig"|format(theme_option('theme')) %}
+
+    {% block stylesheets %}
+        {#        <link rel="stylesheet" href="https://kit.fontawesome.com/821a06d4ef.css" crossorigin="anonymous">#}
+{#        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/survosapigrid/style.css') }}" ></link>#}
+{#        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/survosbootstrap/bootstrap/style.css') }}">#}
+
+        {{ parent() }}
+    {% endblock %}
+
+
+{% block description "Survos Showcase" %}
+
+
+{% set appShortName = 'Showcase' %}
+
+
+{% block logo_mini %}<b>KPA</b>{% endblock %}
+{% block logo_large '<b>KPA</b> Admin' %}
+
+{% block page_title 'KPA Admin' %}
+{% block page_subtitle 'Songs and Music!' %}
+
+{#    {% block stylesheets %}#}
+{#        {{ parent() }}#}
+{#    {% endblock %}#}
+
+    {% block javascripts %}
+        {{ parent() }}
+    {% endblock %}
+
+
+{# could also overwrite template
+        {% include '@SurvosBootstrapBundle/Partials/_footer.html.twig' %}
+#}
+
+{#{% block footer %}#}
+{#    FOOTER {{ _self }}#}
+{#    <footer class="main-footer">#}
+{#        Theme: {{ theme_option('theme') }}#}
+{#        <!-- To the right -->#}
+{#        <div class="pull-right hidden-xs">#}
+
+{#        </div>#}
+{#        <!-- Default to the left -->#}
+{#        <strong>Data Copyright &copy; 2020 <a href="#">Kid Pan Alley</a>.</strong>  All rights reserved.#}
+{#        <strong>Code Copyright &copy; 2020 <a href="#">Survos</a>.</strong>  All rights reserved.#}
+{#    </footer>#}
+{#{% endblock %}#}
+
+{#{% block body %}#}
+{#    <h1>XX</h1>#}
+{#    {{ block('page_content') }}#}
+{#{% endblock %}#}
+

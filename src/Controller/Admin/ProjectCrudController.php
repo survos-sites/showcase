@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Project;
+use App\Workflow\IProjectWorkflow;
 use App\Workflow\ProjectWorkflow;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -18,7 +19,7 @@ use Symfony\Component\Workflow\WorkflowInterface;
 class ProjectCrudController extends AbstractCrudController
 {
     public function __construct(
-        #[Target(ProjectWorkflow::WORKFLOW_NAME)] private WorkflowInterface $workflow
+        #[Target(IProjectWorkflow::WORKFLOW_NAME)] private WorkflowInterface $workflow
     )
     {
     }
