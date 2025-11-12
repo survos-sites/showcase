@@ -1,0 +1,23 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block title %}{{ ciine.title }}{% endblock %}
+
+{% block content_header %}
+    <div class="content-header-title">
+        <h1 class="title">{{ ciine.title }}</h1>
+    </div>
+
+    <div class="page-actions">
+        <a href="{{ path('ez_meili_ciine_index') }}" class="btn btn-secondary">
+            <i class="fa fa-arrow-left"></i> Back to Ciine list
+        </a>
+    </div>
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid">
+        <div class="row">
+            {{ dump(ciine) }}
+        </div>
+    </div>
+{% endblock %}
