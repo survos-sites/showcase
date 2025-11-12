@@ -42,7 +42,7 @@ final class AppMenu implements KnpMenuHelperInterface
         $this->add($menu, 'app_homepage');
         $this->add($menu, 'app_slides', label: 'slides');
         $this->add($menu, 'survos_commands');
-        $this->add($menu, 'admin', label: 'ez');
+        $this->add($menu, 'ez_meili', label: 'ez');
 
 //        $this->add($menu, uri: '/db.svg', external: true, label: 'db.svg');
 
