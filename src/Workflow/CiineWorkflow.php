@@ -62,7 +62,7 @@ class CiineWorkflow
         $show->markerCount = 0;
         $show->fileSize = filesize($destination);
         $lines = file($destination);
-        // during dev only!
+        // during dev only?
         $show->asciiCast = file_get_contents($destination);
         $show->lineCount = count($lines);
         $this->entityManager->flush();

@@ -16,7 +16,7 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Yaml\Yaml;
 
-#[AsCommand('app:load', 'load projects from local source')]
+#[AsCommand('app:load', 'load survos applications from local source')]
 #[AsSymfonyTask('app:load')]
 final class LoadDataCommand
 {
@@ -109,7 +109,7 @@ final class LoadDataCommand
 
     }
 
-    private function loadProject($dir, SymfonyStyle $io): Project
+    private function loadProject(string $dir, SymfonyStyle $io): Project
     {
         foreach (['app.json', 'composer.json', 'config/packages/pwa.yaml', '.git/config'] as $file) {
             $fullFile = $dir . '/' . $file;

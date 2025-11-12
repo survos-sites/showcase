@@ -5,13 +5,13 @@ namespace App\Controller;
 use ApiPlatform\Metadata\UrlGeneratorInterface;
 use App\Entity\Show;
 use App\Repository\ShowRepository;
-use App\Service\CiineService;
 use App\Workflow\IPlayerWorkflow;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 use Survos\CiineBundle\Dto\Player;
 use Survos\CiineBundle\Dto\PlayerEvent;
+use Survos\CiineBundle\Service\CiineService;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -36,9 +36,9 @@ final class CastController extends AbstractController
         private MessageBusInterface                                         $messageBus,
         private LoggerInterface                                             $logger,
         private TexterInterface                                             $texter,
-        private CiineService                                                $ciine,
         private readonly EntityManagerInterface                             $entityManager,
-        private readonly ShowRepository                                     $showRepository, private readonly CiineService $ciineService,
+        private readonly ShowRepository                                     $showRepository,
+        private readonly CiineService $ciineService,
         private float                                                       $totalTime = 0.0,
         // crying to be a DTO
         private array                                                       $response = [

@@ -2,12 +2,15 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Ciine;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Survos\MeiliBundle\Service\MeiliService;
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -33,6 +36,7 @@ class MeiliDashboardController extends AbstractDashboardController
     {
         return Dashboard::new()->setTitle("Meili Dashboard");
     }
+
 
     public function configureMenuItems(): iterable
     {

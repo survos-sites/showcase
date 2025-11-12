@@ -3,7 +3,7 @@
     "name": "survos-sites/show",
     "description": "A showcase of survos sites and screenshows",
     "license": "proprietary",
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "prefer-stable": true,
     "require": {
         "php": "^8.4",
@@ -128,11 +128,11 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "^7.3"
+            "require": "^7.4"
         }
     },
     "require-dev": {
-        "bizkit/versioning-bundle": "^1.2",
+        "roave/security-advisories": "dev-latest",
         "dbrekelmans/bdi": "^1.4",
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^12.1",
