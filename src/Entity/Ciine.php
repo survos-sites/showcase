@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints\Url;
 #[ORM\Entity(repositoryClass: CiineRepository::class)]
 #[MeiliIndex(
     searchable: ['title'],
-    filterable: ['duration', 'featured', 'author'],
+    filterable: ['marking', 'featured', 'author', 'duration'],
     sortable: ['featured', 'duration'],
 
 )]

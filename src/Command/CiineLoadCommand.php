@@ -19,8 +19,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\ObjectMapper\Exception\MappingTransformException;
 use Symfony\Component\ObjectMapper\ObjectMapperInterface;
+use Castor\Attribute\AsSymfonyTask;
 
 #[AsCommand('ciine:load', 'load from the scraped jsonl file')]
+#[AsSymfonyTask('ciine:scrape')]
 class CiineLoadCommand
 {
 	public function __construct(
