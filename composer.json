@@ -11,6 +11,7 @@
         "ext-iconv": "*",
         "ext-intl": "*",
         "adhocore/cli-syntax": "^0.4.0",
+        "api-platform/core": "^4.2",
         "bakame/html-table": "^0.5.0",
         "doctrine/dbal": "^4",
         "doctrine/doctrine-bundle": "^3",

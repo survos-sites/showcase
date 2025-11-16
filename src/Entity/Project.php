@@ -13,6 +13,7 @@ use App\Workflow\IProjectWorkflow;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Survos\MeiliBundle\Api\Filter\FacetsFieldSearchFilter;
+use Survos\MeiliBundle\Metadata\MeiliIndex;
 use Survos\StateBundle\Traits\MarkingInterface;
 use Survos\StateBundle\Traits\MarkingTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -36,7 +37,9 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ApiFilter(SearchFilter::class, properties: ['marking' => 'exact', 'name' => 'partial'])]
 #[ApiFilter(FacetsFieldSearchFilter::class,
     properties: ['tags', 'license','dependencies','extensions','minimumStability'])]
-
+#[MeiliIndex(
+    filterable: ['minimumStability'],
+)]
 class Project implements \Stringable, MarkingInterface
 {
     use MarkingTrait;

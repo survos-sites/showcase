@@ -40,13 +40,12 @@ class CiineCrudController extends BaseCrudController
 //        yield TextField::new('title');
         yield IntegerField::new('filesize');
         yield IntegerField::new('duration');
-        // ez_meili_ciine_show
 
         yield TextField::new('title')
             ->formatValue(function ($value, Ciine $entity) {
                 return sprintf(
                     '<a href="%s">%s</a>',
-                    $this->generateUrl('ez_meili_ciine_show', ['ciineId' => $entity->id]),
+                    $this->generateUrl('meili_admin_ciine_show', ['ciineId' => $entity->id]),
                     $value
                 );
             });
