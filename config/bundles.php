@@ -27,7 +27,7 @@ return [
     Survos\DeploymentBundle\SurvosDeploymentBundle::class => ['dev' => true, 'test' => true],
     Inspector\Symfony\Bundle\InspectorBundle::class => ['all' => true],
     Survos\DocBundle\SurvosDocBundle::class => ['dev' => true, 'test' => true],
-    Jawira\DoctrineDiagramBundle\DoctrineDiagramBundle::class => ['dev' => true],
+    Jawira\DoctrineDiagramBundle\DoctrineDiagramBundle::class => ['dev' => true, 'test' => true],
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
     League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
     Survos\StorageBundle\SurvosStorageBundle::class => ['all' => true],
