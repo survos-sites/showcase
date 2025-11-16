@@ -1,4 +1,18 @@
 survos_meili:
-#  host: http://127.0.0.1:7700
-
-
+    host: '%env(MEILI_SERVER)%'
+    apiKey: '%env(MEILI_API_KEY)%'
+    searchKey: '%env(MEILI_SEARCH_KEY)%'
+    tools:
+        - label: riccox
+          url:  http://localhost:24900/
+#    embedders:
+#        small: # for testing, as cheap as possible
+#            source: 'openAi'
+#            model: 'text-embedding-3-small' # 2 cents/million tokens
+#            apiKey: '%env(OPENAI_API_KEY)%'
+#            template: 'templates/liquid/ciine.liquid'
+#        best: # for production if budget allows
+#            source: 'openAi'
+#            model: 'text-embedding-3-large' # 13 cents/million tokens
+#            apiKey: '%env(OPENAI_API_KEY)%'
+#            template: 'templates/liquid/ciine.liquid'
