@@ -251,7 +251,17 @@
         "version": "1.5.529"
     },
     "survos/meili-bundle": {
-        "version": "1.5.0"
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.0",
+            "ref": "203685352e56485cfb1d3b0fd2900e41d6bdc859"
+        },
+        "files": [
+            "config/packages/survos_meili.yaml",
+            "config/routes/survos_meili.yaml"
+        ]
     },
     "survos/reveal-bundle": {
         "version": "1.6.44"
