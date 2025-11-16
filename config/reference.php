@@ -1686,6 +1686,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         survos_deployment?: SurvosDeploymentConfig,
  *         inspector?: InspectorConfig,
  *         survos_doc?: SurvosDocConfig,
+ *         doctrine_diagram?: DoctrineDiagramConfig,
  *         liip_imagine?: LiipImagineConfig,
  *         flysystem?: FlysystemConfig,
  *         survos_storage?: SurvosStorageConfig,
