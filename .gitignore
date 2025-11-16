@@ -36,3 +36,6 @@ phpstan.neon
 drivers
 data
 public/js/fos_js_routes.js
+.castor.stub.php
+
+.castor.stub.php

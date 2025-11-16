@@ -26,9 +26,9 @@ use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Workflow\WorkflowInterface;
 
-
 final class CastController extends AbstractController
 {
+
 
     public function __construct(
         #[Autowire('%kernel.project_dir%')] private string                  $projectDir,
