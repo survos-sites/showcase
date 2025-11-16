@@ -28,6 +28,7 @@
         "liip/imagine-bundle": "^2.13",
         "nelmio/cors-bundle": "^2.4",
         "nikic/php-parser": "^5.0",
+        "openai-php/client": "^0.18.0",
         "phpdocumentor/reflection-docblock": "^5.3",
         "roave/better-reflection": "^6.32",
         "sensiolabs/ansi-to-html": "^2.0",
