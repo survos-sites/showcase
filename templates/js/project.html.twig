@@ -1,0 +1,143 @@
+{% set _sc = 'reveal' %}
+
+<div class="card h-100 shadow-sm">
+    <div class="card-header border-0 pb-0">
+        <div class="d-flex justify-content-between align-items-start gap-3">
+            <div class="flex-grow-1">
+                <div class="text-muted text-uppercase small lh-1 mb-1">
+                    {{ hit._highlightResult.vendor.value|raw }}
+                </div>
+                <h3 class="h4 mb-1">
+                    <a href="{{ hit.repo }}?tab=readme-ov-file" target="_blank" class="text-decoration-none">
+                        {{ hit._highlightResult.shortName.value|raw }}
+                    </a>
+                </h3>
+                <div class="small text-muted">
+                    {{ hit.name }}
+                </div>
+            </div>
+
+            <div class="d-flex flex-column align-items-end gap-1">
+                <div class="badge bg-white border text-warning d-inline-flex align-items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+                        <path fill="currentColor" d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327l4.898.696c.441.062.612.636.282.95l-3.522 3.356l.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                    </svg>
+                    <span class="fw-semibold">{{ hit._highlightResult.stars.value }}</span>
+                </div>
+
+                {% if hit.markingDisplay is defined or hit.marking is defined %}
+                    <span class="badge bg-primary-lt text-primary text-uppercase small">
+                        {{ hit.markingDisplay ?? hit.marking }}
+                    </span>
+                {% endif %}
+
+                <code>{{ hit.minimumStability }}</code>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body d-flex flex-column gap-3">
+        {# Description ------------------------------------------------------- #}
+        <blockquote class="mb-0 small text-muted border-start ps-3">
+            {{ hit._highlightResult.description.value|raw }}
+        </blockquote>
+
+        {# Tech meta row ----------------------------------------------------- #}
+        <div class="d-flex flex-wrap align-items-center gap-3">
+            <div class="d-flex flex-column small">
+                <div class="text-muted">PHP</div>
+                <div class="fw-semibold">
+                    {{ hit.composerJson.require.php ?: 'undefined' }}
+                </div>
+            </div>
+
+            {% if hit.symfonyVersions is defined and hit.symfonyVersions|length %}
+                <div class="vr d-none d-md-block"></div>
+                <div class="d-flex flex-column small">
+                    <div class="text-muted">Symfony</div>
+                    <div class="d-flex flex-wrap gap-1">
+                        {% for v in hit.symfonyVersions %}
+                            <span class="badge bg-primary-lt text-primary">{{ v }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if hit.version is defined %}
+                <div class="vr d-none d-md-block"></div>
+                <div class="d-flex flex-column small">
+                    <div class="text-muted">Version</div>
+                    <div class="fw-semibold">{{ hit.version }}</div>
+                </div>
+            {% endif %}
+
+            {% if hit.lastUpdatedOnPackagist %}
+                <div class="ms-auto small text-muted">
+                    Last updated:
+                    <span {{ stimulus_controller('timeago', { datetime: hit.lastUpdatedOnPackagist }) }}>
+                        {{ hit.lastUpdatedOnPackagist|date('Y-m-d') }}
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+
+        {# Keywords / tags --------------------------------------------------- #}
+        {% if hit.keywords is defined and hit.keywords|length %}
+            <div class="d-flex flex-wrap gap-1">
+                {% for keyword in hit.keywords|slice(0, 8) %}
+                    <span class="badge bg-secondary-lt text-secondary fw-normal">{{ keyword }}</span>
+                {% endfor %}
+                {% if hit.keywords|length > 8 %}
+                    <span class="badge bg-light text-muted">+{{ hit.keywords|length - 8 }}</span>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="card-footer border-0 pt-0 bg-transparent d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2 small text-muted">
+            {% if hit._rankingScore is defined and hit._rankingScore != 1 %}
+                <span>
+                    score:
+                    <span class="fw-semibold">{{ hit._rankingScore|number_format(2) }}</span>
+                </span>
+            {% endif %}
+
+            {% if hit.phpVersions is defined and hit.phpVersions|length %}
+                <span class="d-none d-sm-inline">&middot;</span>
+                <span class="d-flex flex-wrap align-items-center gap-1">
+                    <span>runs on:</span>
+                    {% for phpVersion in hit.phpVersions %}
+                        <span class="badge bg-light border fw-normal">{{ phpVersion }}</span>
+                    {% endfor %}
+                </span>
+            {% endif %}
+        </div>
+
+        <div class="d-flex align-items-center gap-2 flex-wrap ms-sm-auto">
+            {% if hit.githubUrl is defined %}
+                <a href="{{ hit.githubUrl }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                    {{ icons.github ?? '' }}
+                    <span class="ms-1">GitHub</span>
+                </a>
+            {% endif %}
+
+{#            <a target="_blank" href="{{ path('app_homepage', hit.rp) }}" class="btn btn-sm btn-outline-primary">#}
+{#            </a>#}
+            Details
+
+{#            <a href="https://packagist.org/packages/{{ hit.name }}" target="_blank" class="btn btn-sm btn-outline-secondary">#}
+{#                {{ globals.packagistIcon }}#}
+{#                <span class="ms-1">Packagist</span>#}
+{#            </a>#}
+
+            <button
+                    {{ stimulus_action(globals._sc_modal, 'modal') }}
+                    data-hit-id="{{ hit.id }}"
+                    class="btn btn-sm btn-outline-primary"
+            >
+                {{ icons.json }}
+            </button>
+        </div>
+    </div>
+</div>
