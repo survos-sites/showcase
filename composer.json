@@ -10,7 +10,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-intl": "*",
-        "adhocore/cli-syntax": "^0.4.0",
+        "adhocore/cli-syntax": "^1.0",
         "api-platform/core": "^4.2",
         "bakame/html-table": "^0.5.0",
         "doctrine/dbal": "^4",
