@@ -45,6 +45,16 @@ class MeiliDashboardController extends AbstractDashboardController
                 yield MenuItem::section('Content Management', 'fas fa-folder-open');
 
         yield from $this->meiliMenuFactory->createIndexMenus();
+
+        yield MenuItem::section('Tools', 'fas fa-wrench');
+        foreach (['monitoring','rabbitmq', 'shokku', 'dashboard','dokku'] as $adminSubdomain) {
+            yield MenuItem::linkToUrl($adminSubdomain, 'fas fa-chart-line', sprintf("https://%s.survos.com", $adminSubdomain))
+                ->setLinkTarget('_blank')
+//                        ->setPermission('ROLE_ADMIN')
+            ;
+
+        }
+
         return;
 
 
