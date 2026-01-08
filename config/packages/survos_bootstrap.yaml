@@ -1,10 +1,10 @@
-survos_bootstrap:
+survos_tabler:
   #  auth_menu: true
   routes:
       login: app_login
       logout: app_logout
       register: app_register
-      homepage: app_homepage
+      home: app_homepage
   menu_options:
       owner: null
       project: null
@@ -25,9 +25,7 @@ survos_bootstrap:
   options:
     # consider https://startbootstrap.com/previews/simple-sidebar as another theme
     theme: tabler
-    layout_direction: horizontal
-    allow_login: false
-    offcanvas: end
+    layout: horizontal
 
 
 #survos_velzon:

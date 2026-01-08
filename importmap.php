@@ -16,6 +16,10 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    'admin' => [
+        'path' => './assets/admin.js',
+        'entrypoint' => true,
+    ],
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
     ],
@@ -75,10 +79,10 @@ return [
         'type' => 'css',
     ],
     'simple-datatables' => [
-        'version' => '10.2.0',
+        'version' => '9.2.2',
     ],
     'simple-datatables/dist/style.min.css' => [
-        'version' => '10.2.0',
+        'version' => '9.2.2',
         'type' => 'css',
     ],
     'twig' => [
@@ -128,25 +132,25 @@ return [
         'type' => 'css',
     ],
     'instantsearch.js' => [
-        'version' => '4.85.2',
+        'version' => '4.86.1',
     ],
     '@algolia/events' => [
         'version' => '4.0.1',
     ],
     'algoliasearch-helper' => [
-        'version' => '3.26.1',
+        'version' => '3.27.0',
     ],
     'qs' => [
-        'version' => '6.14.0',
+        'version' => '6.14.1',
     ],
     'algoliasearch-helper/types/algoliasearch.js' => [
-        'version' => '3.26.1',
+        'version' => '3.27.0',
     ],
     'instantsearch.js/es/widgets' => [
-        'version' => '4.85.2',
+        'version' => '4.86.1',
     ],
     'instantsearch-ui-components' => [
-        'version' => '0.15.2',
+        'version' => '0.16.0',
     ],
     'preact' => [
         'version' => '10.28.1',
@@ -280,7 +284,7 @@ return [
         'version' => '1.0.2',
     ],
     'reveal.js' => [
-        'version' => '5.2.1',
+        'version' => '4.6.1',
     ],
     'reveal.js/dist/reveal.js' => [
         'version' => '5.2.1',
@@ -307,7 +311,7 @@ return [
         'version' => '2.1.3',
     ],
     'ai' => [
-        'version' => '5.0.108',
+        'version' => '6.0.5',
     ],
     '@babel/runtime/helpers/typeof' => [
         'version' => '7.28.4',
@@ -319,7 +323,7 @@ return [
         'version' => '7.28.4',
     ],
     'markdown-to-jsx' => [
-        'version' => '7.7.17',
+        'version' => '9.5.0',
     ],
     'es-object-atoms' => [
         'version' => '1.1.1',
@@ -355,22 +359,22 @@ return [
         'version' => '1.0.1',
     ],
     '@ai-sdk/gateway' => [
-        'version' => '2.0.18',
+        'version' => '3.0.4',
     ],
     '@ai-sdk/provider-utils' => [
-        'version' => '3.0.18',
+        'version' => '4.0.2',
     ],
     '@ai-sdk/provider' => [
-        'version' => '2.0.0',
+        'version' => '3.0.1',
     ],
     'zod/v4' => [
-        'version' => '4.1.13',
+        'version' => '4.3.4',
     ],
     '@opentelemetry/api' => [
         'version' => '1.9.0',
     ],
     'react' => [
-        'version' => '19.2.0',
+        'version' => '19.2.3',
     ],
     '@vercel/oidc' => [
         'version' => '3.0.5',
@@ -379,9 +383,15 @@ return [
         'version' => '3.0.6',
     ],
     'zod/v3' => [
-        'version' => '4.1.13',
+        'version' => '4.3.4',
     ],
     '@standard-schema/spec' => [
-        'version' => '1.0.0',
+        'version' => '1.1.0',
+    ],
+    'chart.js' => [
+        'version' => '4.5.1',
+    ],
+    '@kurkle/color' => [
+        'version' => '0.3.4',
     ],
 ];

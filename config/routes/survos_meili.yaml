@@ -1,3 +1,4 @@
 survos_meili:
     resource: '@SurvosMeiliBundle/config/routes.yaml'
     prefix: '/meili'
+

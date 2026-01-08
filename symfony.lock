@@ -101,7 +101,7 @@
         "version": "0.8.5"
     },
     "knplabs/knp-menu-bundle": {
-        "version": "v3.3.0"
+        "version": "v3.7.0"
     },
     "knplabs/knp-time-bundle": {
         "version": "v2.4.0"
@@ -194,9 +194,6 @@
             "config/packages/ansi_to_html.yaml"
         ]
     },
-    "survos/bootstrap-bundle": {
-        "version": "1.5.190"
-    },
     "survos/ciine-bundle": {
         "version": "dev-main"
     },
@@ -220,16 +217,16 @@
         "version": "1.5.190"
     },
     "survos/crawler-bundle": {
-        "version": "1.5",
+        "version": "2.0",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",
             "version": "1.5",
-            "ref": "d98d3a77f60f60a5a1fc49f2fb151e43abb54dfc"
+            "ref": "d16db1be85e21925f873d8099ca9ae7c4d50a208"
         },
         "files": [
             "config/packages/survos_crawler.yaml",
-            "config/routes/survos_crawler.php"
+            "config/routes/survos_crawler.yaml"
         ]
     },
     "survos/deployment-bundle": {
@@ -274,6 +271,9 @@
     },
     "survos/storage-bundle": {
         "version": "1.5.529"
+    },
+    "survos/tabler-bundle": {
+        "version": "dev-main"
     },
     "symfony/asset-mapper": {
         "version": "7.0",
@@ -366,6 +366,18 @@
             "ref": "e38fbf364dbf38a431b561cf70fec054790b569f"
         }
     },
+    "symfony/lock": {
+        "version": "8.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.2",
+            "ref": "8e937ff2b4735d110af1770f242c1107fdab4c8e"
+        },
+        "files": [
+            "config/packages/lock.yaml"
+        ]
+    },
     "symfony/mailer": {
         "version": "7.0",
         "recipe": {
@@ -424,12 +436,12 @@
         ]
     },
     "symfony/panther": {
-        "version": "2.0",
+        "version": "2.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
             "version": "1.0",
-            "ref": "673836afb0eac2b0ec36c44f2ff0379e5a4b2177"
+            "ref": "4380502301e68b744b21d2a0c917693676a72f33"
         }
     },
     "symfony/phpunit-bridge": {
@@ -534,6 +546,9 @@
             "version": "7.0",
             "ref": "0df5844274d871b37fc3816c57a768ffc60a43a5"
         }
+    },
+    "symfony/ux-chartjs": {
+        "version": "v2.31.0"
     },
     "symfony/ux-icons": {
         "version": "2.31",

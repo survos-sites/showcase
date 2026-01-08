@@ -2,22 +2,22 @@
 
 namespace App\Menu;
 
+use App\Controller\Admin\MeiliDashboardController;
 use App\Entity\Ciine;
 use App\Entity\Project;
 use App\Entity\Show;
-use Survos\BootstrapBundle\Event\KnpMenuEvent;
-use Survos\BootstrapBundle\Service\MenuService;
-use Survos\BootstrapBundle\Traits\KnpMenuHelperInterface;
-use Survos\BootstrapBundle\Traits\KnpMenuHelperTrait;
 use Survos\MeiliBundle\Service\MeiliService;
+use Survos\TablerBundle\Event\MenuEvent;
+use Survos\TablerBundle\Menu\MenuBuilderTrait;
+use Survos\TablerBundle\Service\MenuService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-final class AppMenu implements KnpMenuHelperInterface
+final class AppMenu // @todo: trait
 {
-    use KnpMenuHelperTrait;
+    use MenuBuilderTrait;
 
     public function __construct(
         #[Autowire('%kernel.environment%')] protected string $env,
@@ -28,21 +28,21 @@ final class AppMenu implements KnpMenuHelperInterface
     ) {
     }
 
-    public function appAuthMenu(KnpMenuEvent $event): void
+    public function appAuthMenu(MenuEvent $event): void
     {
         $menu = $event->getMenu();
         $this->menuService->addAuthMenu($menu);
     }
 
-    #[AsEventListener(event: KnpMenuEvent::NAVBAR_MENU)]
-    public function navbarMenu(KnpMenuEvent $event): void
+    #[AsEventListener(event: MenuEvent::NAVBAR_MENU)]
+    public function navbarMenu(MenuEvent $event): void
     {
         $menu = $event->getMenu();
-        $options = $event->getOptions();
+        $options = $event->options;
         $this->add($menu, 'app_homepage');
         $this->add($menu, 'app_slides', label: 'slides');
         $this->add($menu, 'survos_commands');
-        $this->add($menu, 'meili_admin', label: 'ez');
+        $this->add($menu, MeiliDashboardController::MEILI_ROUTE, label: 'ez');
 
 //        $this->add($menu, uri: '/db.svg', external: true, label: 'db.svg');
 
@@ -59,7 +59,7 @@ final class AppMenu implements KnpMenuHelperInterface
         }
 
 
-        if ($this->isEnv('dev')) {
+        if ($this->env === 'dev') {
 
             $subMenu = $this->addSubmenu($menu, 'workflows');
             $this->add($subMenu, 'survos_workflows');
