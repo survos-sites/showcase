@@ -11,6 +11,7 @@ use App\Repository\ComponentRepository;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Survos\CoreBundle\Service\SurvosUtils;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -66,6 +67,21 @@ final class AppService
             $this->siteRepo->count([]),
         ));
 
+        return Command::SUCCESS;
+    }
+
+    #[AsCommand('app:deprecate', 'mark a component as deprecated (excluded from updates)')]
+    public function deprecate(SymfonyStyle $io, #[Argument('composer name, e.g. survos-sites/old-app')] string $composerName): int
+    {
+        $id = str_replace('/', '__', $composerName);
+        $component = $this->componentRepo->find($id);
+        if (!$component) {
+            $io->error("Component not found: $composerName");
+            return Command::FAILURE;
+        }
+        $component->deprecated = true;
+        $this->em->flush();
+        $io->success("Marked as deprecated: $composerName");
         return Command::SUCCESS;
     }
 

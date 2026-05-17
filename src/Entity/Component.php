@@ -86,6 +86,11 @@ final class Component implements \Stringable, MarkingInterface, RouteParametersI
     #[Groups(['component.read'])]
     public ?string $plan = null;
 
+    #[ORM\Column(options: ['default' => false])]
+    #[Field(filterable: true, facet: true, order: 50)]
+    #[Groups(['component.read'])]
+    public bool $deprecated = false;
+
     #[ORM\Column(length: 255, nullable: true)]
     public ?string $status = null;
 

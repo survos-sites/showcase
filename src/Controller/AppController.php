@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Enum\ComponentKind;
 use App\Repository\ComponentRepository;
 use App\Repository\ShowRepository;
 use Survos\CoreBundle\Service\SurvosUtils;
@@ -38,6 +39,32 @@ class AppController extends AbstractController
     public function slideshow(Request $request): Response|array
     {
         return ['shows' => $this->showRepo->findBy([], limit: 30)];
+    }
+
+    #[Route('/apps', name: 'app_apps', methods: [Request::METHOD_GET])]
+    public function apps(ComponentRepository $componentRepository): Response
+    {
+        return $this->render('home.html.twig', [
+            'title'      => 'Apps',
+            'components' => $componentRepository->findBy(
+                ['kind' => ComponentKind::App],
+                ['minimumStability' => 'ASC', 'name' => 'ASC']
+            ),
+            'running'    => [],
+        ]);
+    }
+
+    #[Route('/tools', name: 'app_tools', methods: [Request::METHOD_GET])]
+    public function tools(ComponentRepository $componentRepository): Response
+    {
+        return $this->render('home.html.twig', [
+            'title'      => 'Tools',
+            'components' => $componentRepository->findBy(
+                ['kind' => [ComponentKind::Bundle, ComponentKind::Library]],
+                ['name' => 'ASC']
+            ),
+            'running'    => [],
+        ]);
     }
 
     #[Route('/', name: 'app_homepage', methods: [Request::METHOD_GET])]

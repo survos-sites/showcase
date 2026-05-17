@@ -2,16 +2,17 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-<twig:tabler:page title="Survos Components" pretitle="Museado Platform">
+<twig:tabler:page title="{{ title ?? 'All Components' }}" pretitle="Museado Platform">
     <twig:block name="content">
 
         <h3>{{ components|length }} Components</h3>
 
         {% set columns = [
-            { name: 'code',               title: 'Package' },
+            { name: 'id',                 title: 'Package' },
             { name: 'kind',               title: 'Kind' },
             { name: 'description',        title: 'Description' },
             { name: 'minimumStability',   title: 'Stability' },
+            { name: 'deprecated',         title: 'Deprecated' },
         ] %}
 
         <twig:simple_datatables
