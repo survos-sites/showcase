@@ -2,31 +2,27 @@
 
 {% block body %}
 
-    <h1>{{ project.name }}</h1>
+    <h1>{{ component.name }}</h1>
 
-    {{ project.liveUrl }}
+    {{ component.liveUrl ?? '' }}
 
-
-    {% for owner, req in project.requireByOwner %}
+    {% for owner, req in component.requireByOwner %}
         <ul>
             <li>
                 {{ owner }}/
                 <ul>
-                {% for r in req %}
-                <li>
-                    {{ r.display }}
-                    {#  description would be really cool here!  Link to repo? #}
-{#                    {{ r.package }}#}
-                </li>
-            {% endfor %}
+                    {% for r in req %}
+                        <li>{{ r.display }}</li>
+                    {% endfor %}
                 </ul>
             </li>
         </ul>
     {% endfor %}
 
     <h2>PWA</h2>
-    {{ project.pwaYaml|json_pretty }}
+    {{ component.pwaYaml|json_pretty }}
 
-    <h2>AppJson</h2>
-    {{ project.appJson|json_pretty }}
+    <h2>composer.json</h2>
+    {{ component.composerJson|json_pretty }}
+
 {% endblock %}

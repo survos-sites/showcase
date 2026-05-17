@@ -4,7 +4,7 @@ namespace App\Menu;
 
 use App\Controller\Admin\MeiliDashboardController;
 use App\Entity\Ciine;
-use App\Entity\Project;
+use App\Entity\Component;
 use App\Entity\Show;
 use Survos\MeiliBundle\Service\MeiliService;
 use Survos\TablerBundle\Event\MenuEvent;
@@ -76,7 +76,7 @@ final class AppMenu // @todo: trait
                 $this->add($subMenu, 'survos_command', ['commandName' => $commandName], $commandName);
             }
             $subMenu = $this->addSubmenu($menu, 'state:iterate');
-            foreach ([Show::class, Project::class, Ciine::class] as $className) {
+            foreach ([Show::class, Component::class, Ciine::class] as $className) {
                 $className = str_replace("\\", "\\\\", $className);
                 $this->add($subMenu, 'survos_command', ['commandName' => 'state:iterate', 'className' => $className], $className);
             }

@@ -54,15 +54,15 @@ final class AppService
 
 ### Tasks (in order)
 
-1. Create `App\Enum\ComponentKind` — cases: `Repo`, `Bundle`, `Site`.
-2. Rename entity `Project` → `Component`. Grep `Project::class`, `ProjectRepository`, `'project'`, templates, EasyAdmin configs.
-3. Convert `Component` to use `survos/field-bundle` attributes. Remove manual getters/setters.
-4. Add fields: `kind: ComponentKind`, `overview: ?string` (text), `plan: ?string` (text).
-5. Generate Doctrine migration. **Show diff before running.**
-6. Rename `ProjectRepository` → `ComponentRepository`.
+1. ✅ Create `App\Enum\ComponentKind` — cases map directly to Composer `type`: `Bundle = 'symfony-bundle'`, `Library = 'library'`, `App = 'project'`, `Plugin = 'composer-plugin'`.
+2. Rename entity `Project` → `Component`. PHP 8.4 style: public properties, `readonly` PK, property hooks for computed fields, `#[EntityMeta]`/`#[Field]`/`#[RouteIdentity]` from field-bundle. No getters/setters. Merge task 3 into this.
+3. ~~Convert `Component` to use field-bundle attributes~~ — merged into task 2.
+4. Add fields to `Component`: `kind: ?ComponentKind`, `overview: ?string` (text), `plan: ?string` (text).
+5. Create `App\Entity\Site` — the deployed instance of an `App`-kind component. PK: dokku app name (e.g. `lingua`). Fields: `dokkuHost`, `localPort` (from Symfony proxy, transient), `screenshotPath`, `ManyToOne → Component`. Computed hooks: `productionUrl`, `localUrl`, `isRunning`. Rename `ProjectRepository` → `ComponentRepository`, add `SiteRepository`.
+6. Generate Doctrine migration. **Show diff before running.**
 7. Create `config/sources.php` returning a `Sources` readonly value object. `Source { path, kind, depth }`. Wire as a service.
 8. Create `src/Input/LoadInput.php` and `src/Input/UpdateInput.php` MapInput DTOs.
-9. Create `src/Service/AppService.php` with `app:load` and `app:update` methods per the target shape above.
+9. Create `src/Service/AppService.php` with `app:load` and `app:update` methods. `app:load` reads `.git/config` for dokku remote (Site PK + host), calls `SurvosUtils::getSymfonyProxySites()` for `localPort`, creates/updates both `Component` and `Site` in one pass.
 10. Delete `src/Command/LoadDataCommand.php`.
 11. Run `bin/console app:load` against the local Survos monorepo. Show output. Confirm idempotency by running twice.
 
@@ -97,6 +97,9 @@ Once `AppService` is in place, a follow-up task will use `composer.json#extra.sh
 - **2026-05-17 — `AppService` in `src/Service/`.** It's a service that happens to expose commands. The location reflects the architectural primary; `#[AsCommand]` autodiscovery finds it regardless.
 - **2026-05-17 — MapInput DTOs for all command inputs, even single-field ones.** Establishes the pattern. Descriptions and validation live in one place (the DTO), command signatures stay small, and adding flags later doesn't require touching command signatures.
 - **2026-05-17 — composer.json `extra` convention.** One kebab-case key per tool, object-under-key, defaults belong to the tool, document the schema. See CONVENTIONS.md.
+- **2026-05-17 — ComponentKind maps to Composer `type`.** Cases: `Bundle = 'symfony-bundle'`, `Library = 'library'`, `App = 'project'`, `Plugin = 'composer-plugin'`. Enum backed by the Composer type string so `ComponentKind::from($composerJson['type'])` works directly. 86 bundles in `mono/bu`, 4 libraries in `mono/lib`, 82 apps in `sites/`.
+- **2026-05-17 — Component PK is a slug derived from composer name.** Format: replace `/` with `__` (double underscore). Example: `survos/jsonl-bundle` → `survos__jsonl-bundle`. Dot rejected (invalid in Meilisearch). Losslessly reversible. `composerName` stored as a separate plain string field. `localCode` stores the directory basename (e.g. `lingua`) for `.wip` URL generation until the Site entity exists.
+- **2026-05-17 — Site entity added to Phase 2 (not deferred).** A `Component` is the codebase; a `Site` is its deployed instance. PK = dokku app name parsed from `remote.dokku.url` in `.git/config` (e.g. `lingua` from `dokku@dokku.survos.com:lingua`). `localPort` populated transiently from `SurvosUtils::getSymfonyProxySites()` (Symfony proxy at `:7080`) on each `app:load` run. `localCode` removed from `Component` — it was always `Site` data. Future: `app:start` can iterate `Site` records and call `symfony server:start --dir=$component->localDir` to bring all sites up locally for 8.1 testing.
 
 ## Backlog (file as GitHub issues)
 

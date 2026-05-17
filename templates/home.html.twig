@@ -1,150 +1,54 @@
-{# templates/tabler/pages/index.html.twig v3.9 - Generated 2025-12-30 #}
-{% extends "@SurvosTabler/layout/empty_base.html.twig" %}
-{% block content %}
-<twig:tabler:page title="Index" pretitle="Demo">
+{# templates/home.html.twig #}
+{% extends "base.html.twig" %}
+
+{% block body %}
+<twig:tabler:page title="Survos Components" pretitle="Museado Platform">
     <twig:block name="content">
 
+        <h3>{{ components|length }} Components</h3>
 
-    <h3>Files (*.casts)</h3>
-    {% for cast in casts %}
-        <li>
-            {{ cast }}
-            <a href="{{ path('app_player', {cineCode: cast.basename|replace({'.cast': ''})}) }}">
-                {{ cast.basename }}
-            </a>
-        </li>
-    {% endfor %}
+        {% set columns = [
+            { name: 'code',               title: 'Package' },
+            { name: 'kind',               title: 'Kind' },
+            { name: 'description',        title: 'Description' },
+            { name: 'minimumStability',   title: 'Stability' },
+        ] %}
 
-    <hr />
+        <twig:simple_datatables
+            :columns="columns"
+            :data="components"
+            perPage="25"
+        >
+            <twig:block name="code">
+                <a href="{{ path('component_show', row.rp) }}">{{ row.composerName }}</a>
+            </twig:block>
+            <twig:block name="kind">
+                <span class="badge bg-{{ row.kind.value == 'project' ? 'blue' : (row.kind.value == 'symfony-bundle' ? 'green' : 'gray') }}">
+                    {{ row.kind ? row.kind.name : '' }}
+                </span>
+            </twig:block>
+        </twig:simple_datatables>
 
-
-    <h3>Shows in Database</h3>
-    {% for show in shows|slice(0,4) %}
-    <li>
-        <a href="{{ path('app_player', {cineCode: show.code}) }}">
-        <code>{{ show.code }}</code>
-        <b>{{ show.title }}</b>
-            {{ show.lineCount }}
-            {{ show.fileSize }}
-        </a>
-
-        @Asci: <a href="{{ show.castUrl }}" target="_blank">{{ show.castUrl }}</a>
-
-        original .cast:
-        <a href="{{ path('app_player', {cineCode: show.code, _format: 'cast'}) }}">
-            Play
-        </a>
-        <a href="{{ path('ciine_data', {cineCode: show.code, _format: 'cast'}) }}">
-            show
-        </a>
-
-        DATA:
-        {% for format in ['html','json','ndjson','cast','txt'] %}
-            <a href="{{ path('ciine_data', {cineCode: show.code, _format: format}) }}">
-                {{ format }}
-            </a>
-
-        {% endfor %}
-    </li>
-    {% endfor %}
-    <h3>{{ running|length }} Running Projects</h3>
-
-    <div class="row" data-masonry='{"percentPosition": true }'>
-
-        {% if runningOnly %}
-        <div class="container-xl">
-            <div class="row row-cards">
-                {% for project in running   %}
+        {% if running %}
+            <h3>{{ running|length }} Running Locally</h3>
+            <div class="row row-cards mt-3">
+                {% for component in running %}
                     <div class="col-sm-6 col-lg-4">
                         <div class="card card-sm">
-                            {% set imageUrl = "%s.wip.png"|format(project.name) %}
-
-
-{#                            <a href="#" class="d-block"><img src="./static/photos/beautiful-blonde-woman-relaxing-with-a-can-of-coke-on-a-tree-stump-by-the-beach.jpg" class="card-img-top"></a>#}
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center">
-{#                                        <span class="avatar avatar-2 me-3 rounded" style="background-image: url(./static/avatars/000m.jpg)"> </span>#}
-                                        <div>
-                                            <div>
-                                                <a target="_blank" href="{{ project.githubUrl }}" class="text-secondary">
-                                                    <twig:ux:icon name="mdi:github" />
-                                                    {#                                                {{ project.composerJson.name??project.name }}#}
-                                                    {#                                {{ project.appJson.repository|replace({'https://github.com/': ''}) }}#}
-                                                </a>
-                                                {{ project.composerJson.name??project.name }}
-                                            </div>
-                                            {% set liveUrl = "https://%s.wip"|format(project.name) %}
-                                            <div class="text-secondary"><a href="{{ liveUrl }}" target="_blank">{{ liveUrl }}</a></div>
-                                        </div>
-                                    </div>
-                                    <a href="{{ path('project_show', {id: project.id}) }}" class="d-block">
-                                        <img class="card-img-top" src="{{ imageUrl }}" class="card-img-top">
-                                    </a>
-
+                            <div class="card-body">
+                                <div><a href="{{ component.githubUrl }}" target="_blank">
+                                    <twig:ux:icon name="mdi:github" /> {{ component.composerName }}
+                                </a></div>
+                                <div class="text-secondary">
+                                    <a href="https://{{ component.name }}.wip" target="_blank">{{ component.name }}.wip</a>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
-        </div>
         {% endif %}
 
-        <h3>All Projects</h3>
-        {% for project in projects %}
-            <div class="grid-item col-sm-6  col-lg-3">
-                {% with { project: project } %}
-                    <twig:card :title="project.name">
-                        <twig:block name="title">
-                            <h2>
-                                <a target="_blank" href="{{ project.githubUrl }}">
-                                    <twig:ux:icon name="mdi:github" />
-                                    {{ project.composerJson.name??project.name }}
-                                    {#                                {{ project.appJson.repository|replace({'https://github.com/': ''}) }}#}
-                                </a>
-                            </h2>
-                            {% set imageUrl = "%s.wip"|format(project.name) %}
-                            <img src="{{ imageUrl }}.png" />
-                            {{ imageUrl }}
-
-                        </twig:block>
-
-                        <twig:block name="card_title">
-                            <h1>
-                                <a href="https://{{ project.code }}.wip">
-                                    {{ project.code }}
-                                </a>
-                                {{ project.composerJson.name??project.name }}
-                            </h1>
-                            {{ project.githubUrl }}
-                            <a target="_blank" href="{{ project.appJson.repository }}">
-                                <twig:ux:icon name="mdi:github" />
-                                {#                                {{ project.appJson.repository|replace({'https://github.com/': ''}) }}#}
-                            </a>
-                        </twig:block>
-                        <twig:block name="card_body">
-                            {{ project.composerJson.description|default('missing!') }}
-                            &nbsp;
-                        </twig:block>
-                        <twig:block name="links">
-                        </twig:block>
-                        <twig:block name="footer">
-                            {{ project.status }}
-                            <a href="{{ path('project_show', {id: project.id}) }}">Show</a>
-                            <a href="{{ project.liveUrl }}" target="_blank">
-                                {{ project.liveUrl }}
-                            </a>
-                            <a href="https://{{ project.name }}.wip" target="_blank">
-                                {{ project.name }}.wip
-                            </a>
-                        </twig:block>
-
-                    </twig:card>
-                    {#                {{ block('card') }}#}
-                {% endwith %}
-            </div>
-        {% endfor %}
-    </div>
-
     </twig:block>
-    </twig:tabler:page>
+</twig:tabler:page>
 {% endblock %}

@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
-use App\Entity\Project;
-use App\Repository\ProjectRepository;
+use App\Repository\ComponentRepository;
 use App\Repository\ShowRepository;
-use Bakame\TabularData\HtmlTable\Parser;
-use Survos\Bundle\MakerBundle\Service\GeneratorService;
 use Survos\CoreBundle\Service\SurvosUtils;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,19 +15,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
-use Zenstruck\Console\RunsCommands;
-use Zenstruck\Console\RunsProcesses;
-use function Symfony\Component\String\u;
 
 class AppController extends AbstractController
 {
     public function __construct(
         #[Autowire('%kernel.project_dir%')] private string $projectDir,
-        private readonly ProjectRepository                 $repo,
+        private readonly ComponentRepository $repo,
         private readonly ShowRepository $showRepo,
         #[Autowire('%kernel.environment%')] private string $environment,
-    )
-    {
+    ) {
     }
 
     #[Route('/blank', name: 'app_blank', methods: [Request::METHOD_GET])]
@@ -42,70 +37,37 @@ class AppController extends AbstractController
     #[Template('app/slideshow.html.twig')]
     public function slideshow(Request $request): Response|array
     {
-        return [
-            'shows' => $this->showRepo->findBy([], limit: 30)
-        ];
+        return ['shows' => $this->showRepo->findBy([], limit: 30)];
     }
 
     #[Route('/', name: 'app_homepage', methods: [Request::METHOD_GET])]
-    public function index(ProjectRepository $projectRepository,
-                          ShowRepository $showRepository,
-                          #[MapQueryParameter] bool $runningOnly = false): Response
-    {
+    public function index(
+        ComponentRepository $componentRepository,
+        ShowRepository $showRepository,
+        #[MapQueryParameter] bool $runningOnly = false,
+    ): Response {
         $running = [];
-        //
-        $names = [];
         if ($this->environment === 'dev' && $runningOnly) {
             $sites = SurvosUtils::getSymfonyProxySites();
-//            $sites = Parser::new()->ignoreTableHeader()->tableHeader(['dir', 'port', 'domains'])->parseFile('http://127.0.0.1:7080');
-            foreach ($sites as $idx => $site) {
-                // check if it's running locally
-                if (!is_numeric($site['port'])) {
+            $names = [];
+            foreach ($sites as $site) {
+                if (!is_numeric($site['port']) || empty($site['port']) || empty($site['domains'])) {
                     continue;
                 }
-                if (empty($site['port'])) {
-                    continue;
-                }
-                if (empty($site['domains'])) {
-                    continue;
-                }
-
-                $url = $site['domains'];
-                $host = parse_url($url, PHP_URL_HOST);
-                $host = u($host)->before('.wip')->toString();
+                $host = parse_url($site['domains'][0] ?? $site['domains'], PHP_URL_HOST);
+                $host = (string) \Symfony\Component\String\u($host)->before('.wip');
                 $names[] = $host;
-                $running[] = $projectRepository->findOneBy(['name' => $host]);
             }
-            $running = $projectRepository->findBy(['name' => $names], ['name' => 'ASC']);
+            $running = $componentRepository->findBy(['name' => $names], ['name' => 'ASC']);
         }
-        $projects = $projectRepository->findBy([], ['name' => 'ASC']);
+
         return $this->render('home.html.twig', [
-            'shows' => $showRepository->findAll(),
-            // @todo: load from disk? fixtures?
-            'casts' => (new Finder())->in($this->projectDir . '/public')->name('*.cast')->files(),
+            'shows'      => $showRepository->findAll(),
+            'casts'      => (new Finder())->in($this->projectDir . '/public')->name('*.cast')->files(),
             'runningOnly' => $runningOnly,
-            'running' => $running,
-            'projects' => $projects]);
+            'running'    => $running,
+            'components' => $componentRepository->findBy([], ['name' => 'ASC']),
+        ]);
     }
-
-    #[Route('/show/{id:project}', name: 'project_show', methods: [Request::METHOD_GET])]
-    #[Template('show.html.twig')]
-    public function show(Project $project): Response|array
-    {
-        return ['project' => $project];
-    }
-
-    #[Route('/generate', name: 'app_generate', methods: [Request::METHOD_GET])]
-    public function generate(GeneratorService $generatorService): Response
-    {
-        $ns = $generatorService->generateController($nsName = "ProjectController");
-        $class = $ns->getClasses()[array_key_first($ns->getClasses())];
-        dd($class, $ns->getClasses());
-        $generatorService->addMethod($class, 'show');
-        //        dd($ns, $class, '<?php ' . $ns);
-        return $this->render('controller.html.twig', ['ns' => $ns]);
-    }
-
-    // without the Parser
 
 }
