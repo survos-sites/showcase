@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Workflow;
 
 use App\Entity\Component;
+use App\Enum\ComponentKind;
 use App\Workflow\ComponentFlow as WF;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Process\Process;
@@ -28,11 +29,16 @@ class ComponentWorkflow
     #[AsGuardListener(WF::WORKFLOW_NAME)]
     public function onGuard(GuardEvent $event): void
     {
-        switch ($event->getTransition()->getName()) {
-            case WF::TRANSITION_UPDATE:
-            case WF::TRANSITION_LOCK:
-            case WF::TRANSITION_REFRESH:
-                break;
+        /** @var Component $component */
+        $component = $event->getSubject();
+
+        if ($event->getTransition()->getName() === WF::TRANSITION_UPDATE) {
+            if ($component->kind !== ComponentKind::App) {
+                $event->setBlocked(true, 'Only App-kind components can be updated via workflow');
+            }
+            if ($component->deprecated) {
+                $event->setBlocked(true, 'Deprecated components are excluded from updates');
+            }
         }
     }
 
