@@ -14,7 +14,7 @@ framework:
                     multiplier: 2
             failed: 'doctrine://default?queue_name=failed'
             sync: 'sync://'
-            liip_imagine: '%env(MESSENGER_TRANSPORT_DSN)%'
+#            liip_imagine: '%env(MESSENGER_TRANSPORT_DSN)%'
 
         default_bus: messenger.bus.default
 

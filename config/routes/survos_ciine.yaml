@@ -1,3 +1,0 @@
-survos_ciine:
-  resource: '@SurvosCiineBundle/config/routes.yaml'
-  prefix: '/bundle/ciine'
