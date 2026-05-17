@@ -38,7 +38,7 @@ final class CastController extends AbstractController
         private TexterInterface                                             $texter,
         private readonly EntityManagerInterface                             $entityManager,
         private readonly ShowRepository                                     $showRepository,
-        private readonly CiineService $ciineService,
+        private readonly ?CiineService $ciineService=null,
         private float                                                       $totalTime = 0.0,
         // crying to be a DTO
         private array                                                       $response = [

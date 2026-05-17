@@ -9,7 +9,6 @@ use App\Entity\Show;
 use Survos\MeiliBundle\Service\MeiliService;
 use Survos\TablerBundle\Event\MenuEvent;
 use Survos\TablerBundle\Menu\MenuBuilderTrait;
-use Survos\TablerBundle\Service\MenuService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -21,7 +20,6 @@ final class AppMenu // @todo: trait
 
     public function __construct(
         #[Autowire('%kernel.environment%')] protected string $env,
-        private MenuService                                  $menuService,
         private Security                                     $security,
         private readonly MeiliService $meiliService,
         private ?AuthorizationCheckerInterface               $authorizationChecker = null
@@ -31,7 +29,15 @@ final class AppMenu // @todo: trait
     public function appAuthMenu(MenuEvent $event): void
     {
         $menu = $event->getMenu();
-        $this->menuService->addAuthMenu($menu);
+
+        if ($this->security->getUser()) {
+            $this->add($menu, 'app_logout', label: 'Logout', icon: 'logout');
+
+            return;
+        }
+
+        $this->add($menu, 'app_login', label: 'Login', icon: 'login');
+        $this->add($menu, 'app_register', label: 'Register', icon: 'user-plus');
     }
 
     #[AsEventListener(event: MenuEvent::NAVBAR_MENU)]

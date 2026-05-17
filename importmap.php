@@ -79,14 +79,11 @@ return [
         'type' => 'css',
     ],
     'simple-datatables' => [
-        'version' => '9.2.2',
+        'version' => '10.2.0',
     ],
     'simple-datatables/dist/style.min.css' => [
-        'version' => '9.2.2',
+        'version' => '10.2.0',
         'type' => 'css',
-    ],
-    'twig' => [
-        'version' => '1.17.1',
     ],
     'locutus/php/strings/sprintf' => [
         'version' => '2.0.32',
@@ -132,28 +129,28 @@ return [
         'type' => 'css',
     ],
     'instantsearch.js' => [
-        'version' => '4.86.1',
+        'version' => '4.93.0',
     ],
     '@algolia/events' => [
         'version' => '4.0.1',
     ],
     'algoliasearch-helper' => [
-        'version' => '3.27.0',
+        'version' => '3.28.1',
     ],
     'qs' => [
-        'version' => '6.14.1',
+        'version' => '6.15.0',
     ],
     'algoliasearch-helper/types/algoliasearch.js' => [
-        'version' => '3.27.0',
+        'version' => '3.28.1',
     ],
     'instantsearch.js/es/widgets' => [
-        'version' => '4.86.1',
+        'version' => '4.93.0',
     ],
     'instantsearch-ui-components' => [
-        'version' => '0.16.0',
+        'version' => '0.23.0',
     ],
     'preact' => [
-        'version' => '10.28.1',
+        'version' => '10.29.0',
     ],
     'hogan.js' => [
         'version' => '3.0.2',
@@ -162,7 +159,7 @@ return [
         'version' => '3.1.1',
     ],
     'preact/hooks' => [
-        'version' => '10.28.1',
+        'version' => '10.29.0',
     ],
     '@babel/runtime/helpers/extends' => [
         'version' => '7.28.4',
@@ -177,11 +174,11 @@ return [
         'version' => '3.1.1',
     ],
     'instantsearch.css/themes/algolia.min.css' => [
-        'version' => '8.9.0',
+        'version' => '8.13.0',
         'type' => 'css',
     ],
     '@meilisearch/instant-meilisearch' => [
-        'version' => '0.29.0',
+        'version' => '0.30.0',
     ],
     'meilisearch' => [
         'version' => '0.54.0',
@@ -190,13 +187,13 @@ return [
         'version' => '1.0.1',
     ],
     '@andypf/json-viewer' => [
-        'version' => '2.2.0',
+        'version' => '2.3.2',
     ],
     'pretty-print-json' => [
-        'version' => '3.0.6',
+        'version' => '3.0.7',
     ],
     'pretty-print-json/dist/css/pretty-print-json.min.css' => [
-        'version' => '3.0.6',
+        'version' => '3.0.7',
         'type' => 'css',
     ],
     'side-channel' => [
@@ -206,7 +203,7 @@ return [
         'version' => '1.3.0',
     ],
     'object-inspect' => [
-        'version' => '1.13.4',
+        'version' => '1.13.3',
     ],
     'side-channel-list' => [
         'version' => '1.0.0',
@@ -218,10 +215,10 @@ return [
         'version' => '1.0.2',
     ],
     'get-intrinsic' => [
-        'version' => '1.3.0',
+        'version' => '1.2.5',
     ],
     'call-bound' => [
-        'version' => '1.0.4',
+        'version' => '1.0.2',
     ],
     'es-errors' => [
         'version' => '1.3.0',
@@ -251,13 +248,13 @@ return [
         'version' => '1.1.0',
     ],
     'dunder-proto/get' => [
-        'version' => '1.0.1',
+        'version' => '1.0.0',
     ],
     'call-bind-apply-helpers/functionApply' => [
-        'version' => '1.0.2',
+        'version' => '1.0.0',
     ],
     'call-bind-apply-helpers/functionCall' => [
-        'version' => '1.0.2',
+        'version' => '1.0.0',
     ],
     'function-bind' => [
         'version' => '1.1.2',
@@ -269,13 +266,13 @@ return [
         'version' => '1.0.8',
     ],
     'call-bind-apply-helpers' => [
-        'version' => '1.0.2',
+        'version' => '1.0.0',
     ],
     'set-function-length' => [
         'version' => '1.2.2',
     ],
     'call-bind-apply-helpers/applyBind' => [
-        'version' => '1.0.2',
+        'version' => '1.0.0',
     ],
     'define-data-property' => [
         'version' => '1.1.4',
@@ -284,7 +281,7 @@ return [
         'version' => '1.0.2',
     ],
     'reveal.js' => [
-        'version' => '4.6.1',
+        'version' => '6.0.0',
     ],
     'reveal.js/dist/reveal.js' => [
         'version' => '5.2.1',
@@ -323,7 +320,7 @@ return [
         'version' => '7.28.4',
     ],
     'markdown-to-jsx' => [
-        'version' => '9.5.0',
+        'version' => '7.7.17',
     ],
     'es-object-atoms' => [
         'version' => '1.1.1',
@@ -374,7 +371,7 @@ return [
         'version' => '1.9.0',
     ],
     'react' => [
-        'version' => '19.2.3',
+        'version' => '19.2.0',
     ],
     '@vercel/oidc' => [
         'version' => '3.0.5',
@@ -393,5 +390,59 @@ return [
     ],
     '@kurkle/color' => [
         'version' => '0.3.4',
+    ],
+    'dexie' => [
+        'version' => '4.4.2',
+    ],
+    '@tacman1123/twig-browser' => [
+        'version' => '0.4.18',
+    ],
+    '@tacman1123/twig-browser/src/compat/compileTwigBlocks.js' => [
+        'version' => '0.4.18',
+    ],
+    '@tacman1123/twig-browser/adapters/symfony' => [
+        'version' => '0.4.18',
+    ],
+    '@swc/helpers/esm/_sliced_to_array.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_to_consumable_array.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_define_property.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_extends.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_object_destructuring_empty.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_object_spread.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_object_spread_props.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_type_of.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_instanceof.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_object_without_properties.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_call_super.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_class_call_check.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_create_class.js' => [
+        'version' => '0.5.18',
+    ],
+    '@swc/helpers/esm/_inherits.js' => [
+        'version' => '0.5.18',
     ],
 ];

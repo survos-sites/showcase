@@ -1,5 +1,6 @@
 {
   "main": "bin/console",
+  "check-requirements": false,
   "output": "dist/snowcase.phar",
   "chmod": "0700",
   "compression": "GZ",

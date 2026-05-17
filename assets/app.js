@@ -8,9 +8,7 @@ import 'instantsearch.css/themes/algolia.min.css';
  */
 import './styles/app.css';
 
-// import '@tabler/core'; // the js?
-import '@tabler/core/dist/css/tabler.min.css'
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '@tabler/core';
+import '@tabler/core/dist/css/tabler.min.css';
 
 import 'asciinema-player/dist/bundle/asciinema-player.css'

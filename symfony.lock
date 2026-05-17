@@ -194,8 +194,14 @@
             "config/packages/ansi_to_html.yaml"
         ]
     },
+    "survos/atlas-bundle": {
+        "version": "2.2.5"
+    },
+    "survos/babel-bundle": {
+        "version": "2.0.143"
+    },
     "survos/ciine-bundle": {
-        "version": "dev-main"
+        "version": "2.0.117"
     },
     "survos/code-bundle": {
         "version": "dev-main"
@@ -237,6 +243,9 @@
     },
     "survos/ez-bundle": {
         "version": "2.0.44"
+    },
+    "survos/field-bundle": {
+        "version": "2.2.5"
     },
     "survos/import-bundle": {
         "version": "2.0.45"

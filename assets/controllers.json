@@ -1,5 +1,17 @@
 {
     "controllers": {
+        "@survos/js-twig-bundle": {
+            "dexie": {
+                "enabled": true,
+                "fetch": "eager",
+                "autoimport": []
+            },
+            "js_twig": {
+                "enabled": true,
+                "fetch": "lazy",
+                "autoimport": []
+            }
+        },
         "@survos/meili-bundle": {
             "insta": {
                 "enabled": true,
@@ -13,6 +25,13 @@
                 "enabled": true,
                 "fetch": "lazy",
                 "autoimport": []
+            },
+            "chat": {
+                "enabled": true,
+                "fetch": "lazy",
+                "autoimport": {
+                    "@survos/meili/styles/chat.css": true
+                }
             }
         },
         "@survos/reveal-bundle": {
@@ -35,11 +54,20 @@
                 }
             }
         },
+        "@survos/state-bundle": {
+            "workflow": {
+                "enabled": true,
+                "fetch": "eager"
+            }
+        },
         "@survos/tabler-bundle": {
+            "accordion": {
+                "enabled": true,
+                "fetch": "lazy"
+            },
             "search": {
                 "enabled": true,
-                "fetch": "lazy",
-                "autoimport": []
+                "fetch": "lazy"
             }
         },
         "@symfony/ux-chartjs": {
