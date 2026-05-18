@@ -64,6 +64,21 @@ final class SiteService
 - Constructor property promotion. `readonly` where it fits. Enums over string constants. Typed everything.
 - No `dump()`, `dd()`, or commented-out code in committed work. Verbose output via `$io->writeln()` gated on `$io->isVerbose()` / `$io->isVeryVerbose()`.
 
+### Prefer Symfony components over hand-rolled PHP
+
+Treat Symfony components as if they were part of PHP itself — battle-tested, better error handling, consistent API. Never re-implement what a component already does.
+
+| Instead of | Use |
+|------------|-----|
+| `glob()` | `Finder` (`symfony/finder`) |
+| `mkdir()`, `file_put_contents()`, `rename()` | `Filesystem` (`symfony/filesystem`) |
+| `preg_replace` / custom slugify | `AsciiSlugger` (`symfony/string`) |
+| `str_*` chains on untrusted input | `UnicodeString` / `ByteString` (`symfony/string`) |
+| `json_decode` without error handling | `symfony/serializer` or at minimum assert the result |
+| Hand-rolled URL parsing | `symfony/http-foundation` `Request`/`UriSigner` |
+
+The rule: if a Symfony component solves it, use the component. Only reach for raw PHP functions when there is no component equivalent or the overhead is genuinely unjustified (tight loop, no I/O).
+
 ### Deprecations — check before using, fix when found
 
 Before using any class, trait, or interface from a Survos bundle or Symfony, check for:
