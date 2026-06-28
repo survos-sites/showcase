@@ -19,6 +19,7 @@
         "doctrine/orm": "^3.6",
         "easycorp/easyadmin-bundle": "^5.0",
         "friendsofsymfony/jsrouting-bundle": "^3.5",
+        "helgesverre/toon": "^3.1",
         "inspector-apm/inspector-symfony": "^1.8",
         "jolicode/jolinotif": "^3.2",
         "knplabs/knp-time-bundle": "^2.4",
@@ -33,7 +34,6 @@
         "sensiolabs/ansi-to-html": "^2.0",
         "survos/babel-bundle": "^2.0",
         "survos/ciine-bundle": "^2.0",
-        "survos/command-bundle": "^2.0",
         "survos/ez-bundle": "^2.0",
         "survos/field-bundle": "^2.2",
         "survos/import-bundle": "^2.0",
@@ -85,6 +85,7 @@
         "allow-plugins": {
             "endroid/installer": false,
             "php-http/discovery": true,
+            "symfony/ai-mate-composer-plugin": true,
             "symfony/flex": true,
             "symfony/runtime": true
         },
@@ -97,7 +98,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "Mate\\": "mate/src/"
         }
     },
     "replace": {
@@ -112,7 +114,6 @@
     },
     "scripts": {
         "auto-scripts": {
-
             "fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "importmap:install": "symfony-cmd"
@@ -126,7 +127,6 @@
             "@auto-scripts"
         ],
         "coverage": "rm var/test.db -f && bin/console d:sc:update --force --env=test && php -d xpcov.enabled=1 vendor/bin/phpunit --coverage-html coverage"
-
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -134,6 +134,15 @@
     "extra": {
         "symfony": {
             "allow-contrib": true
+        },
+        "ai-mate": {
+            "extension": false,
+            "scan-dirs": [
+                "mate/src"
+            ],
+            "includes": [
+                "mate/config.php"
+            ]
         }
     },
     "require-dev": {
@@ -141,11 +150,12 @@
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^13.1",
         "rector/rector": "^2.0",
-        "roave/security-advisories": "dev-latest",
         "survos/code-bundle": "dev-main",
+        "survos/command-bundle": "^2.10",
         "survos/crawler-bundle": "^2.0",
         "survos/deployment-bundle": "^2.0",
         "survos/doc-bundle": "^2.0",
+        "symfony/ai-mate": "^0.10.0",
         "symfony/browser-kit": "^8.1",
         "symfony/css-selector": "^8.1",
         "symfony/debug-bundle": "^8.1",

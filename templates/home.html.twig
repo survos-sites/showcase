@@ -1,9 +1,10 @@
 {# templates/home.html.twig #}
 {% extends "base.html.twig" %}
 
+{% block page_pretitle %}Museado Platform{% endblock %}
+{% block page_title %}{{ title ?? 'All Components' }}{% endblock %}
+
 {% block body %}
-<twig:tabler:page title="{{ title ?? 'All Components' }}" pretitle="Museado Platform">
-    <twig:block name="content">
 
         <h3>{{ components|length }} Components</h3>
 
@@ -50,6 +51,4 @@
             </div>
         {% endif %}
 
-    </twig:block>
-</twig:tabler:page>
 {% endblock %}

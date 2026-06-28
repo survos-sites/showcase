@@ -11,6 +11,7 @@ use Survos\TablerBundle\Event\MenuEvent;
 use Survos\TablerBundle\Menu\MenuBuilderTrait;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -22,6 +23,7 @@ final class AppMenu // @todo: trait
         #[Autowire('%kernel.environment%')] protected string $env,
         private Security                                     $security,
         private readonly MeiliService $meiliService,
+        private readonly RouterInterface $router,
         private ?AuthorizationCheckerInterface               $authorizationChecker = null
     ) {
     }
@@ -49,7 +51,9 @@ final class AppMenu // @todo: trait
         $this->add($menu, 'app_apps', label: 'Apps');
         $this->add($menu, 'app_tools', label: 'Tools');
         $this->add($menu, 'app_slides', label: 'slides');
-        $this->add($menu, 'survos_commands');
+        if ($this->hasRoute('survos_commands')) {
+            $this->add($menu, 'survos_commands');
+        }
         $this->add($menu, MeiliDashboardController::MEILI_ROUTE, label: 'ez');
 
 //        $this->add($menu, uri: '/db.svg', external: true, label: 'db.svg');
@@ -67,22 +71,25 @@ final class AppMenu // @todo: trait
         }
 
 
-        if ($this->env === 'dev') {
+        if ($this->env === "dev") {
 
-            $subMenu = $this->addSubmenu($menu, 'workflows');
-            $this->add($subMenu, 'survos_workflows');
+            $subMenu = $this->addSubmenu($menu, "workflows");
+            $this->add($subMenu, "survos_workflows");
 
-            $subMenu = $this->addSubmenu($menu, 'survos_commands');
-            $this->add($subMenu, 'survos_commands', label: 'All');
-            foreach (['state:iterate', 'storage:iterate'] as $commandName) {
-                $this->add($subMenu, 'survos_command', ['commandName' => $commandName], $commandName);
+            if ($this->hasRoute("survos_commands") && $this->hasRoute("survos_command")) {
+                $subMenu = $this->addSubmenu($menu, "survos_commands");
+                $this->add($subMenu, "survos_commands", label: "All");
+                foreach (["state:iterate", "storage:iterate"] as $commandName) {
+                    $this->add($subMenu, "survos_command", ["commandName" => $commandName], $commandName);
+                }
+
+                $subMenu = $this->addSubmenu($menu, "state:iterate");
+                foreach ([Show::class, Component::class, Ciine::class] as $className) {
+                    $className = str_replace("\\", "\\\\", $className);
+                    $this->add($subMenu, "survos_command", ["commandName" => "state:iterate", "className" => $className], $className);
+                }
+                $this->add($subMenu, "survos_workflows", label: "Workflows");
             }
-            $subMenu = $this->addSubmenu($menu, 'state:iterate');
-            foreach ([Show::class, Component::class, Ciine::class] as $className) {
-                $className = str_replace("\\", "\\\\", $className);
-                $this->add($subMenu, 'survos_command', ['commandName' => 'state:iterate', 'className' => $className], $className);
-            }
-            $this->add($subMenu, 'survos_workflows', label: 'Workflows');
 
         }
 
@@ -95,5 +102,10 @@ final class AppMenu // @todo: trait
             $this->add($nestedMenu, uri: 'https://github.com/survos-sites/showcase' . $path, label: $label);
 
         }
+    }
+
+    private function hasRoute(string $route): bool
+    {
+        return null !== $this->router->getRouteCollection()->get($route);
     }
 }

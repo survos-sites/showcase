@@ -3,12 +3,11 @@
 use Castor\Attribute\AsTask;
 
 use function Castor\{io,run,capture,import};
-import('.castor/vendor/tacman/castor-tools/castor.php');
-//import('src/Command/LoadDataCommand.php');
-import(__DIR__ . '/src/Command/LoadDataCommand.php');
-import(__DIR__ . '/src/Command/AppScreenshotCommand.php');
-import(__DIR__ . '/src/Command/CiineLoadCommand.php');
-//import(__DIR__ . '/src/Command/HelloCommand.php');
+// import('.castor/vendor/tacman/castor-tools/castor.php');
+// //import('src/Command/LoadDataCommand.php');
+// import(__DIR__ . '/src/Command/AppScreenshotCommand.php');
+// import(__DIR__ . '/src/Command/CiineLoadCommand.php');
+// //import(__DIR__ . '/src/Command/HelloCommand.php');
 
 #[AsTask('ciine:import', description: 'Import the .jsonl created in load:ciine')]
 function ciine_import(): void
@@ -24,10 +23,3 @@ function ciine_download(): void
 }
 
 
-#[AsTask(description: 'Welcome to Castor!')]
-function hello(): void
-{
-    $currentUser = capture('whoami');
-
-    io()->title(sprintf('Hello %s!', $currentUser));
-}

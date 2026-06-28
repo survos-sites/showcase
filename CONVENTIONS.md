@@ -4,15 +4,16 @@ Platform-wide conventions for any repo in the Survos/Museado ecosystem. When wor
 
 ## Symfony commands — the canonical pattern
 
-Commands live as **methods on a service class**, not as standalone command classes. Method-level `#[AsCommand]` (Symfony 8.1+) lets one service class expose a whole family of related commands sharing a single constructor and private helpers.
+Commands live as **methods on a service class**, not as standalone command classes. We run **Symfony 8.1+ everywhere**, so `#[AsCommand]` always goes on a **method**, never on a class — one service class exposes a whole family of related commands that share a single constructor, its injected services, and private helpers.
 
 ### Rules
 
-- `#[AsCommand('name', 'description')]` on **methods**. Positional description (second argument), not the `description:` named parameter. Same convention as `#[Argument]` and `#[Option]`.
+- `#[AsCommand('name', 'description')]` **always on a method, never on a class.** Positional description (second argument), not the `description:` named parameter. Same convention as `#[Argument]` and `#[Option]`.
 - **Never `extends Command`.** Import `Symfony\Component\Console\Command\Command` only for the return constants.
 - Return `Command::SUCCESS` / `Command::FAILURE` / `Command::INVALID`.
 - `#[Argument('desc')]` and `#[Option('desc')]` — positional description string. Never `description:` named param.
-- First parameter is typically `SymfonyStyle $io` (use when you want its helpers — `success`, `table`, `progressBar`) or `OutputInterface $output` (leaner). Pick per method.
+- **Inject services through the constructor, never into the method.** The method signature is *only* `SymfonyStyle $io` (or `OutputInterface $output` when leaner) plus the command's `#[Argument]` / `#[Option]` / `#[MapInput]` parameters. Autowired services belong in the constructor — and that shared dependency set is precisely the reason sibling commands group into one class.
+- **Group multiple commands in one class when they share services.** Each is a method; they reuse the constructor-injected services and private helpers. Splitting only when a method's helpers stop being shared (see below).
 - One class holds a cohesive *family* of commands (`app:load`, `app:update`, `app:status` together in `AppService`; `site:add`, `site:list`, `site:scan` together in `SiteService`). The class name reflects its primary identity as a service, not as a command holder: `AppService`, not `AppCommands`.
 - When a method's private helpers stop being shared with siblings in the class, that's the signal to split into a new class. Don't make god-classes. Don't make one-class-per-command.
 - Class names: `*Service`. The CLI is just another transport into the service layer.
@@ -64,6 +65,16 @@ final class SiteService
 - Constructor property promotion. `readonly` where it fits. Enums over string constants. Typed everything.
 - No `dump()`, `dd()`, or commented-out code in committed work. Verbose output via `$io->writeln()` gated on `$io->isVerbose()` / `$io->isVeryVerbose()`.
 
+### camelCase for data keys everywhere
+
+All data keys — normalized JSONL fields, folio `dtoData` JSON keys, Meilisearch document fields, API response properties, Twig variable names — use **camelCase**. This matches PHP property names, JavaScript convention, and Symfony serialization defaults.
+
+Snake_case is only for:
+- SQL column names (Doctrine's `naming_strategy.underscore` handles this automatically)
+- Raw source data we don't control
+
+The `ItemField` and `MuseumVocab` constants hold camelCase values (`ItemField::IIIF_BASE = 'iiifBase'`). Normalizers output camelCase keys. The constant NAMES remain SCREAMING_SNAKE (PHP convention for constants), but their VALUES are camelCase strings.
+
 ### Prefer Symfony components over hand-rolled PHP
 
 Treat Symfony components as if they were part of PHP itself — battle-tested, better error handling, consistent API. Never re-implement what a component already does.
@@ -78,6 +89,13 @@ Treat Symfony components as if they were part of PHP itself — battle-tested, b
 | Hand-rolled URL parsing | `symfony/http-foundation` `Request`/`UriSigner` |
 
 The rule: if a Symfony component solves it, use the component. Only reach for raw PHP functions when there is no component equivalent or the overhead is genuinely unjustified (tight loop, no I/O).
+
+### Mandatory libraries — never hand-roll these
+
+These are not preferences. If the package is missing, `composer require` it — do **not** write your own.
+
+- **All JSONL reading and writing MUST go through `survos/jsonl-bundle`** (`Survos\JsonlBundle\IO\JsonlReader` / `JsonlWriter`). Never read JSONL with `file()`/`fgets()`/`json_decode()` line loops, and never write it with `fopen`/`fwrite`/`fputs`. This includes one-off helpers, config files, and "just listing a few rows" — `JsonlReader::open($path)` is the only sanctioned reader. (Plain byte concatenation of already-valid JSONL files is not "reading records" and may use a stream copy.)
+- **All byte-size displays MUST use `zenstruck/bytes`** (`Zenstruck\Bytes::parse($bytes)`). Never hand-roll a `humanBytes()` / KB-MB-GB formatter. `Bytes::parse((int) filesize($path))` is the idiom.
 
 ### Deprecations — check before using, fix when found
 
@@ -150,6 +168,14 @@ This unlocks `entity.rp` in Twig, so route generation never hard-codes field nam
 If field-bundle lacks a needed capability, flag it as a field-bundle issue. Don't work around silently.
 
 ## Database schema changes
+
+Doctrine DBAL configs for PostgreSQL projects should exclude extension-owned TimescaleDB schemas from schema diffs and migrations:
+
+    doctrine:
+        dbal:
+            schema_filter: '~^(?!nglayouts_)(?!_timescaledb_)(?!timescaledb_)(?!toolkit_experimental)~'
+
+For multi-connection configs, put the same `schema_filter` on the `default` connection. Keep any existing project-specific exclusions in the same negative lookahead, such as `messenger_messages`.
 
 When entity changes require a schema update:
 
