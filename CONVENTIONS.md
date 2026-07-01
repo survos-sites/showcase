@@ -225,7 +225,7 @@ $enabled = $extra['enabled'] ?? true;  // default enabled (opt-out, not opt-in)
 ## Stack
 
 - AssetMapper, not Webpack/Encore.
-- Never run `asset-map:compile` (or leave a `public/assets/` directory) in dev. Its mere presence makes AssetMapper serve those frozen static files instead of dynamically compiling from live source on each request — so any subsequent edit to a controller/asset silently goes stale with no error. `public/assets/` is gitignored and prod-build-only; if it exists locally, `rm -rf public/assets` and clear cache.
+- `asset-map:compile` is fine in dev to confirm something compiles, but delete `public/assets/` (`rm -rf public/assets` + cache clear) the moment you're done checking. Its mere presence makes AssetMapper serve those frozen static files instead of dynamically compiling from live source on each request — so any subsequent edit to a controller/asset silently goes stale with no error. `public/assets/` is gitignored and prod-build-only; it should never linger in a dev checkout.
 - Tabler UI.
 - EasyAdmin 4.
 - API Platform 4.
