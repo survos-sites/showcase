@@ -30,7 +30,7 @@ return [
     Survos\SimpleDatatables\SurvosSimpleDatatablesBundle::class => ['all' => true],
     Knp\Bundle\TimeBundle\KnpTimeBundle::class => ['all' => true],
     Survos\JsTwigBundle\SurvosJsTwigBundle::class => ['all' => true],
-    Survos\MeiliBundle\SurvosMeiliBundle::class => ['all' => true],
+    Survos\SearchBundle\SurvosSearchBundle::class => ['all' => true],
     FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
     Survos\JsonlBundle\SurvosJsonlBundle::class => ['all' => true],
     Survos\RevealBundle\SurvosRevealBundle::class => ['all' => true],
@@ -47,4 +47,6 @@ return [
     Survos\AtlasBundle\SurvosAtlasBundle::class => ['all' => true],
     Survos\FieldBundle\SurvosFieldBundle::class => ['all' => true],
     Survos\Kit\SurvosKitBundle::class => ['all' => true],
+    Symfony\UX\LiveComponent\LiveComponentBundle::class => ['all' => true],
+    Mezcalito\UxSearchBundle\MezcalitoUxSearchBundle::class => ['all' => true],
 ];

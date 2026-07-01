@@ -2,11 +2,10 @@
 
 namespace App\Menu;
 
-use App\Controller\Admin\MeiliDashboardController;
 use App\Entity\Ciine;
 use App\Entity\Component;
 use App\Entity\Show;
-use Survos\MeiliBundle\Service\MeiliService;
+use Survos\SearchBundle\Registry\UxSearchRegistry;
 use Survos\TablerBundle\Event\MenuEvent;
 use Survos\TablerBundle\Menu\MenuBuilderTrait;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -22,7 +21,7 @@ final class AppMenu // @todo: trait
     public function __construct(
         #[Autowire('%kernel.environment%')] protected string $env,
         private Security                                     $security,
-        private readonly MeiliService $meiliService,
+        private readonly UxSearchRegistry $searchRegistry,
         private readonly RouterInterface $router,
         private ?AuthorizationCheckerInterface               $authorizationChecker = null
     ) {
@@ -54,20 +53,16 @@ final class AppMenu // @todo: trait
         if ($this->hasRoute('survos_commands')) {
             $this->add($menu, 'survos_commands');
         }
-        $this->add($menu, MeiliDashboardController::MEILI_ROUTE, label: 'ez');
 
 //        $this->add($menu, uri: '/db.svg', external: true, label: 'db.svg');
 
-        // easyadmin should provide us what we need, a simple filter
-        if (0) {
-            $subMenu = $this->addSubmenu($menu, 'meili');
-            $this->add($subMenu, 'media_meili');
-            $this->add($subMenu, 'media_index');
-        }
-
-        foreach ($this->meiliService->settings as $index => $setting) {
-            $this->add($menu, 'meili_insta', ['indexName' => $index], label: $index, external: true);
-
+        // Doctrine-native full-text search (survos/search-bundle), one link per searchable entity.
+        $searches = $this->searchRegistry->all();
+        if ($searches !== []) {
+            $searchMenu = $this->addSubmenu($menu, 'Search');
+            foreach ($searches as $descriptor) {
+                $this->add($searchMenu, 'survos_entity_ux_search', $descriptor);
+            }
         }
 
 

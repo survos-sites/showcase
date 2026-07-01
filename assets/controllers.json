@@ -12,28 +12,6 @@
                 "autoimport": []
             }
         },
-        "@survos/meili-bundle": {
-            "insta": {
-                "enabled": true,
-                "fetch": "eager",
-                "autoimport": {
-                    "instantsearch.css/themes/algolia.min.css": true,
-                    "pretty-print-json/dist/css/pretty-print-json.min.css": true
-                }
-            },
-            "json": {
-                "enabled": true,
-                "fetch": "lazy",
-                "autoimport": []
-            },
-            "chat": {
-                "enabled": true,
-                "fetch": "lazy",
-                "autoimport": {
-                    "@survos/meili/styles/chat.css": true
-                }
-            }
-        },
         "@survos/reveal-bundle": {
             "reveal": {
                 "enabled": true,
@@ -76,6 +54,15 @@
                 "fetch": "eager"
             }
         },
+        "@symfony/ux-live-component": {
+            "live": {
+                "enabled": true,
+                "fetch": "eager",
+                "autoimport": {
+                    "@symfony/ux-live-component/dist/live.min.css": true
+                }
+            }
+        },
         "@symfony/ux-turbo": {
             "turbo-core": {
                 "enabled": true,
@@ -86,6 +73,23 @@
             },
             "mercure-turbo-stream": {
                 "enabled": false,
+                "fetch": "eager"
+            }
+        },
+        "@tacman/ux-search": {
+            "ux-search": {
+                "enabled": true,
+                "fetch": "eager",
+                "autoimport": {
+                    "@tacman/ux-search/dist/default.min.css": true
+                }
+            },
+            "ux-search--refinement-list": {
+                "enabled": true,
+                "fetch": "eager"
+            },
+            "ux-search-range-slider": {
+                "enabled": true,
                 "fetch": "eager"
             }
         }

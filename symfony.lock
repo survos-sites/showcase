@@ -278,6 +278,9 @@
     "survos/reveal-bundle": {
         "version": "1.6.44"
     },
+    "survos/search-bundle": {
+        "version": "2.10.27"
+    },
     "survos/simple-datatables-bundle": {
         "version": "1.5.529"
     },
@@ -578,6 +581,18 @@
             "config/packages/ux_icons.yaml"
         ]
     },
+    "symfony/ux-live-component": {
+        "version": "3.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.6",
+            "ref": "b7130b7b5ddc2f8994bd6149d7c093b184782f0c"
+        },
+        "files": [
+            "config/routes/ux_live_component.yaml"
+        ]
+    },
     "symfony/ux-turbo": {
         "version": "v2.16.0"
     },
@@ -641,6 +656,9 @@
         "files": [
             "config/packages/workflow.yaml"
         ]
+    },
+    "tacman/ux-search": {
+        "version": "1.0.7"
     },
     "twig/extra-bundle": {
         "version": "v3.8.0"

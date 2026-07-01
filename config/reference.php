@@ -1847,91 +1847,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         response_key?: scalar|Param|null, // key if API returns an object response, e.g. dummyjson returns {'products': [...]}
  *     }>,
  * }
- * @psalm-type SurvosMeiliConfig = array{
+ * @psalm-type SurvosSearchConfig = array{
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
- *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: "/meili"
- *     core_name?: scalar|Param|null, // Default: "core"
- *     enabled?: bool|Param, // Default: true
- *     meiliUiUrl?: scalar|Param|null, // Base URL of the Meilisearch UI (riccox). Used to generate per-index links. Override via MEILI_UI_URL env var. // Default: "http://127.0.0.1:24900/ins/0"
- *     host?: scalar|Param|null, // Default: "%env(default::MEILI_SERVER)%"
- *     apiKey?: scalar|Param|null, // Default: "%env(default::MEILI_ADMIN_KEY)%"
- *     transport?: scalar|Param|null, // Default: "%env(default::MEILI_TRANSPORT)%"
- *     searchKey?: scalar|Param|null, // Default: "%env(default::MEILI_SEARCH_KEY)%"
- *     meiliPrefix?: scalar|Param|null, // Default: "%env(default::MEILI_PREFIX)%"
- *     translationStyle?: scalar|Param|null, // Default: "simple"
- *     passLocale?: bool|Param, // Default: false
- *     multiLingual?: bool|Param, // turn on multi-lingual indexing // Default: false
- *     maxValuesPerFacet?: int|Param, // Default: 1000
- *     tools?: list<array{ // Default: []
- *         label?: scalar|Param|null,
- *         url?: scalar|Param|null,
- *     }>,
- *     embedders?: array<string, array{ // Default: []
- *         source?: scalar|Param|null,
- *         model?: scalar|Param|null,
- *         apiKey?: scalar|Param|null, // Default: null
- *         for?: scalar|Param|null, // Default: null
- *         template?: scalar|Param|null, // Default: null
- *         documentTemplateMaxBytes?: int|Param, // Default: 4096
- *         maxTokensPerDoc?: int|Param, // Default: null
- *         examples?: list<scalar|Param|null>,
- *     }>,
- *     pricing?: array{
- *         embedders?: array<string, scalar|Param|null>,
- *     },
- *     meili_settings?: array{
- *         typoTolerance?: array{
- *             enabled?: bool|Param, // Default: true
- *             oneTypo?: int|Param, // Default: 5
- *             twoTypos?: int|Param, // Default: 9
- *             disableOnWords?: list<scalar|Param|null>,
- *             disableOnAttributes?: list<scalar|Param|null>,
- *             disableOnNumbers?: bool|Param, // Default: false
- *         },
- *         faceting?: array{
- *             maxValuesPerFacet?: int|Param, // Default: 1000
- *             sortFacetValuesBy?: array<string, scalar|Param|null>,
- *         },
- *         pagination?: array{
- *             maxTotalHits?: int|Param, // Default: 1000
- *         },
- *         facetSearch?: bool|Param, // Default: true
- *         prefixSearch?: scalar|Param|null, // Default: "indexingTime"
- *     },
- *     entity_dirs?: list<scalar|Param|null>,
- *     file_proxy?: array{
- *         enabled?: bool|Param, // Default: true
- *         allow_hidden?: bool|Param, // Default: false
- *         cache_control?: scalar|Param|null, // Default: "private, max-age=60"
- *         roots?: list<scalar|Param|null>,
- *     },
- *     chat?: array{
- *         workspaces?: array<string, array{ // Default: []
- *             source?: scalar|Param|null, // LLM provider: openAi | azureOpenAi | mistral | gemini | vLlm // Default: "openAi"
- *             apiKey?: scalar|Param|null, // Provider API key (use %env(OPENAI_API_KEY)%) // Default: null
- *             model?: scalar|Param|null, // Model sent in each completion request (not stored in workspace settings) // Default: "gpt-4o-mini"
- *             baseUrl?: scalar|Param|null, // Default: null
- *             orgId?: scalar|Param|null, // Default: null
- *             projectId?: scalar|Param|null, // Default: null
- *             apiVersion?: scalar|Param|null, // Default: null
- *             deploymentId?: scalar|Param|null, // Default: null
- *             label?: scalar|Param|null, // Human-readable label used in dynamic prompts (defaults to indexName) // Default: null
- *             curatorName?: scalar|Param|null, // Optional explicit curator display name for this workspace template // Default: null
- *             curatorNameByIndex?: list<scalar|Param|null>,
- *             detailUrlPattern?: scalar|Param|null, // URL pattern for item detail pages; use {id} as placeholder e.g. /product/{id} // Default: null
- *             schemaUrl?: scalar|Param|null, // Optional OpenAPI schema URL used to explain field meanings in collection overview responses // Default: null
- *             examples?: list<scalar|Param|null>,
- *             examplesByIndex?: list<list<scalar|Param|null>>,
- *             prompts?: array{ // Static prompt overrides — these win over dynamic template rendering
- *                 system?: scalar|Param|null, // Default: null
- *                 searchFilterParam?: scalar|Param|null, // Default: null
- *                 searchDescription?: scalar|Param|null, // Default: null
- *                 searchQParam?: scalar|Param|null, // Default: null
- *                 searchIndexUidParam?: scalar|Param|null, // Pin the index UID — prevents Meilisearch generating a full enum of all indexes, which blows the OpenAI context limit. // Default: null
- *             },
- *             indexes?: list<scalar|Param|null>,
- *         }>,
- *     },
+ *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: ""
+ *     default_hits_per_page?: int|Param, // Default: 24
+ *     default_hits_per_page_choices?: list<int|Param>,
  * }
  * @psalm-type FosJsRoutingConfig = array{
  *     serializer?: scalar|Param|null,
@@ -2380,6 +2300,16 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: ""
  * }
+ * @psalm-type LiveComponentConfig = array{
+ *     secret?: scalar|Param|null, // The secret used to compute fingerprints and checksums // Default: "%kernel.secret%"
+ *     fetch_credentials?: "same-origin"|"include"|"omit"|Param, // The default fetch credentials mode for all Live Components ('same-origin', 'include', 'omit') // Default: "same-origin"
+ * }
+ * @psalm-type MezcalitoUxSearchConfig = array{
+ *     default_adapter?: scalar|Param|null, // Default: "default"
+ *     adapters?: array<string, string|array{ // Default: []
+ *         dsn?: scalar|Param|null,
+ *     }>,
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -2404,7 +2334,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     survos_storage?: SurvosStorageConfig,
  *     survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *     survos_js_twig?: SurvosJsTwigConfig,
- *     survos_meili?: SurvosMeiliConfig,
+ *     survos_search?: SurvosSearchConfig,
  *     fos_js_routing?: FosJsRoutingConfig,
  *     survos_reveal?: SurvosRevealConfig,
  *     survos_ez?: SurvosEzConfig,
@@ -2416,6 +2346,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     ux_icons?: UxIconsConfig,
  *     survos_ciine?: SurvosCiineConfig,
  *     survos_field?: SurvosFieldConfig,
+ *     live_component?: LiveComponentConfig,
+ *     mezcalito_ux_search?: MezcalitoUxSearchConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -2447,7 +2379,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_storage?: SurvosStorageConfig,
  *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *         survos_js_twig?: SurvosJsTwigConfig,
- *         survos_meili?: SurvosMeiliConfig,
+ *         survos_search?: SurvosSearchConfig,
  *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_reveal?: SurvosRevealConfig,
  *         survos_ez?: SurvosEzConfig,
@@ -2459,6 +2391,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         ux_icons?: UxIconsConfig,
  *         survos_ciine?: SurvosCiineConfig,
  *         survos_field?: SurvosFieldConfig,
+ *         live_component?: LiveComponentConfig,
+ *         mezcalito_ux_search?: MezcalitoUxSearchConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -2484,7 +2418,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_storage?: SurvosStorageConfig,
  *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *         survos_js_twig?: SurvosJsTwigConfig,
- *         survos_meili?: SurvosMeiliConfig,
+ *         survos_search?: SurvosSearchConfig,
  *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_reveal?: SurvosRevealConfig,
  *         survos_ez?: SurvosEzConfig,
@@ -2496,6 +2430,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         ux_icons?: UxIconsConfig,
  *         survos_ciine?: SurvosCiineConfig,
  *         survos_field?: SurvosFieldConfig,
+ *         live_component?: LiveComponentConfig,
+ *         mezcalito_ux_search?: MezcalitoUxSearchConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -2526,7 +2462,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_storage?: SurvosStorageConfig,
  *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *         survos_js_twig?: SurvosJsTwigConfig,
- *         survos_meili?: SurvosMeiliConfig,
+ *         survos_search?: SurvosSearchConfig,
  *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_reveal?: SurvosRevealConfig,
  *         survos_ez?: SurvosEzConfig,
@@ -2538,6 +2474,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         ux_icons?: UxIconsConfig,
  *         survos_ciine?: SurvosCiineConfig,
  *         survos_field?: SurvosFieldConfig,
+ *         live_component?: LiveComponentConfig,
+ *         mezcalito_ux_search?: MezcalitoUxSearchConfig,
  *     },
  *     "when@text"?: array{
  *         imports?: ImportsConfig,
@@ -2563,7 +2501,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_storage?: SurvosStorageConfig,
  *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *         survos_js_twig?: SurvosJsTwigConfig,
- *         survos_meili?: SurvosMeiliConfig,
+ *         survos_search?: SurvosSearchConfig,
  *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_reveal?: SurvosRevealConfig,
  *         survos_ez?: SurvosEzConfig,
@@ -2575,6 +2513,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         ux_icons?: UxIconsConfig,
  *         survos_ciine?: SurvosCiineConfig,
  *         survos_field?: SurvosFieldConfig,
+ *         live_component?: LiveComponentConfig,
+ *         mezcalito_ux_search?: MezcalitoUxSearchConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

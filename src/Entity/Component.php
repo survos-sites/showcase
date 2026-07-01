@@ -20,8 +20,6 @@ use Survos\FieldBundle\Attribute\Field;
 use Survos\FieldBundle\Attribute\RouteIdentity;
 use Survos\FieldBundle\Entity\RouteIdentityTrait;
 use Survos\CoreBundle\Entity\RouteParametersInterface;
-use Survos\MeiliBundle\Api\Filter\FacetsFieldSearchFilter;
-use Survos\MeiliBundle\Metadata\MeiliIndex;
 use Survos\StateBundle\Traits\MarkingInterface;
 use Survos\StateBundle\Traits\MarkingTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -38,8 +36,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
 )]
 #[ApiFilter(OrderFilter::class, properties: ['name', 'marking', 'minimumStability'])]
 #[ApiFilter(SearchFilter::class, properties: ['marking' => 'exact', 'name' => 'partial'])]
-#[ApiFilter(FacetsFieldSearchFilter::class, properties: ['tags', 'license', 'dependencies', 'extensions', 'minimumStability', 'kind'])]
-#[MeiliIndex(filterable: ['minimumStability', 'kind'])]
 final class Component implements \Stringable, MarkingInterface, RouteParametersInterface
 {
     use MarkingTrait;

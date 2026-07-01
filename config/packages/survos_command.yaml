@@ -1,5 +1,5 @@
 survos_command:
     routes_enabled: true
     # expose app:my-command, etc.
-    namespaces: [app, meili, state]
+    namespaces: [app, state]
 

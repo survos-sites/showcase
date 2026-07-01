@@ -17,7 +17,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ShowRepository::class)]
 #[ApiResource(
-    // ugh, used for meili
     normalizationContext: [
         'groups' => ['show.read', 'rp','translation','marking','_translations'],
     ],

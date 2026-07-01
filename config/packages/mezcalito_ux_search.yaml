@@ -1,0 +1,7 @@
+mezcalito_ux_search:
+    adapters:
+        # Engine is chosen by env so it tracks DATABASE_URL.
+        #   sqlite   -> sqlite-fts5://default
+        #   postgres -> postgres-bm25://default
+        #   (doctrine://default is a portable LIKE fallback, no index required)
+        default: '%env(MEZCALITO_UX_SEARCH_DEFAULT_DSN)%'
