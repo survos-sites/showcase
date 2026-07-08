@@ -41,8 +41,6 @@ return [
     'bootstrap-icons/font/bootstrap-icons.min.css' => ['version' => '1.13.1', 'type' => 'css'],
     '@tabler/core' => ['version' => '1.4.0'],
     '@tabler/core/dist/css/tabler.min.css' => ['version' => '1.4.0', 'type' => 'css'],
-    'asciinema-player' => ['version' => '3.13.5'],
-    'asciinema-player/dist/bundle/asciinema-player.css' => ['version' => '3.13.5', 'type' => 'css'],
     'simple-datatables' => ['version' => '10.2.0'],
     'simple-datatables/dist/style.min.css' => ['version' => '10.2.0', 'type' => 'css'],
     'locutus/php/strings/sprintf' => ['version' => '2.0.32'],

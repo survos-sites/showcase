@@ -2,9 +2,7 @@
 
 namespace App\Menu;
 
-use App\Entity\Ciine;
 use App\Entity\Component;
-use App\Entity\Show;
 use Survos\SearchBundle\Registry\UxSearchRegistry;
 use Survos\TablerBundle\Event\MenuEvent;
 use Survos\TablerBundle\Menu\MenuBuilderTrait;
@@ -79,7 +77,7 @@ final class AppMenu // @todo: trait
                 }
 
                 $subMenu = $this->addSubmenu($menu, "state:iterate");
-                foreach ([Show::class, Component::class, Ciine::class] as $className) {
+                foreach ([Component::class] as $className) {
                     $className = str_replace("\\", "\\\\", $className);
                     $this->add($subMenu, "survos_command", ["commandName" => "state:iterate", "className" => $className], $className);
                 }

@@ -43,7 +43,6 @@ return [
     Symfony\UX\Icons\UXIconsBundle::class => ['all' => true],
     Symfony\UX\Chartjs\ChartjsBundle::class => ['all' => true],
     Survos\BabelBundle\SurvosBabelBundle::class => ['all' => true],
-    Survos\CiineBundle\SurvosCiineBundle::class => ['all' => true],
     Survos\AtlasBundle\SurvosAtlasBundle::class => ['all' => true],
     Survos\FieldBundle\SurvosFieldBundle::class => ['all' => true],
     Survos\Kit\SurvosKitBundle::class => ['all' => true],

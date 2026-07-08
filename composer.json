@@ -32,7 +32,6 @@
         "roave/better-reflection": "^6.32",
         "sensiolabs/ansi-to-html": "^2.0",
         "survos/babel-bundle": "^2.0",
-        "survos/ciine-bundle": "^2.0",
         "survos/data-contracts": "^2.11",
         "survos/ez-bundle": "^2.0",
         "survos/field-bundle": "^2.2",

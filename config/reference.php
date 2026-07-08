@@ -2292,10 +2292,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     },
  *     ignore_not_found?: bool|Param, // Ignore error when an icon is not found. Set to 'true' to fail silently. // Default: false
  * }
- * @psalm-type SurvosCiineConfig = array{
- *     endpoint?: scalar|Param|null, // Default: "%env(default::CIINE_ENDPOINT)%"
- *     dir?: scalar|Param|null, // Default: "%env(default::CIINE_LOCAL_DIR)%"
- * }
  * @psalm-type SurvosFieldConfig = array{
  *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: true
  *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: ""
@@ -2344,7 +2340,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     knp_menu?: KnpMenuConfig,
  *     survos_tabler?: SurvosTablerConfig,
  *     ux_icons?: UxIconsConfig,
- *     survos_ciine?: SurvosCiineConfig,
  *     survos_field?: SurvosFieldConfig,
  *     live_component?: LiveComponentConfig,
  *     mezcalito_ux_search?: MezcalitoUxSearchConfig,
@@ -2389,7 +2384,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         knp_menu?: KnpMenuConfig,
  *         survos_tabler?: SurvosTablerConfig,
  *         ux_icons?: UxIconsConfig,
- *         survos_ciine?: SurvosCiineConfig,
  *         survos_field?: SurvosFieldConfig,
  *         live_component?: LiveComponentConfig,
  *         mezcalito_ux_search?: MezcalitoUxSearchConfig,
@@ -2428,7 +2422,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         knp_menu?: KnpMenuConfig,
  *         survos_tabler?: SurvosTablerConfig,
  *         ux_icons?: UxIconsConfig,
- *         survos_ciine?: SurvosCiineConfig,
  *         survos_field?: SurvosFieldConfig,
  *         live_component?: LiveComponentConfig,
  *         mezcalito_ux_search?: MezcalitoUxSearchConfig,
@@ -2472,7 +2465,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         knp_menu?: KnpMenuConfig,
  *         survos_tabler?: SurvosTablerConfig,
  *         ux_icons?: UxIconsConfig,
- *         survos_ciine?: SurvosCiineConfig,
  *         survos_field?: SurvosFieldConfig,
  *         live_component?: LiveComponentConfig,
  *         mezcalito_ux_search?: MezcalitoUxSearchConfig,
@@ -2511,7 +2503,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         knp_menu?: KnpMenuConfig,
  *         survos_tabler?: SurvosTablerConfig,
  *         ux_icons?: UxIconsConfig,
- *         survos_ciine?: SurvosCiineConfig,
  *         survos_field?: SurvosFieldConfig,
  *         live_component?: LiveComponentConfig,
  *         mezcalito_ux_search?: MezcalitoUxSearchConfig,

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25658857dc186a69bd3da5d4b19cca13",
+    "content-hash": "3feccbca453dfa4eacd04282b2e1ef4d",
     "packages": [
         {
             "name": "adhocore/cli",
@@ -5117,77 +5117,6 @@
                 }
             ],
             "time": "2026-06-11T09:34:05+00:00"
-        },
-        {
-            "name": "survos/ciine-bundle",
-            "version": "2.10.19",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/survos/ciine-bundle.git",
-                "reference": "3a64f4b307271d0d222b4a516a08f84df6346151"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/survos/ciine-bundle/zipball/3a64f4b307271d0d222b4a516a08f84df6346151",
-                "reference": "3a64f4b307271d0d222b4a516a08f84df6346151",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.5",
-                "sensiolabs/ansi-to-html": "^2.0",
-                "symfony/config": "^8.1",
-                "symfony/console": "^8.1",
-                "symfony/dependency-injection": "^8.1",
-                "symfony/finder": "^8.1",
-                "symfony/http-client": "^8.1",
-                "symfony/http-kernel": "^8.1",
-                "symfony/options-resolver": "^8.1",
-                "symfony/twig-bridge": "^8.1",
-                "symfony/workflow": "^8.1",
-                "twig/twig": "^3.4"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^2.0",
-                "phpunit/phpunit": "^13.0",
-                "survos/state-bundle": "^2.5",
-                "symfony/framework-bundle": "^8.1",
-                "symfony/panther": "^2.2",
-                "symfony/routing": "^8.1"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "symfony": {
-                    "require": "^7.3"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Survos\\CiineBundle\\": "src/",
-                    "Survos\\CiineBundle\\Tests\\": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tac Tacelosky",
-                    "email": "tacman@gmail.com"
-                }
-            ],
-            "description": "Symfony  tools for asciinema.org",
-            "support": {
-                "issues": "https://github.com/survos/ciine-bundle/issues",
-                "source": "https://github.com/survos/ciine-bundle/tree/2.10.19"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/kbond",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-06-12T21:53:59+00:00"
         },
         {
             "name": "survos/core-bundle",

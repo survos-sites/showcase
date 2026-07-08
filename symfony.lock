@@ -200,9 +200,6 @@
     "survos/babel-bundle": {
         "version": "2.0.143"
     },
-    "survos/ciine-bundle": {
-        "version": "2.0.117"
-    },
     "survos/code-bundle": {
         "version": "dev-main"
     },
