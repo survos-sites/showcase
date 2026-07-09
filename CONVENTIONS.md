@@ -249,6 +249,38 @@ $enabled = $extra['enabled'] ?? true;  // default enabled (opt-out, not opt-in)
 - `survos/iiif-bundle` — IIIF (in development).
 - `survos/ciine-bundle` — asciinema rendering (extraction in progress).
 
+## Meilisearch frontend search UI
+
+Full reference: `survos/meili-bundle`'s `docs/frontend-instant-search.md` (read
+before writing any search-page JS — multiple apps have independently
+hand-rolled a bespoke controller and hit the same bugs).
+
+- **Use `@survos/meili-bundle/insta`, never a bespoke Stimulus controller.**
+  Search box, facets, hits, pagination, bookmarkable routing (`routing: true`
+  by default), and hybrid/semantic search are already built and
+  config-driven via Stimulus values. Writing `instantsearch({...})` by hand
+  in an app is a sign you're duplicating this controller.
+- **Facets are `data-attribute`/`data-widget` nodes** inside one
+  `refinementList` target — not individual Stimulus targets per facet.
+- **Hit templates are real `templates/js/{indexBase}.html.twig` files**,
+  loaded client-side via `templateUrl` + `loadTemplateFromUrl()` (resolved
+  by `TemplateController`'s `/meili/template/{name}` route). Never a JS
+  template-literal string.
+- **Two stylesheets are required and neither auto-imports:**
+  1. `instantsearch.css`'s algolia theme — import it from a dedicated
+     entrypoint that imports your normal `app.js` first (so Tabler/Bootstrap
+     registers before algolia's component resets do), not from `app.js`
+     directly.
+  2. `bu/meili-bundle/public/meili.css` — a **plain bundle public asset**
+     (`assets:install`, not AssetMapper). Link it explicitly:
+     `<link rel="stylesheet" href="{{ asset('bundles/survosmeili/meili.css') }}">`.
+     Forgetting this is the most common failure: the page works, but
+     refinement lists/pagination render as an unstyled bullet list.
+- **`MEILI_PREFIX` must match across apps that share an index** — one app
+  building an index and a different app serving search over it need
+  identical prefixes, or `IndexNameResolver::uidForRaw()` computes two
+  different physical index names and the serving app silently sees nothing.
+
 ## GitHub workflow
 
 - Issues are the cross-repo work queue. Reference issue numbers in commits and in agent chats.
