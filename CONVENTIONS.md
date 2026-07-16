@@ -167,6 +167,39 @@ This unlocks `entity.rp` in Twig, so route generation never hard-codes field nam
 
 If field-bundle lacks a needed capability, flag it as a field-bundle issue. Don't work around silently.
 
+### Entity injection in controllers — type-hint the entity, never fetch it yourself
+
+`#[RouteIdentity]` drives both directions of the URL round-trip. `getRp()` generates the route parameters, and field-bundle's `RouteIdentityValueResolver` resolves them back: it sees a typed entity argument, reads the entity's `#[RouteIdentity]` attribute, and runs `findOneBy([field => value])` — throwing a 404 when a non-nullable argument can't be found.
+
+The route parameter key is `lcfirst(shortName) . 'Id'` — `Component` → `componentId`, `Site` → `siteId` — unless overridden with `#[RouteIdentity(field: 'code', key: 'slug')]`. `getRp()` emits exactly the same keys, so `path()` and the resolver always agree.
+
+```php
+#[Route('/component/{componentId}', name: 'component_show')]
+public function show(Component $component): Response   // resolved by componentId → code lookup
+```
+
+```php
+// WRONG — never accept the raw id and query the repository yourself
+#[Route('/component/{componentId}', name: 'component_show')]
+public function show(string $componentId, ComponentRepository $repo): Response
+{
+    $component = $repo->findOneBy(['code' => $componentId]); // boilerplate the resolver already does
+```
+
+Also wrong: repeating `#[MapEntity(mapping: ['componentId' => 'code'])]` on every action — that's the boilerplate `RouteIdentity` exists to eliminate.
+
+**Composite identity (parent chains).** An entity scoped by a parent declares it once; `getRp()` walks the chain automatically:
+
+```php
+#[RouteIdentity(field: 'code', parents: ['tenant'])]
+final class Project implements RouteParametersInterface { ... }
+
+// $project->getRp() → ['tenantId' => 'acme', 'projectId' => 'photo-archive']
+// {{ path('project_show', project.rp) }} — no manual merge with tenant.rp
+```
+
+One current limitation: `RouteIdentityValueResolver` does not yet resolve parent chains on the inbound side, so a controller for a compound-identity entity still needs an explicit `#[MapEntity]` (see the `@todo` in the resolver). Everything else — single-field identity, non-`id` fields like `code`, custom keys — injects directly.
+
 ## Database schema changes
 
 Doctrine DBAL configs for PostgreSQL projects should exclude extension-owned TimescaleDB schemas from schema diffs and migrations:

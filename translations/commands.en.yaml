@@ -1,0 +1,15 @@
+'app:screenshot':
+    description: 'take screenshot for all the sites'
+    help: ''
+'app:highlight':
+    description: 'hilight code on the terminal'
+    help: ''
+'app:load':
+    description: 'load survos components from local sources'
+    help: ''
+'app:deprecate':
+    description: 'mark a component as deprecated (excluded from updates)'
+    help: ''
+'app:update':
+    description: 'run composer/server updates on loaded components'
+    help: ''
