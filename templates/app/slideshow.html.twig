@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Museado</title>
+    <title>Reveal Slideshow</title>
 
     {# reveal.js CSS (base + black theme + highlight) is loaded via the
        @survos/reveal-bundle stimulus controller's importmap autoimport #}
@@ -19,10 +19,6 @@
             width: 100vw;
             height: 100vh;
         }
-        .reveal h1, .reveal h2 { text-transform: none; }
-        .reveal section img { border: none; box-shadow: 0 0.5em 2em rgba(0,0,0,.4); }
-        .reveal .subtitle { color: #9ab; font-size: 0.65em; }
-        .reveal .credit { position: absolute; bottom: 0.6em; right: 1em; font-size: 0.35em; color: #789; }
     </style>
 
     {# Asset Mapper imports #}
@@ -35,55 +31,38 @@
 
 <div class="reveal" {{ stimulus_controller(_sc) }}>
     <div class="slides">
-
         <section>
-            <h1>Museado</h1>
-            <p class="subtitle">shared tools for independent photo archives</p>
-        </section>
+            <h2>Bullet Points</h2>
+            <pre><code class="language-bash" data-lang="bash">
+symfony new --webapp movies && cd movies
+composer req survos/meili-bundle easycorp/easyadmin
+composer req survos/code-bundle --dev
+            </code>
+                </pre>
 
-        <section>
-            <h2>One search.<br>Many independent archives.</h2>
-            <p class="subtitle">Your data, your site, your language — not one aggregator taking over everyone's archive.</p>
-        </section>
 
-        <section data-background-image="{{ asset('images/museado-slides/fortepan-fpeu-working.jpeg') }}" data-background-size="contain" data-background-color="#111">
-            <h2 style="background:rgba(0,0,0,.55); display:inline-block; padding:0.2em 0.4em;">Search across every source at once</h2>
-        </section>
-
-        <section data-background-image="{{ asset('images/museado-slides/zm-home-foliosets.jpeg') }}" data-background-size="contain" data-background-color="#111">
-            <h2 style="background:rgba(0,0,0,.55); display:inline-block; padding:0.2em 0.4em;">898,589 items. One search box.</h2>
-            <p class="subtitle" style="background:rgba(0,0,0,.55); display:inline-block; padding:0.2em 0.4em;">"Meet the Scholar" — ask questions about any photo, in any language</p>
-        </section>
-
-        <section>
-            <div style="display:flex; align-items:center; gap:1.2em;">
-                <div style="flex:1; text-align:left;">
-                    <h2>AI fills in the gaps</h2>
-                    <ul>
-                        <li>Captions for undescribed photos</li>
-                        <li>Tags &amp; topics, automatically</li>
-                        <li>Never overwrites your own metadata</li>
-                    </ul>
-                </div>
-                <div style="flex:1;">
-                    <img src="{{ asset('images/museado-slides/zoomed.png') }}" style="max-height:70vh; max-width:100%;">
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2>New: oral history &amp; interviews</h2>
             <ul>
-                <li>Audio with a synchronized transcript</li>
-                <li>Searchable right alongside your photos</li>
+                <li>App Bundles</li>
+                <li>Dev Bundles</li>
             </ul>
         </section>
 
-        <section>
-            <h1>Let's build this together</h1>
-            <p class="subtitle">Tac Tacelosky &middot; Museado</p>
-        </section>
+            <section>
 
+                <pre><code class="language-php">
+function hello($name) {
+    return "Hello, $name!";
+}
+                </code></pre>
+            </section>
+
+        <section>
+            <h2>More Bullet Points</h2>
+            <ul>
+                <li>Point one</li>
+                <li>Point two</li>
+            </ul>
+        </section>
     </div>
 </div>
 </body>

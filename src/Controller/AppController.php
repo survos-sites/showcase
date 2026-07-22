@@ -38,6 +38,13 @@ class AppController extends AbstractController
         return [];
     }
 
+    #[Route('/opan', name: 'app_opan', methods: [Request::METHOD_GET])]
+    #[Template('app/opan.html.twig')]
+    public function opan(Request $request): Response|array
+    {
+        return [];
+    }
+
     #[Route('/apps', name: 'app_apps', methods: [Request::METHOD_GET])]
     public function apps(ComponentRepository $componentRepository): Response
     {
