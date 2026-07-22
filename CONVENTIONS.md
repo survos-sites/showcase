@@ -137,12 +137,12 @@ PHP 8.4 + Doctrine ORM 3.x style — no boilerplate.
 - **`#[Field(searchable, sortable, filterable, facet, widget, order, ...)]`** — property-level. Controls DataTables columns, Meilisearch index settings, filter widgets. Intentionally orthogonal to `#[ORM\Column]` and `#[ApiProperty]`.
 - **`#[RouteIdentity(field: 'code')]`** — class-level. Declares which property identifies this entity in URLs. Replaces the legacy `UNIQUE_PARAMETERS` const pattern.
 
-Every entity that appears in routes **must** implement `RouteParametersInterface` and use `RouteIdentityTrait`. Note the intentional split: the **interface** remains in `survos/core-bundle` (not yet migrated), the **trait** lives in `survos/field-bundle`. Use both:
+Every entity that appears in routes **must** implement `RouteParametersInterface` and use `RouteIdentityTrait`. Both now live in `survos/field-bundle` (`Survos\FieldBundle\Entity\RouteParametersInterface`) — the interface has fully migrated off `survos/core-bundle`. A `Survos\CoreBundle\Entity\RouteParametersInterface` still exists for now, marked `@deprecated` in its own docblock ("keep `implements RouteParametersInterface` on existing entities until field-bundle fully replaces this interface") — don't reach for it in new code, use field-bundle's.
 
 ```php
-use Survos\CoreBundle\Entity\RouteParametersInterface;
 use Survos\FieldBundle\Attribute\RouteIdentity;
 use Survos\FieldBundle\Entity\RouteIdentityTrait;
+use Survos\FieldBundle\Entity\RouteParametersInterface;
 
 #[RouteIdentity(field: 'code')]
 final class Component implements RouteParametersInterface
@@ -165,7 +165,57 @@ This unlocks `entity.rp` in Twig, so route generation never hard-codes field nam
 {{ path('component_show', {code: component.code}) }}
 ```
 
+**Extra route params beyond the entity's own identity** (e.g. a route scoped by both a folio and a core: `/{folioCode}/search/{coreCode}`) go through `getRp()`'s optional merge argument, never a hand-assembled array:
+
+```twig
+{# correct — entity supplies folioCode, the extra param merges in #}
+{{ path('survos_folio_core_search', folio.rp({coreCode: core.code})) }}
+
+{# wrong — reconstructing folioCode by hand defeats the whole point of RouteIdentity #}
+{{ path('survos_folio_core_search', {folioCode: folio.code, coreCode: core.code}) }}
+```
+```php
+// same rule in PHP
+$folio->getRp(['coreCode' => $core->code]);
+```
+The merge is last-wins (`array_merge($params, $extras)` in `RouteIdentityResolver::paramsFor()`), so `$extras` can also override the entity's own key when needed — e.g. building a locale-suffixed variant of the same folio code: `$folio->getRp(['folioCode' => $folio->code . '.' . $locale])`.
+
 If field-bundle lacks a needed capability, flag it as a field-bundle issue. Don't work around silently.
+
+### Menu route parameters — the same rule, and where it actually broke down
+
+This is the specific way the `entity.rp` rule above gets violated in practice, and it's caused real production outages (2026-07-19: folio-bundle's routing migration from `{provider}/{dataset}` to a single `{folioCode}` broke every app-level menu class that had hand-built `['provider' => ..., 'dataset' => ...]` arrays instead of using an entity's `.rp` — a one-line, entity-only change everywhere else, a multi-file emergency fix in every app that had drifted).
+
+**The mechanism**, end to end:
+
+1. A base/layout template resolves the relevant entities ONCE per request (usually already available as a controller-passed variable, or via a request attribute a listener set for routes that don't go through that controller) and registers them as menu options:
+   ```twig
+   {% set _folio = folio|default(app.request.attributes.get('_folio')) %}
+   {% do tabler_menu_options({tenant: _tenant, folio: _folio}, _self) %}
+   ```
+   Every key used here **must** be declared under `survos_tabler.menu_options` in `config/packages/survos_tabler.yaml`, or `OptionsResolver` rejects it as unrecognized:
+   ```yaml
+   survos_tabler:
+       menu_options:
+           tenant: null
+           folio: null
+   ```
+2. Menu-listener classes (`#[AsEventListener(event: MenuEvent::...)]`, using `Survos\TablerBundle\Traits\KnpMenuHelperTrait`) read the entity back via `$event->getOption('folio')` — **never** re-resolve it themselves from a code/string (that's a second source of truth that silently drifts out of sync with whatever the template/listener actually set).
+3. `KnpMenuHelperTrait::add()`'s `$rp` parameter accepts `array|RouteParametersInterface|null` — pass the **entity itself** (or `$entity->getRp($extras)` when an extra param is needed), not a manually assembled array:
+   ```php
+   // correct
+   $this->add($menu, 'survos_folio_map', $folio, icon: 'tabler:map-2');
+   $this->add($menu, 'survos_folio_core_search', $folio->getRp(['coreCode' => $coreCode]), icon: 'tabler:search');
+
+   // wrong — exactly what broke when the route's param shape changed
+   $this->add($menu, 'survos_folio_map', ['provider' => $provider, 'dataset' => $dataset], icon: 'tabler:map-2');
+   ```
+
+**Before wiring up any menu item that links to a route carrying an entity identity, check the entity is on the modern pattern** (`#[RouteIdentity]` + `RouteIdentityTrait`, not a hand-written `getRp()` or the deprecated core-bundle interface) — a menu item is exactly the kind of call site that silently keeps working on the old pattern until the route itself changes shape, at which point every entity-only call site is unaffected and every hand-built-array call site breaks at once.
+
+99% of the time, the entity a menu listener needs is already sitting in `$event->getOption(...)` because some base template further up the inheritance chain declared it. If `getOption()` comes back null/wrong, the fix is almost always a missing `tabler_menu_options({...}, _self)` call (or a missing key in `survos_tabler.yaml`) in the base template that page extends — not a new lookup inside the menu listener.
+
+**Deliberate exception: per-row hit lists (search results, bookmarks).** A search-hit or bookmark row is a plain projection (e.g. a `dataset`/`localId` string pair off a Meilisearch document or a bookmark table row), not an entity — fetching the real `Tenant`/`Folio` entity for every row on a results page would be an N+1 query per page render, unlike the small, bounded loops (home page archive lists, menu items) where fetching one entity per item is cheap. It's fine for these to keep building route params from the raw fields directly, **as long as the target route's own param shape is stable** (an openfoto-only route like `tenant_photo_show` with `{tenantCode}`/`{localId}`, not a `survos_folio_*` bundle route that can migrate shape under you). If a hit-list page ever needs this to be entity-driven, batch-fetch: collect the distinct codes across the page once, `findBy(['code' => $codes])`, index into a map, then look up per row — not a `find()` per row.
 
 ### Entity injection in controllers — type-hint the entity, never fetch it yourself
 

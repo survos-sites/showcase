@@ -1,5 +1,4 @@
 import './stimulus_bootstrap.js';
-import 'instantsearch.css/themes/algolia.min.css';
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -10,5 +9,3 @@ import './styles/app.css';
 
 import '@tabler/core';
 import '@tabler/core/dist/css/tabler.min.css';
-
-import 'asciinema-player/dist/bundle/asciinema-player.css'

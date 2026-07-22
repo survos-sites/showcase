@@ -17,7 +17,6 @@
                 "enabled": true,
                 "fetch": "lazy",
                 "autoimport": {
-                    "reveal.js/dist/reveal.js": true,
                     "reveal.js/dist/reveal.css": true,
                     "reveal.js/dist/theme/black.css": true
                 }
