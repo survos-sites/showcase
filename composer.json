@@ -151,7 +151,6 @@
         "phpunit/phpunit": "^13.1",
         "rector/rector": "^2.0",
         "survos/code-bundle": "dev-main",
-        "survos/command-bundle": "^2.10",
         "survos/crawler-bundle": "^2.0",
         "survos/deployment-bundle": "^2.0",
         "survos/doc-bundle": "^2.0",

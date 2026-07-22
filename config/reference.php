@@ -1502,15 +1502,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         skip_same_as_origin?: bool|Param,
  *     }>,
  * }
- * @psalm-type SurvosCommandConfig = array{
- *     routes_enabled?: bool|Param, // Set false to manage this bundle's routes manually in your app. Bundles exposing sensitive routes (e.g. running console commands) should default this off. // Default: false
- *     route_prefix?: scalar|Param|null, // URL prefix applied to all routes from this bundle. // Default: "/admin/commands"
- *     locale_prefix?: bool|Param, // Prepend {_locale} (constrained to kernel.enabled_locales) to this bundle's route prefix, e.g. /{_locale}/f instead of /f -- for bundles whose routes are meant to be shared/bookmarked, so the URL itself carries the locale instead of a query param. // Default: false
- *     base_layout?: scalar|Param|null, // Default: null
- *     subdomain_variable?: scalar|Param|null, // Default: "subdomain"
- *     track?: bool|Param, // Record each (namespaced) command run as a CommandProcess row for monitoring. // Default: true
- *     namespaces?: list<scalar|Param|null>,
- * }
  * @psalm-type TwigComponentConfig = array{
  *     defaults?: array<string, string|array{ // Default: []
  *         template_directory?: scalar|Param|null, // Default: "components"
@@ -2328,7 +2319,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     security?: SecurityConfig,
  *     monolog?: MonologConfig,
  *     nelmio_cors?: NelmioCorsConfig,
- *     survos_command?: SurvosCommandConfig,
  *     twig_component?: TwigComponentConfig,
  *     survos_core?: SurvosCoreConfig,
  *     survos_state?: SurvosStateConfig,
@@ -2368,7 +2358,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         monolog?: MonologConfig,
  *         maker?: MakerConfig,
  *         nelmio_cors?: NelmioCorsConfig,
- *         survos_command?: SurvosCommandConfig,
  *         twig_component?: TwigComponentConfig,
  *         survos_core?: SurvosCoreConfig,
  *         survos_state?: SurvosStateConfig,
@@ -2410,7 +2399,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         security?: SecurityConfig,
  *         monolog?: MonologConfig,
  *         nelmio_cors?: NelmioCorsConfig,
- *         survos_command?: SurvosCommandConfig,
  *         twig_component?: TwigComponentConfig,
  *         survos_core?: SurvosCoreConfig,
  *         survos_state?: SurvosStateConfig,
@@ -2449,7 +2437,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         security?: SecurityConfig,
  *         monolog?: MonologConfig,
  *         nelmio_cors?: NelmioCorsConfig,
- *         survos_command?: SurvosCommandConfig,
  *         twig_component?: TwigComponentConfig,
  *         survos_core?: SurvosCoreConfig,
  *         survos_state?: SurvosStateConfig,
@@ -2491,7 +2478,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         security?: SecurityConfig,
  *         monolog?: MonologConfig,
  *         nelmio_cors?: NelmioCorsConfig,
- *         survos_command?: SurvosCommandConfig,
  *         twig_component?: TwigComponentConfig,
  *         survos_core?: SurvosCoreConfig,
  *         survos_state?: SurvosStateConfig,

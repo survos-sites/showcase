@@ -1,5 +1,0 @@
-survos_command:
-    routes_enabled: true
-    # expose app:my-command, etc.
-    namespaces: [app, state]
-
