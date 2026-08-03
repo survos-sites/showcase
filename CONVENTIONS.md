@@ -250,7 +250,42 @@ final class Project implements RouteParametersInterface { ... }
 
 One current limitation: `RouteIdentityValueResolver` does not yet resolve parent chains on the inbound side, so a controller for a compound-identity entity still needs an explicit `#[MapEntity]` (see the `@todo` in the resolver). Everything else — single-field identity, non-`id` fields like `code`, custom keys — injects directly.
 
-## Database schema changes
+## Database
+
+### Local default: the shared Docker Postgres
+
+Apps default to the one shared, long-running Postgres container defined in
+`~/sites/docker/docker-compose.yaml` (`survos_postgres`, a TimescaleDB image, port 5434,
+`postgres`/`docker` credentials) — not a per-app database. Each app just picks its own database
+name inside that one instance:
+
+    DATABASE_URL=postgresql://postgres:docker@127.0.0.1:5434/<dbname>?serverVersion=18&charset=utf8
+
+See `ssai`, `kpa`, `md`'s `.env` for real examples — this line is active (uncommented) in `.env`,
+with a commented-out SQLite alternative left beneath it for quick disposable-DB work (see below).
+
+A per-app `compose.yaml`/`compose.override.yaml` from the `doctrine/doctrine-bundle` Flex recipe
+(its own throwaway Postgres container, generic `app`/`!ChangeMe!` credentials, a random host
+port) is Flex's generic scaffold default, not this platform's convention — a new app should have
+its `DATABASE_URL` in `.env` swapped to the shared-instance form above, and the recipe's own
+`compose.yaml` service can be left unused or removed. A `DATABASE_URL` still pointing at
+`app:!ChangeMe!@127.0.0.1:<random-port>` is a sign an app never got switched over.
+
+There's also a separate shared `postgres_messenger` container (port 5435) for Symfony Messenger's
+Doctrine transport, and shared Meilisearch/Redis/Mercure/Mailpit/RabbitMQ containers in the same
+compose file — same idea, one shared instance rather than one per app.
+
+### Production database
+
+Never hardcode a production `DATABASE_URL` into `.env` (tracked, shared). To point locally at
+production data, in order of preference:
+
+1. `.env.local` (gitignored) — a commented-out production `DATABASE_URL` line, uncommented only
+   while you need it, not left active.
+2. `dokku config:get <app> DATABASE_URL` on the production host.
+3. The team password vault.
+
+### Schema changes
 
 Doctrine DBAL configs for PostgreSQL projects should exclude extension-owned TimescaleDB schemas from schema diffs and migrations:
 
@@ -262,8 +297,8 @@ For multi-connection configs, put the same `schema_filter` on the `default` conn
 
 When entity changes require a schema update:
 
-1. Check `DATABASE_URL` in `.env.local`.
-2. **SQLite** → run `php bin/console doctrine:schema:update --force` directly. No migration file needed — SQLite is dev-only, data is disposable.
+1. Check `DATABASE_URL` in `.env.local` (or `.env` if unset there).
+2. **SQLite** → run `php bin/console doctrine:schema:update --force` directly. No migration file needed — SQLite is dev-only, data is disposable. If a change can't apply cleanly in place (e.g. a new `NOT NULL` column with no default), it's fine to drop the SQLite file and reload/reseed rather than hand-craft a migration for a throwaway database.
 3. **PostgreSQL (or any other)** → stop and ask the developer to review and run the migration. Generate the diff with `php bin/console doctrine:migrations:diff` but do not run it automatically.
 
 Rationale: migrations are an audit trail for shared/production databases. SQLite dev databases are throwaway — a migration file is unnecessary friction.
