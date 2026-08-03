@@ -303,6 +303,23 @@ When entity changes require a schema update:
 
 Rationale: migrations are an audit trail for shared/production databases. SQLite dev databases are throwaway — a migration file is unnecessary friction.
 
+## Reverse proxy / trusted_proxies
+
+Every app deploys behind the dokku/Docker reverse proxy (TLS terminated upstream, plain HTTP to
+the container). `config/packages/framework.yaml` needs to trust it, or Symfony ignores
+`X-Forwarded-Proto: https` and builds `http://` absolute URLs — broken cross-origin checks,
+insecure-looking QR codes/emails/redirects, anything using `generateUrl(..., ABSOLUTE_URL)`. `zm`,
+`md`, `pgsc` already have this; `rut` and `dadjokes` didn't (found via rutado's homepage QR code
+silently encoding an `http://` URL) — check for it in any app before assuming absolute URLs are
+correct:
+
+    parameters:
+        default_trusted_proxies: 'private_ranges'
+
+    framework:
+        trusted_proxies: '%env(default:default_trusted_proxies:TRUSTED_PROXIES)%'
+        trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port']
+
 ## Configuration
 
 - Config that benefits from types, path logic, or conditionals is PHP, not YAML. YAML stays for static lists with no logic.
