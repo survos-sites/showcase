@@ -93,10 +93,10 @@ final class Component implements \Stringable, MarkingInterface, RouteParametersI
     #[ORM\Column(length: 255, nullable: true)]
     public ?string $localDir = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'pretty_json', nullable: true)]
     public ?array $composerJson = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'pretty_json', nullable: true)]
     public ?array $pwaYaml = null;
 
     #[ORM\Column(nullable: true)]

@@ -1,5 +1,7 @@
 doctrine:
     dbal:
+        types:
+            pretty_json: App\Doctrine\Type\PrettyJsonType
         connections:
             default: &dbal_defaults
                 logging: false
