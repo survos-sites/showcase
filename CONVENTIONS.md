@@ -450,6 +450,7 @@ $enabled = $extra['enabled'] ?? true;  // default enabled (opt-out, not opt-in)
 - `survos/ark-bundle` — ARK identifiers (in development).
 - `survos/iiif-bundle` — IIIF (in development).
 - `survos/ciine-bundle` — asciinema rendering (extraction in progress).
+- `survos/wordpress-bundle` — WordPress REST API client (multi-site, Application Password auth).
 
 ## Meilisearch frontend search UI
 
