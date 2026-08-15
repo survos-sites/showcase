@@ -303,6 +303,73 @@ When entity changes require a schema update:
 
 Rationale: migrations are an audit trail for shared/production databases. SQLite dev databases are throwaway — a migration file is unnecessary friction.
 
+### Platform S3 mount (rclone) — `/platform/folio-archive`
+
+`zm`'s `folio_archive.storage` (see `config/packages/flysystem.yaml`) is a plain Flysystem `local`
+adapter pointed at `%env(APP_DATA_DIR)%/folio-archive` (`APP_DATA_DIR=/platform`). That path is
+**not real local disk** — it's a symlink (`/platform/folio-archive -> ~/platform-s3/folio-archive`)
+into an **rclone FUSE mount** of the shared S3 bucket `survos-platform` (Hetzner Object Storage,
+`folio-archive/` prefix). This is deliberate: `FolioArchiveService` and `folio:pull` get to use
+plain PHP file calls (no Flysystem remote-fetch/readStream-to-tempfile dance) while rclone's own
+VFS cache handles "only re-fetch from S3 if stale" underneath. Every dev machine and every deploy
+target reads/writes the same S3 location this way.
+
+**This mount does not persist across a reboot on its own** — it's a FUSE process, not a real
+mount table entry. Every dev machine (including new ones — Praveen, the MacBook setup) needs it
+running as a **service**, or `/platform/folio-archive` silently goes empty/dangling and anything
+touching folio archives throws `Unable to create a directory at /platform/folio-archive` (Flysystem
+trying to lazily create a root that's actually an occupied-but-broken symlink target).
+
+**Prerequisites (any OS):**
+1. `rclone` installed (`~/.local/bin/rclone` here).
+2. An rclone remote named `hetzner-museado` pointing at Hetzner Object Storage
+   (`endpoint = https://fsn1.your-objectstorage.com`, `provider = Other`, S3 type). **Get the
+   access key/secret from Tac or the team vault — never commit them to a tracked file.** Same
+   credentials as `ssai`'s `AWS_S3_ACCESS_ID`/`AWS_S3_ACCESS_SECRET` (`aws configure --profile
+   hetzner` also works, for `aws s3 ls` debugging — same key pair, config lives in `~/.aws/config`).
+3. Local mount point `~/platform-s3` (empty dir, created automatically by the service below).
+
+**Linux — systemd user service** (`~/.config/systemd/user/rclone-platform-s3.service`):
+
+```ini
+[Unit]
+Description=rclone mount of survos-platform S3 bucket (folio-archive backing store)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+ExecStartPre=/bin/mkdir -p %h/platform-s3
+ExecStart=/home/tac/.local/bin/rclone mount hetzner-museado:survos-platform %h/platform-s3 \
+    --vfs-cache-mode=writes \
+    --dir-cache-time=1h
+ExecStop=/bin/fusermount -u %h/platform-s3
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
+```
+
+```bash
+loginctl enable-linger "$USER"   # starts the service at boot even with no login session
+systemctl --user daemon-reload
+systemctl --user enable --now rclone-platform-s3.service
+systemctl --user status rclone-platform-s3.service   # confirm "active (running)"
+```
+
+**macOS — launchd (MacBook dev setup):** systemd doesn't exist on macOS; use a
+`~/Library/LaunchAgents/com.survos.rclone-platform-s3.plist` `LaunchAgent` instead, same
+`rclone mount hetzner-museado:survos-platform ~/platform-s3 --vfs-cache-mode=writes` command as
+`ProgramArguments`, `RunAtLoad`/`KeepAlive` true, loaded via `launchctl load -w`. Requires macFUSE
+installed first (`brew install --cask macfuse`, needs a one-time System Settings security approval
+after install — the FUSE kernel extension won't load otherwise). Not yet turned into a checked-in
+plist template — do that the first time someone actually sets up a MacBook, rather than writing an
+untested one now.
+
+**Sanity check after any setup:** `ls /platform/folio-archive` should show real content
+(`folio/`, `fpeu/`, etc.), not "No such file or directory."
+
 ## Reverse proxy / trusted_proxies
 
 Every app deploys behind the dokku/Docker reverse proxy (TLS terminated upstream, plain HTTP to
