@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Enum\ComponentKind;
 use App\Repository\ComponentRepository;
-use Survos\CoreBundle\Service\SurvosUtils;
+use App\Service\SymfonyProxy;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -78,7 +78,7 @@ class AppController extends AbstractController
     ): Response {
         $running = [];
         if ($this->environment === 'dev' && $runningOnly) {
-            $sites = SurvosUtils::getSymfonyProxySites();
+            $sites = SymfonyProxy::getSites();
             $names = [];
             foreach ($sites as $site) {
                 if (!is_numeric($site['port']) || empty($site['port']) || empty($site['domains'])) {

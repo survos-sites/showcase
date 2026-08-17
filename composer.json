@@ -154,7 +154,7 @@
         "survos/crawler-bundle": "^2.0",
         "survos/deployment-bundle": "^2.0",
         "survos/doc-bundle": "^2.0",
-        "symfony/ai-mate": "^0.11.0",
+        "symfony/ai-mate": "^0.12.0",
         "symfony/browser-kit": "^8.1",
         "symfony/css-selector": "^8.1",
         "symfony/debug-bundle": "^8.1",
@@ -162,6 +162,7 @@
         "symfony/panther": "^2.3",
         "symfony/phpunit-bridge": "^8.1",
         "symfony/stopwatch": "^8.1",
+        "symfony/ux-toolkit": "^3.4",
         "symfony/web-profiler-bundle": "^8.1",
         "zenstruck/browser": "^1.8",
         "zenstruck/console-test": "^1.7"

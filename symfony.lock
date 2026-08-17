@@ -203,9 +203,6 @@
     "survos/code-bundle": {
         "version": "dev-main"
     },
-    "survos/core-bundle": {
-        "version": "1.5.190"
-    },
     "survos/crawler-bundle": {
         "version": "2.0",
         "recipe": {
@@ -576,6 +573,9 @@
         "files": [
             "config/routes/ux_live_component.yaml"
         ]
+    },
+    "symfony/ux-toolkit": {
+        "version": "v3.4.0"
     },
     "symfony/ux-turbo": {
         "version": "v2.16.0"

@@ -4,7 +4,7 @@ namespace App\Command;
 
 use Bakame\TabularData\HtmlTable\Parser;
 use Castor\Attribute\AsSymfonyTask;
-use Survos\CoreBundle\Service\SurvosUtils;
+use App\Service\SymfonyProxy;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
@@ -24,7 +24,7 @@ final class AppScreenshotCommand
     {
 
         // of interest: https_proxy=$(symfony proxy:url) curl https://my-domain.wip
-        $sites = SurvosUtils::getSymfonyProxySites();
+        $sites = SymfonyProxy::getSites();
 //
 //        $sites = Parser::new()
 //            ->ignoreTableHeader()

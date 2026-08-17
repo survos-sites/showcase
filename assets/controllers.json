@@ -22,6 +22,23 @@
                 }
             }
         },
+        "@survos/search-bundle": {
+            "ux-search": {
+                "enabled": true,
+                "fetch": "eager",
+                "autoimport": {
+                    "@survos/search-bundle/styles/ux-search.css": true
+                }
+            },
+            "ux-search--refinement-list": {
+                "enabled": true,
+                "fetch": "eager"
+            },
+            "ux-search-range-slider": {
+                "enabled": true,
+                "fetch": "eager"
+            }
+        },
         "@survos/simple-datatables-bundle": {
             "table": {
                 "enabled": true,
@@ -43,6 +60,18 @@
                 "fetch": "lazy"
             },
             "search": {
+                "enabled": true,
+                "fetch": "lazy"
+            },
+            "clipboard": {
+                "enabled": true,
+                "fetch": "lazy"
+            },
+            "closeable": {
+                "enabled": true,
+                "fetch": "lazy"
+            },
+            "tooltip": {
                 "enabled": true,
                 "fetch": "lazy"
             }
@@ -72,23 +101,6 @@
             },
             "mercure-turbo-stream": {
                 "enabled": false,
-                "fetch": "eager"
-            }
-        },
-        "@tacman/ux-search": {
-            "ux-search": {
-                "enabled": true,
-                "fetch": "eager",
-                "autoimport": {
-                    "@tacman/ux-search/dist/default.min.css": true
-                }
-            },
-            "ux-search--refinement-list": {
-                "enabled": true,
-                "fetch": "eager"
-            },
-            "ux-search-range-slider": {
-                "enabled": true,
                 "fetch": "eager"
             }
         }

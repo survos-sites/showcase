@@ -10,7 +10,7 @@ use App\Enum\ComponentKind;
 use App\Repository\ComponentRepository;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Survos\CoreBundle\Service\SurvosUtils;
+use App\Service\SymfonyProxy;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -103,7 +103,7 @@ final class AppService
     {
         try {
             $running = [];
-            foreach (SurvosUtils::getSymfonyProxySites() as $site) {
+            foreach (SymfonyProxy::getSites() as $site) {
                 if (empty($site['port']) || !is_numeric($site['port']) || empty($site['domains'])) {
                     continue;
                 }
