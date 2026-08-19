@@ -340,8 +340,14 @@ Wants=network-online.target
 [Service]
 Type=notify
 ExecStartPre=/bin/mkdir -p %h/platform-s3
+ExecStartPre=/bin/mkdir -p /media/tac/x10a/rclone-cache
 ExecStart=/home/tac/.local/bin/rclone mount hetzner-museado:survos-platform %h/platform-s3 \
-    --vfs-cache-mode=writes \
+    --vfs-cache-mode=full \
+    --cache-dir=/media/tac/x10a/rclone-cache \
+    --vfs-cache-max-size=200G \
+    --vfs-cache-max-age=168h \
+    --vfs-read-chunk-size=32M \
+    --vfs-read-chunk-size-limit=256M \
     --dir-cache-time=1h
 ExecStop=/bin/fusermount -u %h/platform-s3
 Restart=on-failure
@@ -350,6 +356,24 @@ RestartSec=5
 [Install]
 WantedBy=default.target
 ```
+
+And the **streaming** companion (`~/.config/systemd/user/rclone-platform-s3-zips.service`), same
+bucket, opposite caching — see "Two mounts, one bucket" below for why:
+
+```ini
+[Service]
+Type=notify
+ExecStartPre=/bin/mkdir -p %h/platform-s3-zips
+ExecStart=/home/tac/.local/bin/rclone mount hetzner-museado:survos-platform %h/platform-s3-zips \
+    --vfs-cache-mode=writes \
+    --dir-cache-time=1h
+ExecStop=/bin/fusermount -u %h/platform-s3-zips
+Restart=on-failure
+RestartSec=5
+```
+
+`--cache-dir` is not optional on the cached mount: the default (`~/.cache/rclone`) lives on `/`
+with ~41 GB free, while the vault disk has 2.2 TB.
 
 ```bash
 loginctl enable-linger "$USER"   # starts the service at boot even with no login session
@@ -369,6 +393,51 @@ untested one now.
 
 **Sanity check after any setup:** `ls /platform/folio-archive` should show real content
 (`folio/`, `fpeu/`, etc.), not "No such file or directory."
+
+### Two mounts, one bucket — cached vs streaming (2026-08-19)
+
+The same bucket is now mounted **twice**, with opposite caching policies, because the vault holds
+two workloads with opposite access patterns:
+
+| mount | flags | for | why |
+|---|---|---|---|
+| `~/platform-s3` | `--vfs-cache-mode=full` | `folio-archive`, dataset **raw** | small files re-read constantly |
+| `~/platform-s3-zips` | `--vfs-cache-mode=writes` | `_capture/*.zip` | write-once, read-once, huge |
+
+`--vfs-cache-mode=writes` (the original setting) caches only what you *write* and streams every
+**read** straight from S3 — nothing is reused between runs. That is right for archives and wrong
+for `_raw/*.jsonl`, which `dataset:normalize` re-reads on every pass. Measured on the cached
+mount: first read 4.64s, second read 0.01s.
+
+The forcing case for keeping them separate is **nara's `nac_export_descriptions_*.zip` — a single
+174 GB file**. Read through the cached mount it would be pulled down in full and evict every
+cached raw file behind it. Raw itself is never the problem: the largest `_raw` anywhere is
+euro/9200396 at 1.05 GB, typical is 0.16 GB, and all of euro's 2,324 datasets total 36 GB (versus
+273 GB of euro zips).
+
+Two flags on the cached mount are load-bearing:
+
+- **`--cache-dir=/media/tac/x10a/rclone-cache`** — the default is `~/.cache/rclone` on `/`, which
+  has ~41 GB free. The vault disk has 2.2 TB. Without this, caching raw fills the root filesystem.
+- **`--vfs-cache-max-size=200G` / `--vfs-cache-max-age=168h`** — a `full` mount with no bound will
+  grow until the disk is gone.
+
+Services: `rclone-platform-s3.service` (cached) and `rclone-platform-s3-zips.service` (streaming),
+both `systemctl --user enable --now`.
+
+**Apps do not symlink into these mounts** — path resolution lives in code. `survos_dataset`'s
+`capture_root` (`DATASET_CAPTURE_ROOT` in harvest) points capture at the streaming mount while
+`zips_root` keeps raw where it is. Empty = same as `zips_root`, so unset machines are unaffected.
+Symlinking `_capture` also cannot express "dataset dirs the workflow creates later land here."
+
+**`rclone copy`/`sync` against this remote needs two extra flags** that the mounts don't:
+`--s3-no-check-bucket --s3-region=fsn1`. Without them rclone issues a `CreateBucket` before
+uploading and Hetzner rejects it with `LocationConstraintConflict` (the remote has
+`provider = Other` and no `region`). The mounts never hit this because they don't call
+`CreateBucket`.
+
+**Uploading big archives from a laptop is not viable** — 174 GB at a measured 5 Mbit/s of home
+wifi uplink is ~75 hours. Fetch large source archives on the server instead.
 
 ## Reverse proxy / trusted_proxies
 
