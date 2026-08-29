@@ -76,19 +76,17 @@ class AppController extends AbstractController
         ComponentRepository $componentRepository,
         #[MapQueryParameter] bool $runningOnly = false,
     ): Response {
+        // Populated on every dev page load, not only behind ?runningOnly=1 -- "which of
+        // my repos are running right now" is the question the homepage exists to answer,
+        // and an opt-in flag nobody remembers means it always rendered empty. This reads
+        // the proxy live rather than Site::$localPort, which is only a snapshot of the
+        // last app:load and goes stale the moment a server starts or stops.
         $running = [];
-        if ($this->environment === 'dev' && $runningOnly) {
-            $sites = SymfonyProxy::getSites();
-            $names = [];
-            foreach ($sites as $site) {
-                if (!is_numeric($site['port']) || empty($site['port']) || empty($site['domains'])) {
-                    continue;
-                }
-                $host = parse_url($site['domains'][0] ?? $site['domains'], PHP_URL_HOST);
-                $host = (string) \Symfony\Component\String\u($host)->before('.wip');
-                $names[] = $host;
-            }
-            $running = $componentRepository->findBy(['name' => $names], ['name' => 'ASC']);
+        if ($this->environment === 'dev') {
+            $codes = array_keys(SymfonyProxy::getRunningCodes());
+            $running = $codes
+                ? $componentRepository->findBy(['name' => $codes], ['name' => 'ASC'])
+                : [];
         }
 
         return $this->render('home.html.twig', [

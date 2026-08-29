@@ -102,19 +102,7 @@ final class AppService
     private function getProxySites(SymfonyStyle $io): array
     {
         try {
-            $running = [];
-            foreach (SymfonyProxy::getSites() as $site) {
-                if (empty($site['port']) || !is_numeric($site['port']) || empty($site['domains'])) {
-                    continue;
-                }
-                foreach ((array) $site['domains'] as $domain) {
-                    $host = (string) u(parse_url($domain, PHP_URL_HOST) ?? '')->before('.wip');
-                    if ($host) {
-                        $running[$host] = (int) $site['port'];
-                    }
-                }
-            }
-            return $running;
+            return SymfonyProxy::getRunningCodes();
         } catch (\Throwable) {
             $io->isVerbose() && $io->warning('Symfony proxy not running — localPort will not be set');
             return [];
@@ -131,6 +119,15 @@ final class AppService
 
         $composerData = json_decode(file_get_contents($composerFile), true);
         $composerName = $composerData['name'] ?? null;
+
+        // A missing `name` is normal for an application -- it is only required to
+        // publish a package, and the Symfony skeleton does not add one. Bundles and
+        // libraries do need it, so they still bail here. Falling back to the directory
+        // is what the app is known by locally anyway (ssai, depot), and without this
+        // they never became Components at all, so they could never become Sites either.
+        if (!$composerName && ComponentKind::App === ($sourceKind)) {
+            $composerName = 'local/' . basename($dir);
+        }
         if (!$composerName) {
             return null;
         }
