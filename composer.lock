@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b21fc1d3efa3ef4223f5800f02f8b061",
+    "content-hash": "465c0933142d0c4deaffc5a2f4350cf3",
     "packages": [
         {
             "name": "adhocore/cli",
@@ -5456,16 +5456,16 @@
         },
         {
             "name": "survos/kit-bundle",
-            "version": "2.24.8",
+            "version": "2.24.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/survos/kit-bundle.git",
-                "reference": "e27bc177594a7bd23b3a969343a17f2389b6d05b"
+                "reference": "c03f337b4d46683cda600ee66403e7b6da5ec048"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/survos/kit-bundle/zipball/e27bc177594a7bd23b3a969343a17f2389b6d05b",
-                "reference": "e27bc177594a7bd23b3a969343a17f2389b6d05b",
+                "url": "https://api.github.com/repos/survos/kit-bundle/zipball/c03f337b4d46683cda600ee66403e7b6da5ec048",
+                "reference": "c03f337b4d46683cda600ee66403e7b6da5ec048",
                 "shasum": ""
             },
             "require": {
@@ -5477,7 +5477,15 @@
                 "doctrine/orm": "^3.0",
                 "symfony/asset-mapper": "^8.1",
                 "symfony/framework-bundle": "^8.1",
-                "symfony/twig-bundle": "^8.1"
+                "symfony/messenger": "^8.1",
+                "symfony/remote-event": "^8.1",
+                "symfony/twig-bundle": "^8.1",
+                "symfony/webhook": "^8.1"
+            },
+            "suggest": {
+                "symfony/messenger": "For Survos\\Kit\\Webhook\\RemoteEventTransportMiddleware — per-webhook Messenger transports.",
+                "symfony/remote-event": "For Survos\\Kit\\Webhook — RemoteEvent consumers behind the webhook endpoint.",
+                "symfony/webhook": "For Survos\\Kit\\Webhook — the shared inbound-webhook convention (signature verification, /webhook/{name} matching)."
             },
             "type": "symfony-bundle",
             "extra": {
@@ -5503,7 +5511,7 @@
             ],
             "support": {
                 "issues": "https://github.com/survos/kit-bundle/issues",
-                "source": "https://github.com/survos/kit-bundle/tree/2.24.8"
+                "source": "https://github.com/survos/kit-bundle/tree/2.24.16"
             },
             "funding": [
                 {
@@ -5511,7 +5519,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-16T18:53:26+00:00"
+            "time": "2026-08-17T22:24:28+00:00"
         },
         {
             "name": "survos/lingua-contracts",

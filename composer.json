@@ -38,6 +38,7 @@
         "survos/import-bundle": "^2.0",
         "survos/js-twig-bundle": "^2.10",
         "survos/jsonl-bundle": "^2.0",
+        "survos/kit-bundle": "^2.24.14",
         "survos/reveal-bundle": "^2.0",
         "survos/search-bundle": "^2.10.27",
         "survos/simple-datatables-bundle": "^2.0",
