@@ -456,6 +456,36 @@ correct:
         trusted_proxies: '%env(default:default_trusted_proxies:TRUSTED_PROXIES)%'
         trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port']
 
+## `/favicon.ico` — terminate it in the web server, never in Symfony
+
+Browsers request `/favicon.ico` unprompted on the first page view of every session, whether
+or not the page links one. If the request falls through to the front controller, Symfony
+answers it with a `NotFoundHttpException` and logs it — never a real error, and reliably the
+noisiest single line in a production log. Terminate it at the web server instead, so PHP is
+never booted for it.
+
+FrankenPHP/Caddy — `handle` blocks are mutually exclusive and evaluated in the order written,
+so `php_server` has to move inside a `handle` of its own or it still matches:
+
+    handle /favicon.ico {
+        @missing not file
+        respond @missing 204
+        file_server
+    }
+
+    handle {
+        php_server
+    }
+
+heroku-php-nginx buildpack — the `try_files` is the load-bearing part. `access_log off;
+log_not_found off;` on its own only quiets nginx's logs; the request still reaches PHP and
+Symfony still logs the exception:
+
+    location = /favicon.ico { access_log off; log_not_found off; try_files $uri =204; }
+
+Either form serves `public/favicon.ico` when the app actually ships one, so adding a real
+favicon later needs no config change.
+
 ## Configuration
 
 - Config that benefits from types, path logic, or conditionals is PHP, not YAML. YAML stays for static lists with no logic.
