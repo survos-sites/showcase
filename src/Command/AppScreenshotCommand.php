@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use Bakame\TabularData\HtmlTable\Parser;
 use Castor\Attribute\AsSymfonyTask;
 use App\Service\SymfonyProxy;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -23,13 +22,7 @@ final class AppScreenshotCommand
     ): int
     {
 
-        // of interest: https_proxy=$(symfony proxy:url) curl https://my-domain.wip
         $sites = SymfonyProxy::getSites();
-//
-//        $sites = Parser::new()
-//            ->ignoreTableHeader()
-//            ->tableHeader(['dir', 'port', 'domains'])
-//            ->parseFile('http://127.0.0.1:7080');
 
         $client = Client::createChromeClient(
             null,

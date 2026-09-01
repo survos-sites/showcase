@@ -12,7 +12,6 @@
         "ext-intl": "*",
         "adhocore/cli-syntax": "^1.0",
         "api-platform/core": "^4.2",
-        "bakame/html-table": "^0.5.0",
         "doctrine/dbal": "^4.4",
         "doctrine/doctrine-bundle": "^3",
         "doctrine/doctrine-migrations-bundle": "^4.0",

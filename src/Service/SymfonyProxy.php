@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 /**
- * Reads the local `symfony proxy` index page to discover which .wip sites are running.
+ * Reads the local `symfony proxy` JSON index to discover which .wip sites are running.
  *
  * Moved here from survos/core-bundle's SurvosUtils: showcase was the only caller in the
  * entire ecosystem, and core-bundle is being retired (survos/mono#21). Dev-only — the
@@ -13,38 +13,49 @@ namespace App\Service;
  */
 final class SymfonyProxy
 {
-    public const string PROXY_URL = 'http://127.0.0.1:7080';
+    public const string PROXY_URL = 'http://localhost:7080/index.json';
 
     /**
      * @return list<array{directory: string, port: int|null, code: string|null, domains: list<string>}>
      */
     public static function getSites(string $proxyUrl = self::PROXY_URL): array
     {
-        $html = @file_get_contents($proxyUrl);
-        if (false === $html) {
+        $json = @file_get_contents($proxyUrl);
+        if (false === $json) {
             return [];
         }
 
-        preg_match_all(
-            '#<tr><td>([^<]+)<td>(?:<a[^>]+>(\d+)</a>|[^<]+)<td>(.*?)<(?:tr|/tr)#s',
-            $html,
-            $matches,
-            PREG_SET_ORDER
-        );
+        try {
+            $index = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return [];
+        }
+
+        if (!is_array($index)) {
+            return [];
+        }
 
         $sites = [];
-        foreach ($matches as $match) {
-            $directory = trim($match[1]);
-            $port = !empty($match[2]) ? (int) $match[2] : null;
+        foreach ($index as $directory => $data) {
+            if (!is_string($directory) || !is_array($data)) {
+                continue;
+            }
 
-            // Every domain in the cell, whether rendered as a link or as plain text.
-            // http OR https: the proxy renders whichever scheme the site was attached
-            // with, and a site without a local certificate shows as plain http. Matching
-            // only https silently dropped those rows -- they came back with no domains,
-            // so getProxySites() skipped them and the site read as "not running" while
-            // its server was up (confirmed live on harvest, http://harvest.wip/).
-            preg_match_all('#https?://[^<>"]+/#', $match[3], $domainMatches);
-            $domains = array_values(array_unique($domainMatches[0]));
+            $port = (int) ($data['port'] ?? 0) ?: null;
+            $scheme = in_array($data['scheme'] ?? null, ['http', 'https'], true)
+                ? $data['scheme']
+                : 'http';
+            $domains = [];
+            foreach ($data['domains'] ?? [] as $domain) {
+                if (!is_string($domain) || '' === $domain) {
+                    continue;
+                }
+
+                $domains[] = str_contains($domain, '://')
+                    ? rtrim($domain, '/') . '/'
+                    : sprintf('%s://%s/', $scheme, $domain);
+            }
+            $domains = array_values(array_unique($domains));
 
             // The short code is the first non-wildcard *.wip domain, e.g. https://showcase.wip/ -> showcase
             $code = null;
