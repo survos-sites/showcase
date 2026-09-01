@@ -42,3 +42,7 @@ public/js/fos_js_routes.js
 config.bat
 node_modules
 .playwright-mcp/
+
+# Screenshots captured by app:screenshot -- regenerate, do not commit
+*.png
+/.codex/
