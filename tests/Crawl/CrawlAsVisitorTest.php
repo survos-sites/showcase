@@ -8,42 +8,55 @@ use Survos\CrawlerBundle\Tests\BaseVisitLinksTest;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class CrawlAsVisitorTest extends BaseVisitLinksTest
+class CrawlAsVisitorTest extends WebTestCase
 {
-	#[TestDox('/$method $url ($route)')]
+	#[TestDox('$url returns $expected')]
 	#[TestWith(['', 'App\Entity\User', '/', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/1', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/2', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/3', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/4', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/5', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/6', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/7', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/8', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/9', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/10', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/11', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/12', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/13', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/14', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/15', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/16', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/17', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/18', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/19', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/20', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/21', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/22', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/23', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/24', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/25', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/26', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/27', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/28', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/29', 200])]
-	#[TestWith(['', 'App\Entity\User', '/show/30', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-1/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-2/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-3/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-4/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-5/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-6/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-7/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-8/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-9/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-10/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-11/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-12/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-13/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-14/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-15/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-16/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-17/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-18/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-19/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-20/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-21/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-22/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-23/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-24/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-25/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-26/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-27/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-28/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-29/show', 200])]
+	#[TestWith(['', 'App\Entity\User', '/component/fixture__component-30/show', 200])]
 	public function testRoute(string $username, string $userClassName, string $url, string|int|null $expected): void
 	{
-		parent::testWithLogin($username, $userClassName, $url, (int)$expected);
+		$client = self::createClient();
+        $em = self::getContainer()->get('doctrine.orm.entity_manager');
+        self::assertTrue($em->getConnection()->getParams()['memory'] ?? false);
+        (new \Doctrine\ORM\Tools\SchemaTool($em))->createSchema($em->getMetadataFactory()->getAllMetadata());
+        for ($i = 1; $i <= 30; ++$i) {
+            $component = new \App\Entity\Component('fixture/component-'.$i);
+            $component->name = 'Component '.$i;
+            $component->kind = \App\Enum\ComponentKind::App;
+            $component->composerJson = ['name' => $component->composerName, 'require' => []];
+            $em->persist($component);
+        }
+        $em->flush();
+        $client->request('GET', $url);
+        self::assertResponseStatusCodeSame((int) $expected);
 	}
 }

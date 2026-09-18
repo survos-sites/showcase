@@ -37,6 +37,10 @@
             "ux-search-range-slider": {
                 "enabled": true,
                 "fetch": "eager"
+            },
+            "instantsearch": {
+                "enabled": false,
+                "fetch": "lazy"
             }
         },
         "@survos/simple-datatables-bundle": {
@@ -72,6 +76,10 @@
                 "fetch": "lazy"
             },
             "tooltip": {
+                "enabled": true,
+                "fetch": "lazy"
+            },
+            "conditional-fields": {
                 "enabled": true,
                 "fetch": "lazy"
             }
