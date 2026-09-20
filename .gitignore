@@ -46,3 +46,5 @@ node_modules
 # Screenshots captured by app:screenshot -- regenerate, do not commit
 *.png
 /.codex/
+
+/.phpunit.cache/
