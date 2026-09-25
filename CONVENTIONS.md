@@ -486,6 +486,37 @@ Symfony still logs the exception:
 Either form serves `public/favicon.ico` when the app actually ships one, so adding a real
 favicon later needs no config change.
 
+## Mail — Brevo over its API, SMTP only where nothing else works
+
+Symfony apps send through `symfony/brevo-mailer`'s **API** transport:
+
+    # .env (committed) — the key is the only secret; set it with `dokku config:set --no-restart`
+    BREVO_API_KEY=
+    MAILER_DSN=brevo+api://${BREVO_API_KEY}@default
+
+    # .env.local (dev) — mailpit
+    MAILER_DSN=smtp://localhost:1025
+
+- **Why the API, not `smtp-relay.brevo.com`:** the API returns Brevo's message id for every
+  send, so bounce / complaint / unsubscribe webhooks (`symfony/webhook` + the bridge's request
+  parser) can be matched to the message and the contact. Tags and metadata travel with the
+  message. It needs one credential instead of a separate SMTP login, and it goes over HTTPS on
+  443, so outbound SMTP port rules don't matter.
+- **SMTP only for software that can't use the API:** Mattermost, WordPress/CiviCRM (vd).
+- **Never default to `null://null`.** It silently discards mail, and a confirmation email that
+  never arrives looks like success. An empty key leaves the DSN without a key, so the transport
+  fails ("User is not set") the moment anything uses the mailer. That failure is what we want.
+- **Senders are on a domain authenticated in Brevo** (DKIM, SPF, DMARC). Any address on such a
+  domain can send without being added to Brevo's sender list. Outreach and newsletter senders
+  belong on museado.org, not personal Gmail.
+- **Lists and campaigns** (not sending) go through `getbrevo/brevo-php`, kept optional in
+  bundles (`suggest`, not `require`). It is PSR-18 with php-http/discovery, like
+  meilisearch-php: it picks up Symfony HttpClient's `Psr18Client` automatically, or pass one
+  explicitly as `new Brevo($key, ['client' => $psr18Client])`. Never add Guzzle for it.
+- **Bulk and outreach mail must pass `Survos\OutreachBundle\Service\SendPolicy`** at send time.
+  Local consent is the source of truth, and Brevo list membership is a copy
+  (survos/outreach-bundle#1).
+
 ## Configuration
 
 - Config that benefits from types, path logic, or conditionals is PHP, not YAML. YAML stays for static lists with no logic.
