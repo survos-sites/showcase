@@ -151,7 +151,6 @@
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^13.1",
         "rector/rector": "^2.0",
-        "survos/code-bundle": "^2.31",
         "survos/crawler-bundle": "^2.0",
         "survos/deployment-bundle": "^2.0",
         "survos/doc-bundle": "^2.0",
@@ -167,15 +166,5 @@
         "symfony/web-profiler-bundle": "^8.1",
         "zenstruck/browser": "^1.8",
         "zenstruck/console-test": "^1.7"
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://satis.survos.com",
-            "only": [
-                "survos/code-bundle",
-                "survos/tabler-bundle"
-            ]
-        }
-    ]
+    }
 }

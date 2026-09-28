@@ -44,7 +44,7 @@ final class AppMenu // @todo: trait
     {
         $menu = $event->getMenu();
         $options = $event->options;
-        $this->add($menu, 'app_homepage', label: 'All');
+        $this->add($menu, 'app_catalog', label: 'All');
         $this->add($menu, 'app_apps', label: 'Apps');
         $this->add($menu, 'app_tools', label: 'Tools');
         $this->add($menu, 'app_slides', label: 'slides');
