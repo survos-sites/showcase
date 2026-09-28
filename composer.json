@@ -10,6 +10,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-intl": "*",
+        "ext-pdo_pgsql": "*",
         "adhocore/cli-syntax": "^1.0",
         "api-platform/core": "^4.2 || ^5.0",
         "doctrine/dbal": "^4.4",

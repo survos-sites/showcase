@@ -1,0 +1,36 @@
+{
+    "generatedAt": "2026-09-28T07:59:38+00:00",
+    "sources": [
+        "Dokku fsn1 domains and process state",
+        "GitHub repository metadata"
+    ],
+    "sites": [
+        {
+            "app": "zm",
+            "repository": "survos-sites/zm",
+            "title": "Recordia",
+            "url": "https://recordia.org",
+            "description": "Discover and explore digital collections from museums and archives.",
+            "githubUrl": null,
+            "repositoryDescription": null
+        },
+        {
+            "app": "ink",
+            "repository": "survos-sites/ink",
+            "title": "Ink",
+            "url": "https://inkstory.org",
+            "description": "A reading room for historical newspapers and periodicals.",
+            "githubUrl": null,
+            "repositoryDescription": null
+        },
+        {
+            "app": "fotostory",
+            "repository": "survos-sites/fotostory",
+            "title": "FotoStory",
+            "url": "https://fotostory.org",
+            "description": "Explore community photo archives and the stories behind their images.",
+            "githubUrl": null,
+            "repositoryDescription": null
+        }
+    ]
+}

@@ -121,3 +121,7 @@ Four-article series demonstrating the patterns this repo uses. Built against a t
 4. **Packaging It as a Reusable Bundle** — extract `SiteService` into `site-monitor-bundle`. Bundle configuration, service registration, command autodiscovery from a bundle. Tag: `v4-bundle`.
 
 Persistence: Sqlite + Doctrine. README supports both `doctrine:migrations:migrate` (migration committed) and `doctrine:schema:create` (simple path). Drafted outline-first, then code-first, then prose against working code.
+
+## 2026-09-28 — Survos public website
+
+Showcase is the Symfony implementation for survos.com. Public `/` describes Symfony development for collections and archives, links GitHub and Medium, and lists explicitly selected public deployments. `portfolio:sync` combines Dokku domains/running state with GitHub metadata into a reviewed snapshot. Production loads that snapshot; local `app:load` continues scanning composer.json files on disk. The local inventory moved to `/catalog`; production blocks all internal routes. Substack remains deferred. See `docs/deployment.md`. This supersedes the WordPress-first website direction in issue #5; the WordPress integration experiment can remain separate.

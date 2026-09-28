@@ -27,7 +27,7 @@ final class Site implements \Stringable, RouteParametersInterface
     #[Field(searchable: true, sortable: true, order: 1)]
     public readonly string $id;
 
-    #[ORM\ManyToOne(inversedBy: 'sites')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(referencedColumnName: 'id', nullable: true)]
     public ?Component $component = null;
 

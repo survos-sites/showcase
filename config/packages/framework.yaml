@@ -1,5 +1,7 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
+    trusted_proxies: 'private_ranges'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-port']
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
 
@@ -10,7 +12,7 @@ framework:
 
     router:
         # ...
-        default_uri: 'https://showcase.wip/'
+        default_uri: '%env(DEFAULT_URI)%'
     #esi: true
     #fragments: true
 

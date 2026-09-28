@@ -37,3 +37,9 @@ when@test:
                 cost: 4 # Lowest possible value for bcrypt
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
+
+when@prod:
+    security:
+        access_control:
+            - { path: '^/(?:$|health$|assets/|favicon\.ico$|robots\.txt$)', roles: PUBLIC_ACCESS }
+            - { path: '^/', roles: ROLE_ADMIN }

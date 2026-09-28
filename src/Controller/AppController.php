@@ -71,7 +71,7 @@ class AppController extends AbstractController
         ]);
     }
 
-    #[Route('/', name: 'app_homepage', methods: [Request::METHOD_GET])]
+    #[Route('/catalog', name: 'app_catalog', methods: [Request::METHOD_GET])]
     public function index(
         ComponentRepository $componentRepository,
         #[MapQueryParameter] bool $runningOnly = false,

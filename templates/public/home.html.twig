@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Survos · Symfony developers for collections &amp; archives</title>
+    <meta name="description" content="Survos builds Symfony applications for museums, archives, and digital collections. Explore our work and open-source software.">
+    <link rel="stylesheet" href="{{ asset('styles/public.css') }}">
+</head>
+<body>
+<header class="wrap"><a class="brand" href="{{ path('app_homepage') }}">survos<span>.</span></a><nav aria-label="Main navigation"><a href="#work">Our work</a><a href="https://github.com/survos">GitHub ↗</a><a href="https://medium.com/@tacman1123">Writing ↗</a></nav></header>
+<main>
+<section class="hero wrap"><p class="eyebrow">Software for cultural collections</p><h1>Bring your collections<br>into the world.</h1><p class="intro">We are Symfony developers focused on collections and archives. We build the tools that help people organize, discover, and explore cultural materials.</p><a class="button" href="#work">Explore our work <span>↓</span></a></section>
+<section class="expertise wrap" aria-label="Our expertise"><div><span class="number">01</span><h2>Collections &amp; discovery</h2><p>Searchable catalogs, digital archives, and interfaces that help people find what matters.</p></div><div><span class="number">02</span><h2>Data &amp; integration</h2><p>Connect collection systems, normalize metadata, and turn complex source material into useful applications.</p></div><div><span class="number">03</span><h2>Symfony &amp; open source</h2><p>Reusable PHP components and Symfony bundles, developed alongside the applications that use them.</p></div></section>
+<section id="work" class="work wrap"><p class="eyebrow">Selected public projects</p><h2>Built to be explored.</h2><div class="projects">{% for site in sites %}<a class="project" href="{{ site.url }}"><span class="project-label">{{ site.title }}</span><p>{{ site.description }}</p><span class="visit">Visit site ↗</span></a>{% else %}<p>Our portfolio is being updated. Explore our software on <a href="https://github.com/survos">GitHub</a>.</p>{% endfor %}</div></section>
+<section class="writing wrap"><div><p class="eyebrow">From the workshop</p><h2>Sharing what we learn.</h2><p>Technical articles about Symfony, reusable software, and working with collections.</p></div><a class="text-link" href="https://medium.com/@tacman1123">Read on Medium ↗</a></section>
+</main>
+<footer class="wrap"><span>Survos · Software for collections and archives</span><a href="https://github.com/survos">Our code on GitHub ↗</a></footer>
+</body>
+</html>
