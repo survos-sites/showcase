@@ -1,20 +1,62 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Survos · Symfony developers for collections &amp; archives</title>
+{% extends 'base.html.twig' %}
+
+{% block title %}Survos · Symfony developers for collections &amp; archives{% endblock %}
+
+{% block head %}
+    {{ parent() }}
     <meta name="description" content="Survos builds Symfony applications for museums, archives, and digital collections. Explore our work and open-source software.">
-    <link rel="stylesheet" href="{{ asset('styles/public.css') }}">
-</head>
-<body>
-<header class="wrap"><a class="brand" href="{{ path('app_homepage') }}">survos<span>.</span></a><nav aria-label="Main navigation"><a href="#work">Our work</a><a href="https://github.com/survos" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://medium.com/@tacman1123" target="_blank" rel="noopener noreferrer">Writing ↗</a></nav></header>
-<main>
-<section class="hero wrap"><p class="eyebrow">Software for cultural collections</p><h1>Bring your collections<br>into the world.</h1><p class="intro">We are Symfony developers focused on collections and archives. We build the tools that help people organize, discover, and explore cultural materials.</p><a class="button" href="#work">Explore our work <span>↓</span></a></section>
-<section class="expertise wrap" aria-label="Our expertise"><div><span class="number">01</span><h2>Collections &amp; discovery</h2><p>Searchable catalogs, digital archives, and interfaces that help people find what matters.</p></div><div><span class="number">02</span><h2>Data &amp; integration</h2><p>Connect collection systems, normalize metadata, and turn complex source material into useful applications.</p></div><div><span class="number">03</span><h2>Symfony &amp; open source</h2><p>Reusable PHP components and Symfony bundles, developed alongside the applications that use them.</p></div></section>
-<section id="work" class="work wrap"><p class="eyebrow">Selected public projects</p><h2>Built to be explored.</h2><div class="projects">{% for site in sites %}<a class="project" href="{{ site.url }}"><span class="project-label">{{ site.title }}</span><p>{{ site.description }}</p><span class="visit">Visit site ↗</span></a>{% else %}<p>Our portfolio is being updated. Explore our software on <a href="https://github.com/survos">GitHub</a>.</p>{% endfor %}</div></section>
-<section class="writing wrap"><div><p class="eyebrow">From the workshop</p><h2>Sharing what we learn.</h2><p>Technical articles about Symfony, reusable software, and working with collections.</p></div><a class="text-link" href="https://medium.com/@tacman1123">Read on Medium ↗</a></section>
-</main>
-<footer class="wrap"><span>Survos · Software for collections and archives</span><a href="https://github.com/survos">Our code on GitHub ↗</a></footer>
-</body>
-</html>
+{% endblock %}
+
+
+{% block body %}
+<section class="py-6 text-center text-lg-start">
+    <p class="text-uppercase text-secondary fw-bold small mb-3">Software for cultural collections</p>
+    <h1 class="display-3 fw-bold mb-3">Bring your collections<br>into the world.</h1>
+    <p class="lead text-secondary col-lg-8 px-0">We are Symfony developers focused on collections and archives. We build the tools that help people organize, discover, and explore cultural materials.</p>
+    <a class="btn btn-primary btn-lg mt-3" href="#work">Explore our work <span aria-hidden="true">↓</span></a>
+</section>
+
+<section class="row row-cards py-4 border-top" aria-label="Our expertise">
+    <div class="col-md-4"><span class="text-secondary small">01</span><h2 class="h3 mt-2">Collections &amp; discovery</h2><p class="text-secondary">Searchable catalogs, digital archives, and interfaces that help people find what matters.</p></div>
+    <div class="col-md-4"><span class="text-secondary small">02</span><h2 class="h3 mt-2">Data &amp; integration</h2><p class="text-secondary">Connect collection systems, normalize metadata, and turn complex source material into useful applications.</p></div>
+    <div class="col-md-4"><span class="text-secondary small">03</span><h2 class="h3 mt-2">Open-source hosting &amp; customization</h2><p class="text-secondary">We host selected open-source projects and adapt them to incorporate advanced collection management tools, including image management and AI integration.</p><p class="text-secondary">Our reusable PHP components and Symfony bundles support this work.</p></div>
+</section>
+
+<section id="work" class="py-5 border-top">
+    <p class="text-uppercase text-secondary fw-bold small mb-2">Selected public projects</p>
+    <h2 class="display-6 fw-bold mb-4">Built to be explored.</h2>
+    <div class="row row-cards">
+        {% for site in sites %}
+            <div class="col-md-6 col-lg-4">
+                <a class="card card-link card-link-pop h-100" href="{{ site.url }}">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title h2">{{ site.title }}</h3>
+                        <p class="text-secondary">{{ site.description }}</p>
+                        <span class="mt-auto fw-semibold">Visit site ↗</span>
+                    </div>
+                </a>
+            </div>
+        {% else %}
+            <p>Our portfolio is being updated. Explore our software on <a href="https://github.com/survos">GitHub</a>.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="py-5 border-top d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+    <div>
+        <p class="text-uppercase text-secondary fw-bold small mb-2">From the workshop</p>
+        <h2 class="h2">Sharing what we learn.</h2>
+        <p class="text-secondary mb-0">Technical articles about Symfony, reusable software, and working with collections.</p>
+    </div>
+    <a class="btn btn-outline-primary" href="https://medium.com/@tacman1123">Read on Medium ↗</a>
+</section>
+
+<section class="py-5 border-top">
+    <div class="col-lg-8 px-0">
+        <strong class="d-block fs-3 lh-sm">Making collections more accessible.</strong>
+        <p class="text-secondary mt-3">Advanced search, including AI, translation, and faster images help more people discover and explore your collections.</p>
+        <span class="text-secondary small">Survos · Software for collections and archives</span>
+        <a class="ms-3 small" href="https://github.com/survos">Our code on GitHub ↗</a>
+    </div>
+</section>
+{% endblock %}

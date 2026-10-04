@@ -42,6 +42,10 @@ final class AppMenu // @todo: trait
     #[AsEventListener(event: MenuEvent::NAVBAR_MENU)]
     public function navbarMenu(MenuEvent $event): void
     {
+        // The catalogue, tools and search are for the team; visitors get PublicMenu.
+        if ($this->env !== 'dev' && !$this->security->isGranted('ROLE_ADMIN')) {
+            return;
+        }
         $menu = $event->getMenu();
         $options = $event->options;
         $this->add($menu, 'app_catalog', label: 'All');
