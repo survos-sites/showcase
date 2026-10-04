@@ -1,0 +1,8 @@
+{% extends 'component/base.html.twig' %}
+{% block page_name %}Details{% endblock %}
+{% block component_body %}
+    <div class="row row-cards">
+        <div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">composer.json</h3></div><div class="card-body"><pre class="mb-0">{{ component.composerJson|json_pretty }}</pre></div></div></div>
+        <div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">PWA</h3></div><div class="card-body"><pre class="mb-0">{{ component.pwaYaml|json_pretty }}</pre></div></div></div>
+    </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'component/base.html.twig' %}
+{% block page_name %}Overview{% endblock %}
+{% block component_body %}
+    <div class="row row-cards">
+        <div class="col-lg-8">
+            <div class="card"><div class="card-body">
+                {% if component.overview %}<div style="white-space: pre-wrap">{{ component.overview }}</div>{% else %}<p class="text-secondary mb-0">{{ component.description ?: 'No overview yet.' }}</p>{% endif %}
+            </div></div>
+            {% if component.plan %}<div class="card mt-3"><div class="card-header"><h3 class="card-title">Plan</h3></div><div class="card-body" style="white-space: pre-wrap">{{ component.plan }}</div></div>{% endif %}
+        </div>
+        <div class="col-lg-4">
+            <div class="card"><div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-5">Package</dt><dd class="col-7">{{ component.composerName }}</dd>
+                    <dt class="col-5">Stability</dt><dd class="col-7">{{ component.minimumStability ?? '—' }}</dd>
+                    <dt class="col-5">License</dt><dd class="col-7">{{ component.license ?? '—' }}</dd>
+                    <dt class="col-5">Status</dt><dd class="col-7">{{ component.status ?? '—' }}{% if component.deprecated %} <span class="badge bg-red-lt">deprecated</span>{% endif %}</dd>
+                    <dt class="col-5">Updated</dt><dd class="col-7">{{ component.lastUpdatedTime ? component.lastUpdatedTime|date('Y-m-d') : '—' }}</dd>
+                </dl>
+                {% if component.tags %}<div class="mt-3">{% for tag in component.tags %}<span class="badge bg-blue-lt me-1">{{ tag }}</span>{% endfor %}</div>{% endif %}
+            </div></div>
+        </div>
+    </div>
+{% endblock %}

@@ -72,6 +72,7 @@ class AppController extends AbstractController
     }
 
     #[Route('/catalog', name: 'app_catalog', methods: [Request::METHOD_GET])]
+    #[\Survos\FieldBundle\Attribute\RouteMeta(description: 'Every tracked component: apps, bundles and libraries.', label: 'Catalog')]
     public function index(
         ComponentRepository $componentRepository,
         #[MapQueryParameter] bool $runningOnly = false,

@@ -1,0 +1,15 @@
+{#
+  The frame every component page shares. A page sets nothing about navigation: ComponentMenu fills PAGE_NAV (the tabs)
+  and PAGE_ACTIONS (the switcher and links) from the `component` the controller returned, and the breadcrumb comes
+  from the Show route. The page only says what it shows.
+#}
+{% extends 'base.html.twig' %}
+
+{% do page({title: component.name ?? component.composerName, pretitle: component.kind ? component.kind.name : null, subtitle: component.description}) %}
+
+{% block title %}{{ component.name ?? component.composerName }} · {{ block('page_name') }}{% endblock %}
+{% block page_name %}{% endblock %}
+
+{% block body %}
+    {% block component_body %}{% endblock %}
+{% endblock %}

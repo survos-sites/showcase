@@ -1,4 +1,5 @@
 survos_tabler:
+  auto_breadcrumbs: true
   #  auth_menu: true
   routes:
       login: app_login

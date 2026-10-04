@@ -1,0 +1,9 @@
+{% extends 'component/base.html.twig' %}
+{% block page_name %}Screenshots{% endblock %}
+{% block component_body %}
+    {% if screenshot %}
+        <div class="card"><img class="card-img" src="{{ screenshot }}" alt="Screenshot of {{ component.name }}" loading="lazy"></div>
+    {% else %}
+        <div class="empty"><p class="empty-title">No screenshot yet</p><p class="empty-subtitle text-secondary">{{ site ? 'The last capture failed or has not run.' : 'This component is not deployed as a site.' }}</p></div>
+    {% endif %}
+{% endblock %}
