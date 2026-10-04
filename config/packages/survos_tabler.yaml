@@ -6,17 +6,6 @@ survos_tabler:
       register: app_register
       home: app_homepage
   menu_options:
-      owner: null
-      project: null
-      core: null
-  #    core: null
-      category: null
-      categoryField: null
-      catalog: null
-      spreadsheet: null
-      fieldMap: null
-      sheet: null
-      instance: null
       frontPage: false
       showAppMenu: false
   app:
