@@ -32,10 +32,10 @@ final class PublicPortfolioTest extends WebTestCase
         self::assertSame(4, $em->getRepository(Component::class)->count([]));
         $client->request('GET', '/');
         self::assertResponseIsSuccessful();
-        self::assertSelectorCount(3, '.project');
-        self::assertSelectorExists('a.project[href="https://recordia.org"]');
-        self::assertSelectorExists('nav a[href="https://github.com/survos"][target="_blank"]');
-        self::assertSelectorExists('nav a[href="https://medium.com/@tacman1123"][target="_blank"]');
+        self::assertSelectorCount(3, '#work a.card');
+        self::assertSelectorExists('#work a.card[href="https://recordia.org"]');
+        self::assertSelectorExists('a[href="https://github.com/survos"][target="_blank"]');
+        self::assertSelectorExists('a[href="https://medium.com/@tacman1123"][target="_blank"]');
         self::assertStringNotContainsString('harvest', $client->getResponse()->getContent());
         self::assertStringNotContainsString('/private/workspace', $client->getResponse()->getContent());
     }

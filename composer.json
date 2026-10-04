@@ -152,7 +152,7 @@
         "survos/crawler-bundle": "^2.0",
         "survos/deployment-bundle": "^2.0",
         "survos/doc-bundle": "^2.0",
-        "symfony/ai-mate": "^0.12.0",
+        "symfony/ai-mate": "^0.14",
         "symfony/browser-kit": "^8.1",
         "symfony/css-selector": "^8.1",
         "symfony/debug-bundle": "^8.1",
