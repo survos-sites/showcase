@@ -10,11 +10,11 @@
 {% block logo_mini %}<b>Showcase</b>{% endblock %}
 
 {% block navbar_end %}
-    {{ component('tabler:menu', {type: NAVBAR_END, caller: _self}) }}
+    {{ tabler_menu(NAVBAR_END) }}
 {% endblock %}
 
 {% block navbar_search %}
-    {{ component('tabler:menu', {type: SEARCH, caller: _self}) }}
+    {{ tabler_menu(SEARCH) }}
 {% endblock %}
 
 {% block navbar_menu %}
@@ -24,10 +24,10 @@
             <div class="{{ containerClass }}">
                 <div class="row flex-column flex-md-row flex-fill align-items-center">
                     <div class="col">
-                        {{ component('tabler:menu', {type: NAVBAR_MENU, caller: _self}) }}
+                        {{ tabler_menu(NAVBAR_MENU) }}
                     </div>
                     <div class="col col-md-auto">
-                        {{ component('tabler:menu', {type: NAVBAR_MENU_END, caller: _self}) }}
+                        {{ tabler_menu(NAVBAR_MENU_END) }}
                     </div>
                 </div>
             </div>
@@ -43,12 +43,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="sidebar-menu">
-            {{ component('tabler:menu', {type: SIDEBAR, caller: _self}) }}
+            {{ tabler_menu(SIDEBAR) }}
         </div>
     </div>
 </aside>
 {% endblock %}
 
 {% block page_actions %}
-    {{ component('tabler:menu', {type: PAGE_ACTIONS, caller: _self}) }}
+    {{ tabler_menu(PAGE_ACTIONS) }}
 {% endblock %}
