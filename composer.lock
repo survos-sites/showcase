@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b94041f242ff9aa152f2b464192fc95",
+    "content-hash": "8e304cbe4bdc704b105a7f303946b527",
     "packages": [
         {
             "name": "adhocore/cli",
@@ -4978,17 +4978,11 @@
         },
         {
             "name": "survos/grid-bundle",
-            "version": "2.33.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/survos/grid-bundle.git",
-                "reference": "61e7cc4122f6163095ed9087048220ccca159e67"
-            },
+            "version": "2.34.32",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/survos/grid-bundle/zipball/61e7cc4122f6163095ed9087048220ccca159e67",
-                "reference": "61e7cc4122f6163095ed9087048220ccca159e67",
-                "shasum": ""
+                "type": "path",
+                "url": "../mono/bu/grid-bundle",
+                "reference": "022679e7cecfcc509cf40562a92c5aa691b96e9a"
             },
             "require": {
                 "php": "^8.5",
@@ -5015,11 +5009,11 @@
             },
             "type": "symfony-bundle",
             "extra": {
-                "symfony": {
-                    "require": "^7.3"
-                },
                 "branch-alias": {
                     "dev-main": "2.0-dev"
+                },
+                "symfony": {
+                    "require": "^7.3"
                 }
             },
             "autoload": {
@@ -5027,7 +5021,11 @@
                     "Survos\\Grid\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "phpstan": [
+                    "vendor/bin/phpstan analyse"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -5042,17 +5040,10 @@
                 "symfony-ux",
                 "symfony6"
             ],
-            "support": {
-                "issues": "https://github.com/survos/grid-bundle/issues",
-                "source": "https://github.com/survos/grid-bundle/tree/2.33.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/kbond",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-08-08T11:55:27+00:00"
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "survos/import-bundle",

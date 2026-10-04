@@ -2351,7 +2351,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     },
  * }
  * @psalm-type SurvosGridConfig = array{
- *     stimulus_controller?: scalar|Param|null, // Default: "@survos/grid/grid"
+ *     stimulus_controller?: scalar|Param|null, // Default: "survos--grid-bundle--grid"
  * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,

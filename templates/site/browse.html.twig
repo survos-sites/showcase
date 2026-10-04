@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Browse sites{% endblock %}
+{% block page_pretitle %}Showcase{% endblock %}
+{% block page_title %}Browse sites{% endblock %}
+
+{% block content %}
+    <p class="text-secondary">{{ sites|length }} sites. Filter by PHP requirement, Composer tags, or package dependency count. Metadata and local status reflect the last catalog refresh.</p>
+    <div class="card">
+        <div class="card-body">
+            <twig:grid :data="sites" tableId="sites-grid" :pageLength="25" scrollY="" :trans="false" :info="true"
+                :extensions="['searchBuilder']"
+                :options="{
+                    layout: {top1: 'searchBuilder', topStart: 'pageLength', topEnd: 'search', bottomStart: 'info', bottomEnd: 'paging'},
+                    searchBuilder: {columns: [0, 1, 2, 3, 4, 5, 6]},
+                    columnDefs: [{targets: 5, type: 'num'}, {targets: 7, orderable: false, searchable: false}]
+                }"
+                :columns="[
+                    {name: 'id', title: 'Site'},
+                    {name: 'component', title: 'Component'},
+                    {name: 'dokkuHost', title: 'Host'},
+                    {name: 'php', title: 'PHP requirement'},
+                    {name: 'tags', title: 'Composer tags'},
+                    {name: 'dependencyCount', title: 'Dependencies'},
+                    {name: 'localPort', title: 'Local port'},
+                    {name: 'links', title: 'Links'}
+                ]">
+                <twig:block name="id"><strong>{{ row.id }}</strong></twig:block>
+                <twig:block name="component">
+                    {% if row.component %}
+                        <a href="{{ path('component_show', row.component.rp) }}">{{ row.component }}</a>
+                    {% else %}—{% endif %}
+                </twig:block>
+                <twig:block name="php">{{ row.component ? (row.component.composerJson.require.php ?? 'Not declared') : 'Unknown' }}</twig:block>
+                <twig:block name="tags">{{ row.component ? row.component.tags|join(', ') : '' }}</twig:block>
+                <twig:block name="dependencyCount">{{ row.component ? row.component.dependencies|length : '' }}</twig:block>
+                <twig:block name="localPort">{{ row.localPort ?? '—' }}</twig:block>
+                <twig:block name="links">
+                    <a href="{{ row.productionUrl }}">Production</a>
+                    {% if row.isRunning %}
+                        <a class="ms-2" href="{{ row.localUrl }}">Local</a>
+                    {% endif %}
+                </twig:block>
+            </twig:grid>
+        </div>
+    </div>
+{% endblock %}

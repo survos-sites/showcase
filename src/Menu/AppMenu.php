@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Menu;
 
 use App\Entity\Component;
@@ -50,6 +52,7 @@ final class AppMenu // @todo: trait
         $options = $event->options;
         $this->add($menu, 'app_catalog', label: 'All');
         $this->add($menu, 'app_apps', label: 'Apps');
+        $this->add($menu, 'app_browse', label: 'Browse');
         $this->add($menu, 'app_tools', label: 'Tools');
         $this->add($menu, 'app_slides', label: 'slides');
         if ($this->hasRoute('survos_commands')) {

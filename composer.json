@@ -164,5 +164,20 @@
         "symfony/web-profiler-bundle": "^8.1",
         "zenstruck/browser": "^1.8",
         "zenstruck/console-test": "^1.7"
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../mono/bu/*",
+            "only": [
+                "survos/grid-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "survos/grid-bundle": "2.34.32"
+                }
+            }
+        }
+    ]
 }

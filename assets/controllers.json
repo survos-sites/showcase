@@ -3,7 +3,7 @@
         "@pentiminax/ux-datatables": {
             "datatable": {
                 "enabled": true,
-                "fetch": "eager",
+                "fetch": "lazy",
                 "autoimport": {
                     "@pentiminax/ux-datatables/dist/styles/datatables-base-style.css": false,
                     "@pentiminax/ux-datatables/dist/styles/datatables-tailwind-theme.css": false,
@@ -18,9 +18,7 @@
             "grid": {
                 "enabled": true,
                 "fetch": "lazy",
-                "autoimport": {
-                    "datatables.net-bs5/css/dataTables.bootstrap5.css": true
-                }
+                "autoimport": []
             }
         },
         "@survos/js-twig-bundle": {
