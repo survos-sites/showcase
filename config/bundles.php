@@ -27,7 +27,6 @@ return [
     Knp\Bundle\TimeBundle\KnpTimeBundle::class => ['all' => true],
     Survos\JsTwigBundle\SurvosJsTwigBundle::class => ['all' => true],
     Survos\SearchBundle\SurvosSearchBundle::class => ['all' => true],
-    FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
     Survos\JsonlBundle\SurvosJsonlBundle::class => ['all' => true],
     Survos\RevealBundle\SurvosRevealBundle::class => ['all' => true],
     Survos\EzBundle\SurvosEzBundle::class => ['all' => true],
@@ -44,4 +43,5 @@ return [
     Symfony\UX\LiveComponent\LiveComponentBundle::class => ['all' => true],
     Symfony\UX\Toolkit\UXToolkitBundle::class => ['dev' => true, 'test' => true],
     Pentiminax\UX\DataTables\PentiminaxDataTablesBundle::class => ['all' => true],
+    Survos\Grid\SurvosGridBundle::class => ['all' => true],
 ];

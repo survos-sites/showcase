@@ -1861,19 +1861,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     default_hits_per_page?: int|Param, // Default: 24
  *     default_hits_per_page_choices?: list<int|Param>,
  * }
- * @psalm-type FosJsRoutingConfig = array{
- *     serializer?: scalar|Param|null,
- *     routes_to_expose?: list<scalar|Param|null>,
- *     router?: scalar|Param|null, // Default: "router"
- *     request_context_base_url?: scalar|Param|null, // Default: null
- *     cache_control?: array{
- *         public?: bool|Param, // Default: false
- *         expires?: scalar|Param|null, // Default: null
- *         maxage?: scalar|Param|null, // Default: null
- *         smaxage?: scalar|Param|null, // Default: null
- *         vary?: list<scalar|Param|null>,
- *     },
- * }
  * @psalm-type SurvosJsonlConfig = array{
  *     compression_level?: int|Param, // Default: 1
  * }
@@ -2363,6 +2350,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         default_title?: scalar|Param|null, // Default: "Edit"
  *     },
  * }
+ * @psalm-type SurvosGridConfig = array{
+ *     stimulus_controller?: scalar|Param|null, // Default: "@survos/grid/grid"
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -2386,7 +2376,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *     survos_js_twig?: SurvosJsTwigConfig,
  *     survos_search?: SurvosSearchConfig,
- *     fos_js_routing?: FosJsRoutingConfig,
  *     survos_jsonl?: SurvosJsonlConfig,
  *     survos_reveal?: SurvosRevealConfig,
  *     survos_ez?: SurvosEzConfig,
@@ -2399,6 +2388,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     survos_kit?: SurvosKitConfig,
  *     live_component?: LiveComponentConfig,
  *     data_tables?: DataTablesConfig,
+ *     survos_grid?: SurvosGridConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -2427,7 +2417,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *         survos_js_twig?: SurvosJsTwigConfig,
  *         survos_search?: SurvosSearchConfig,
- *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_jsonl?: SurvosJsonlConfig,
  *         survos_reveal?: SurvosRevealConfig,
  *         survos_ez?: SurvosEzConfig,
@@ -2441,6 +2430,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_kit?: SurvosKitConfig,
  *         live_component?: LiveComponentConfig,
  *         data_tables?: DataTablesConfig,
+ *         survos_grid?: SurvosGridConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -2465,7 +2455,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *         survos_js_twig?: SurvosJsTwigConfig,
  *         survos_search?: SurvosSearchConfig,
- *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_jsonl?: SurvosJsonlConfig,
  *         survos_reveal?: SurvosRevealConfig,
  *         survos_ez?: SurvosEzConfig,
@@ -2478,6 +2467,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_kit?: SurvosKitConfig,
  *         live_component?: LiveComponentConfig,
  *         data_tables?: DataTablesConfig,
+ *         survos_grid?: SurvosGridConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -2505,7 +2495,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *         survos_js_twig?: SurvosJsTwigConfig,
  *         survos_search?: SurvosSearchConfig,
- *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_jsonl?: SurvosJsonlConfig,
  *         survos_reveal?: SurvosRevealConfig,
  *         survos_ez?: SurvosEzConfig,
@@ -2519,6 +2508,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_kit?: SurvosKitConfig,
  *         live_component?: LiveComponentConfig,
  *         data_tables?: DataTablesConfig,
+ *         survos_grid?: SurvosGridConfig,
  *     },
  *     "when@text"?: array{
  *         imports?: ImportsConfig,
@@ -2543,7 +2533,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_simple_datatables?: SurvosSimpleDatatablesConfig,
  *         survos_js_twig?: SurvosJsTwigConfig,
  *         survos_search?: SurvosSearchConfig,
- *         fos_js_routing?: FosJsRoutingConfig,
  *         survos_jsonl?: SurvosJsonlConfig,
  *         survos_reveal?: SurvosRevealConfig,
  *         survos_ez?: SurvosEzConfig,
@@ -2556,6 +2545,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         survos_kit?: SurvosKitConfig,
  *         live_component?: LiveComponentConfig,
  *         data_tables?: DataTablesConfig,
+ *         survos_grid?: SurvosGridConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

@@ -125,3 +125,14 @@ Persistence: Sqlite + Doctrine. README supports both `doctrine:migrations:migrat
 ## 2026-09-28 — Survos public website
 
 Showcase is the Symfony implementation for survos.com. Public `/` describes Symfony development for collections and archives, links GitHub and Medium, and lists explicitly selected public deployments. `portfolio:sync` combines Dokku domains/running state with GitHub metadata into a reviewed snapshot. Production loads that snapshot; local `app:load` continues scanning composer.json files on disk. The local inventory moved to `/catalog`; production blocks all internal routes. Substack remains deferred. See `docs/deployment.md`. This supersedes the WordPress-first website direction in issue #5; the WordPress integration experiment can remain separate.
+
+## 2026-10-04 — Browser routing without FOS
+
+Removed FOSJsRoutingBundle, its Composer dump auto-script, route registration,
+legacy npm importmap entry, and tracked route dump. Browser routing belongs to
+js-twig-bundle: cache warmup generates `var/js_twig_bundle/generated/routes.json`;
+AssetMapper 8.1.8+ resolves `@survos/js-twig/routing` automatically. Do not restore
+manual routing importmap entries or dump commands. Warm cache before compiling
+assets. The existing local mono link provides the new compiler; deployments
+must use a js-twig release containing `RoutingImportCompiler`. Canonical migration
+instructions live in mono's `bu/js-twig-bundle/docs/routing-migration.md`.

@@ -61,18 +61,6 @@
             "config/routes/easyadmin.yaml"
         ]
     },
-    "friendsofsymfony/jsrouting-bundle": {
-        "version": "3.5",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "2.3",
-            "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
-        },
-        "files": [
-            "config/routes/fos_js_routing.yaml"
-        ]
-    },
     "inspector-apm/inspector-symfony": {
         "version": "1.8",
         "recipe": {
@@ -239,6 +227,9 @@
     },
     "survos/field-bundle": {
         "version": "2.2.5"
+    },
+    "survos/grid-bundle": {
+        "version": "2.33.0"
     },
     "survos/import-bundle": {
         "version": "2.0.45"
