@@ -73,7 +73,6 @@
         "symfony/string": "^8.1",
         "symfony/translation": "^8.1",
         "symfony/twig-bundle": "^8.1",
-        "symfony/ux-chartjs": "*",
         "symfony/ux-icons": "*",
         "symfony/ux-turbo": "^3.0",
         "symfony/validator": "^8.1",
