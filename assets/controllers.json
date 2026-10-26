@@ -1,19 +1,5 @@
 {
     "controllers": {
-        "@pentiminax/ux-datatables": {
-            "datatable": {
-                "enabled": true,
-                "fetch": "lazy",
-                "autoimport": {
-                    "@pentiminax/ux-datatables/dist/styles/datatables-base-style.css": false,
-                    "@pentiminax/ux-datatables/dist/styles/datatables-tailwind-theme.css": false,
-                    "datatables.net-dt/css/dataTables.dataTables.min.css": false,
-                    "datatables.net-bs5/css/dataTables.bootstrap5.min.css": false,
-                    "datatables.net-bs4/css/dataTables.bootstrap4.min.css": false,
-                    "datatables.net-bs/css/dataTables.bootstrap.min.css": false
-                }
-            }
-        },
         "@survos/grid-bundle": {
             "grid": {
                 "enabled": true,
@@ -71,10 +57,6 @@
                 "autoimport": {
                     "@survos/simple-datatables-bundle/style.css": true
                 }
-            },
-            "ux": {
-                "enabled": true,
-                "fetch": "lazy"
             }
         },
         "@survos/state-bundle": {

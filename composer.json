@@ -74,6 +74,7 @@
         "symfony/translation": "^8.1",
         "symfony/twig-bundle": "^8.1",
         "symfony/ux-icons": "*",
+        "symfony/ux-router": "^3.6",
         "symfony/ux-turbo": "^3.0",
         "symfony/validator": "^8.1",
         "symfony/web-link": "^8.1",
@@ -113,6 +114,7 @@
         "symfony/polyfill-php82": "*"
     },
     "scripts": {
+        "pre-install-cmd": "mkdir -p var/routes",
         "auto-scripts": {
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "importmap:install": "symfony-cmd"
@@ -125,7 +127,8 @@
             "php -d memory_limit=512M bin/console cache:clear",
             "@auto-scripts"
         ],
-        "coverage": "rm var/test.db -f && bin/console d:sc:update --force --env=test && php -d xpcov.enabled=1 vendor/bin/phpunit --coverage-html coverage"
+        "coverage": "rm var/test.db -f && bin/console d:sc:update --force --env=test && php -d xpcov.enabled=1 vendor/bin/phpunit --coverage-html coverage",
+        "pre-update-cmd": "mkdir -p var/routes"
     },
     "conflict": {
         "symfony/symfony": "*"

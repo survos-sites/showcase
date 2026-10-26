@@ -42,6 +42,7 @@ return [
     Survos\Kit\SurvosKitBundle::class => ['all' => true],
     Symfony\UX\LiveComponent\LiveComponentBundle::class => ['all' => true],
     Symfony\UX\Toolkit\UXToolkitBundle::class => ['dev' => true, 'test' => true],
-    Pentiminax\UX\DataTables\PentiminaxDataTablesBundle::class => ['all' => true],
     Survos\Grid\SurvosGridBundle::class => ['all' => true],
+    Symfony\UX\Router\UXRouterBundle::class => ['all' => true],
+    Survos\MenuBundle\SurvosMenuBundle::class => ['all' => true],
 ];

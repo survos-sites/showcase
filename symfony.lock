@@ -144,18 +144,6 @@
             "config/packages/nyholm_psr7.yaml"
         ]
     },
-    "pentiminax/ux-datatables": {
-        "version": "1.1",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "1.0",
-            "ref": "05736fb9e84ed51c60ad7fd51614ecac22162dcf"
-        },
-        "files": [
-            "config/routes/data_tables.yaml"
-        ]
-    },
     "phpstan/phpstan": {
         "version": "1.10",
         "recipe": {
@@ -258,6 +246,9 @@
             "config/packages/survos_meili.yaml",
             "config/routes/survos_meili.yaml"
         ]
+    },
+    "survos/menu-bundle": {
+        "version": "2.42.23"
     },
     "survos/reveal-bundle": {
         "version": "1.6.44"
@@ -572,6 +563,20 @@
         },
         "files": [
             "config/routes/ux_live_component.yaml"
+        ]
+    },
+    "symfony/ux-router": {
+        "version": "3.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.6",
+            "ref": "8e8e4645ff232d470c00bc08b7e1e77c17dd0dd4"
+        },
+        "files": [
+            "assets/router.js",
+            "config/packages/ux_router.yaml",
+            "var/routes/index.js"
         ]
     },
     "symfony/ux-toolkit": {
